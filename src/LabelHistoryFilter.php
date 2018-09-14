@@ -36,6 +36,9 @@ class LabelHistoryFilter
     /** @var string */
     private $partner;
 
+    /** @var string */
+    private $assessmentType;
+
     /**
      * TRUE: only archived buildings pass the filter
      * FALSE: only unarchived buildings pass
@@ -95,6 +98,9 @@ class LabelHistoryFilter
         }
         if(!empty($filterValues['archive-mode'])){
             $instance->setArchive(null);
+        }
+        if(!empty($filterValues['assessment-type'])) {
+            $instance->setAssessmentType($filterValues['assessment-type']);
         }
 
         return $instance;
@@ -269,6 +275,22 @@ class LabelHistoryFilter
     public function setExternalBuildingId($externalBuildingId)
     {
         $this->externalBuildingId = $externalBuildingId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAssessmentType() : string
+    {
+        return $this->assessmentType;
+    }
+
+    /**
+     * @param string $assessmentType
+     */
+    public function setAssessmentType(string $assessmentType)
+    {
+        $this->assessmentType = $assessmentType;
     }
 
     /**
