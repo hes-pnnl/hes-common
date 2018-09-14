@@ -7,8 +7,16 @@ namespace HESCommon;
 
 class LabelHistoryFilter
 {
-    /** @var DateRange */
-    private $dateRange;
+    /**
+     * The format in which this filter expects dates to be formatted
+     */
+    const DATE_FORMAT = 'Y-m-d';
+
+    /** @var \DateTime */
+    private $maxDate;
+
+    /** @var \DateTime */
+    private $minDate;
 
     /** @var integer */
     private $minBuildingId;
@@ -46,55 +54,85 @@ class LabelHistoryFilter
      * context in which the label history is rendered - for example the Assessor's view always includes a user ID, and
      * the admin view never does.
      *
-     * @param array $values
+     * @param array $filterValues
      * @return LabelHistoryFilter
      */
-    public static function fromFormValues(array $values) : LabelHistoryFilter
+    public static function fromFormValues(array $filterValues)
     {
-        $instance = new static();
+        $instance = new self();
 
-        if (!empty($values['date-range'])) {
-            $dateRange = DateRange::fromString($values['date-range']);
-            $instance->setDateRange($dateRange);
+        if (!empty($filterValues['date-max'])) {
+            $maxDate = self::getDateFromFormValue($filterValues['date-max']);
+            $instance->setMaxDate($maxDate);
+        } else {
+            $instance->setMaxDate(date_create_from_format(self::DATE_FORMAT, date(self::DATE_FORMAT, strtotime('+1 months'))));
         }
-        if (!empty($values['building-id-min']) || !empty($values['building-id-max'])) {
+        if (!empty($filterValues['date-min'])) {
+            $minDate = self::getDateFromFormValue($filterValues['date-min']);
+            $instance->setMinDate($minDate);
+        } else {
+            $instance->setMinDate(date_create_from_format(self::DATE_FORMAT, date(self::DATE_FORMAT, strtotime('-3 months'))));
+        }
+        if (!empty($filterValues['building-id-min']) || !empty($filterValues['building-id-max'])) {
             // Allow the user to set only building ID min or only building ID max. If only
             // one is set then both will be set to the same value.
-            $buildingIdMin = $values['building-id-min'] ?? $values['building-id-max'];
-            $buildingIdMax = $values['building-id-max'] ?? $values['building-id-min'];
+            $buildingIdMin = empty($filterValues['building-id-min']) ? $filterValues['building-id-max'] : $filterValues['building-id-min'];
+            $buildingIdMax = empty($filterValues['building-id-max']) ? $filterValues['building-id-min'] : $filterValues['building-id-max'];
 
             $instance->setBuildingIdRange($buildingIdMin, $buildingIdMax);
         }
-        if (!empty($values['address'])) {
-            $instance->setAddress($values['address']);
+        if (!empty($filterValues['address'])) {
+            $instance->setAddress($filterValues['address']);
         }
-        if (!empty($values['user'])) {
-            $instance->setUserId($values['user']);
+        if (!empty($filterValues['user'])) {
+            $instance->setUserId($filterValues['user']);
         }
-        if (!empty($values['external_building_id'])) {
-            $instance->setExternalBuildingId($values['external_building_id']);
+        if (!empty($filterValues['external_building_id'])) {
+            $instance->setExternalBuildingId($filterValues['external_building_id']);
+        }
+        if(!empty($filterValues['archive-mode'])){
+            $instance->setArchive(null);
         }
 
         return $instance;
     }
 
-    public function getDateRange() : ?DateRange
+    /**
+     * @return \DateTime|null
+     */
+    public function getMaxDate() : ?\DateTime
     {
-        return $this->dateRange;
+        return $this->maxDate;
     }
 
     /**
-     * @param DateRange $dateRange
+     * @param \DateTime $maxDate
      */
-    public function setDateRange(DateRange $dateRange)
+    public function setMaxDate(?\DateTime $maxDate)
     {
-        $this->dateRange = $dateRange;
+        $this->maxDate = $maxDate;
+    }
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getMinDate() : ?\DateTime
+    {
+        return $this->minDate;
+    }
+
+    /**
+     * @param \DateTime $minDate
+     */
+    public function setMinDate(?\DateTime $minDate)
+    {
+        $this->minDate = $minDate;
     }
 
     /**
      * @return int
      */
-    public function getMinBuildingId() : ?int
+    public function getMinBuildingId()
     {
         return $this->minBuildingId;
     }
@@ -102,7 +140,7 @@ class LabelHistoryFilter
     /**
      * @return int
      */
-    public function getMaxBuildingId() : ?int
+    public function getMaxBuildingId()
     {
         return $this->maxBuildingId;
     }
@@ -111,7 +149,7 @@ class LabelHistoryFilter
      * @param int $minBuildingId
      * @param int $maxBuildingId
      */
-    public function setBuildingIdRange(int $minBuildingId, int $maxBuildingId)
+    public function setBuildingIdRange($minBuildingId, $maxBuildingId)
     {
         if (intval($maxBuildingId) != $maxBuildingId) {
             throw new \InvalidArgumentException('Param $maxBuildingId must be an integer value');
@@ -132,7 +170,7 @@ class LabelHistoryFilter
     /**
      * @return string
      */
-    public function getAddress() : ?string
+    public function getAddress()
     {
         return $this->address;
     }
@@ -140,7 +178,7 @@ class LabelHistoryFilter
     /**
      * @param string $address
      */
-    public function setAddress(string $address)
+    public function setAddress($address)
     {
         $this->address = $address;
     }
@@ -148,7 +186,7 @@ class LabelHistoryFilter
     /**
      * @param string $userId
      */
-    public function setUserId(string $userId)
+    public function setUserId($userId)
     {
         $this->userId = $userId;
     }
@@ -156,7 +194,7 @@ class LabelHistoryFilter
     /**
      * @return string
      */
-    public function getUserId() : ?string
+    public function getUserId()
     {
         return $this->userId;
     }
@@ -164,7 +202,7 @@ class LabelHistoryFilter
     /**
      * @return bool|null
      */
-    public function getArchive() : ?bool
+    public function getArchive()
     {
         return $this->archiveMode;
     }
@@ -172,7 +210,7 @@ class LabelHistoryFilter
     /**
      * @param bool|null $archive
      */
-    public function setArchive(?bool $archive)
+    public function setArchive($archive)
     {
         if (!is_bool($archive) && null !== $archive) {
             throw new \InvalidArgumentException('$archive must be a boolean value or NULL');
@@ -181,10 +219,7 @@ class LabelHistoryFilter
         $this->archiveMode = $archive;
     }
 
-    /**
-     * @return bool
-     */
-    public function getLocked() : ?bool
+    public function getLocked()
     {
         return $this->locked;
     }
@@ -192,7 +227,7 @@ class LabelHistoryFilter
     /**
      * @param bool $locked
      */
-    public function setLocked(bool $locked)
+    public function setLocked($locked)
     {
         if (!is_bool($locked)) {
             throw new \InvalidArgumentException('$locked must be a boolean value');
@@ -204,7 +239,7 @@ class LabelHistoryFilter
     /**
      * @return string
      */
-    public function getPartner() : ?string
+    public function getPartner()
     {
         return $this->partner;
     }
@@ -212,46 +247,34 @@ class LabelHistoryFilter
     /**
      * @param string $partner
      */
-    public function setPartner(string $partner)
+    public function setPartner($partner)
     {
         $this->partner = $partner;
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getExternalBuildingId() : ?string
+    public function getExternalBuildingId()
     {
         return $this->externalBuildingId;
     }
 
     /**
-     * @param string $externalBuildingId
+     * @param int $externalBuildingId
      */
-    public function setExternalBuildingId(string $externalBuildingId)
+    public function setExternalBuildingId($externalBuildingId)
     {
         $this->externalBuildingId = $externalBuildingId;
     }
 
     /**
-     * @return \DateTime
+     * Converts a value submitted from a form into a date
+     * @param string $formValue
+     * @return \DateTime|null
      */
-    public function getMinDate() : ?\DateTime
+    private static function getDateFromFormValue(string $formValue) : ?\DateTime
     {
-        if ($this->dateRange) {
-            return $this->getDateRange()->getMinDate();
-        }
-        return null;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getMaxDate() : ?\DateTime
-    {
-        if ($this->dateRange) {
-            return $this->getDateRange()->getMaxDate();
-        }
-        return null;
+        return date_create_from_format(self::DATE_FORMAT, $formValue) ?: null;
     }
 }
