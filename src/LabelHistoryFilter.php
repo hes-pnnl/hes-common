@@ -232,4 +232,20 @@ class LabelHistoryFilter
     {
         $this->externalBuildingId = $externalBuildingId;
     }
+
+    /**
+     * @return \DateTime
+     */
+    public function getMinDate() : \DateTime
+    {
+        return $this->getDateRange()->getMinDate();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getMaxDate() : \DateTime
+    {
+        return $this->getDateRange()->getMaxDate();
+    }
 }
