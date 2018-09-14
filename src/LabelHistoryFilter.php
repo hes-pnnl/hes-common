@@ -78,7 +78,7 @@ class LabelHistoryFilter
         return $instance;
     }
 
-    public function getDateRange() : DateRange
+    public function getDateRange() : ?DateRange
     {
         return $this->dateRange;
     }
@@ -94,7 +94,7 @@ class LabelHistoryFilter
     /**
      * @return int
      */
-    public function getMinBuildingId() : int
+    public function getMinBuildingId() : ?int
     {
         return $this->minBuildingId;
     }
@@ -102,7 +102,7 @@ class LabelHistoryFilter
     /**
      * @return int
      */
-    public function getMaxBuildingId() : int
+    public function getMaxBuildingId() : ?int
     {
         return $this->maxBuildingId;
     }
@@ -132,7 +132,7 @@ class LabelHistoryFilter
     /**
      * @return string
      */
-    public function getAddress() : string
+    public function getAddress() : ?string
     {
         return $this->address;
     }
@@ -156,7 +156,7 @@ class LabelHistoryFilter
     /**
      * @return string
      */
-    public function getUserId() : string
+    public function getUserId() : ?string
     {
         return $this->userId;
     }
@@ -184,7 +184,7 @@ class LabelHistoryFilter
     /**
      * @return bool
      */
-    public function getLocked() : bool
+    public function getLocked() : ?bool
     {
         return $this->locked;
     }
@@ -204,7 +204,7 @@ class LabelHistoryFilter
     /**
      * @return string
      */
-    public function getPartner() : string
+    public function getPartner() : ?string
     {
         return $this->partner;
     }
@@ -220,7 +220,7 @@ class LabelHistoryFilter
     /**
      * @return string
      */
-    public function getExternalBuildingId() : string
+    public function getExternalBuildingId() : ?string
     {
         return $this->externalBuildingId;
     }
@@ -236,16 +236,22 @@ class LabelHistoryFilter
     /**
      * @return \DateTime
      */
-    public function getMinDate() : \DateTime
+    public function getMinDate() : ?\DateTime
     {
-        return $this->getDateRange()->getMinDate();
+        if ($this->dateRange) {
+            return $this->getDateRange()->getMinDate();
+        }
+        return null;
     }
 
     /**
      * @return \DateTime
      */
-    public function getMaxDate() : \DateTime
+    public function getMaxDate() : ?\DateTime
     {
-        return $this->getDateRange()->getMaxDate();
+        if ($this->dateRange) {
+            return $this->getDateRange()->getMaxDate();
+        }
+        return null;
     }
 }
