@@ -2,6 +2,6 @@
     "name": "hes-common",
     "version": "1.0",
     "autoload": {
-        "psr-4": { "HESCommon": "src" }
+        "psr-4": { "HESCommon\\": "src" }
     }
 }
