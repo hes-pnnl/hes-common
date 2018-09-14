@@ -30,8 +30,8 @@ class LabelHistoryFilter
     /** @var string */
     private $address;
 
-    /** @var string */
-    private $userId;
+    /** @var string[] */
+    private $userIds;
 
     /** @var string */
     private $partner;
@@ -84,9 +84,12 @@ class LabelHistoryFilter
         if (!empty($filterValues['address'])) {
             $instance->setAddress($filterValues['address']);
         }
+
+        // This class supports multiple users in the filter, but our GUI only supports a single user.
         if (!empty($filterValues['user'])) {
-            $instance->setUserId($filterValues['user']);
+            $instance->setUserIds([ $filterValues['user'] ]);
         }
+
         if (!empty($filterValues['external_building_id'])) {
             $instance->setExternalBuildingId($filterValues['external_building_id']);
         }
@@ -184,19 +187,19 @@ class LabelHistoryFilter
     }
 
     /**
-     * @param string $userId
+     * @param string[] $userIds
      */
-    public function setUserId($userId)
+    public function setUserIds(array $userIds)
     {
-        $this->userId = $userId;
+        $this->userIds = [ $userIds ];
     }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function getUserId()
+    public function getUserIds() : array
     {
-        return $this->userId;
+        return $this->userIds;
     }
 
     /**
