@@ -191,7 +191,7 @@ class LabelHistoryFilter
      */
     public function setUserIds(array $userIds)
     {
-        $this->userIds = [ $userIds ];
+        $this->userIds = $userIds;
     }
 
     /**
