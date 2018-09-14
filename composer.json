@@ -1,8 +1,4 @@
 {
     "name": "pnnl/hes-common",
-    "version": "1.0",
-    "dist": {
-        "url": "https://stash.pnnl.gov/scm/hescore/hes-common.git",
-        "type": "git"
-    }
+    "version": "1.0"
 }
