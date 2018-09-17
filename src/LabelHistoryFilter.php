@@ -48,6 +48,14 @@ class LabelHistoryFilter
     private $archiveMode;
 
     /**
+     * TRUE: Only locked buildings pass the filter
+     * FALSE: Only non-locked buildings pass the filter
+     * NULL: Both locked and non-locked buildings pass the filter
+     * @var bool|null
+     */
+    private $locked;
+
+    /**
      * @return \DateTime|null
      */
     public function getMaxDate() : ?\DateTime
@@ -176,7 +184,7 @@ class LabelHistoryFilter
     /**
      * @param bool $locked
      */
-    public function setLocked(bool $locked)
+    public function setLocked(?bool $locked)
     {
         $this->locked = $locked;
     }
