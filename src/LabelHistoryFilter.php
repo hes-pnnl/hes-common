@@ -126,33 +126,33 @@ class LabelHistoryFilter
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAddress()
+    public function getAddress() : ?string
     {
         return $this->address;
     }
 
     /**
-     * @param string $address
+     * @param string|null $address
      */
-    public function setAddress($address)
+    public function setAddress(?string $address)
     {
         $this->address = $address;
     }
 
     /**
-     * @param string[] $userIds
+     * @param string[]|null $userIds
      */
-    public function setUserIds(array $userIds)
+    public function setUserIds(?array $userIds)
     {
         $this->userIds = $userIds;
     }
 
     /**
-     * @return string[]
+     * @return string[]|null
      */
-    public function getUserIds() : array
+    public function getUserIds() : ?array
     {
         return $this->userIds;
     }
@@ -182,7 +182,7 @@ class LabelHistoryFilter
     }
 
     /**
-     * @param bool $locked
+     * @param bool|null $locked
      */
     public function setLocked(?bool $locked)
     {
@@ -190,9 +190,9 @@ class LabelHistoryFilter
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPartner()
+    public function getPartner() : ?string
     {
         return $this->partner;
     }
@@ -200,39 +200,39 @@ class LabelHistoryFilter
     /**
      * @param string $partner
      */
-    public function setPartner($partner)
+    public function setPartner(?string $partner)
     {
         $this->partner = $partner;
     }
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function getExternalBuildingId()
+    public function getExternalBuildingId() : ?string
     {
         return $this->externalBuildingId;
     }
 
     /**
-     * @param int $externalBuildingId
+     * @param string|null $externalBuildingId
      */
-    public function setExternalBuildingId($externalBuildingId)
+    public function setExternalBuildingId(?string $externalBuildingId)
     {
         $this->externalBuildingId = $externalBuildingId;
     }
 
     /**
-     * @return string[]
+     * @return string[]|null
      */
-    public function getAssessmentTypes() : array
+    public function getAssessmentTypes() : ?array
     {
         return $this->assessmentTypes;
     }
 
     /**
-     * @param string[] $assessmentTypes
+     * @param string[]|null $assessmentTypes
      */
-    public function setAssessmentTypes(array $assessmentTypes)
+    public function setAssessmentTypes(?array $assessmentTypes)
     {
         $this->assessmentTypes = $assessmentTypes;
     }
