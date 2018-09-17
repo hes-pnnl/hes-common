@@ -40,6 +40,14 @@ class LabelHistoryFilter
     private $assessmentTypes;
 
     /**
+     * TRUE: Only archived buildings pass the filter
+     * FALSE: Only non-archived buildings pass the filter
+     * NULL: Both archived and non-archived buildings pass the filter
+     * @var bool|null
+     */
+    private $archiveMode;
+
+    /**
      * @return \DateTime|null
      */
     public function getMaxDate() : ?\DateTime
@@ -144,7 +152,7 @@ class LabelHistoryFilter
     /**
      * @return bool|null
      */
-    public function getArchive()
+    public function getArchive() : ?bool
     {
         return $this->archiveMode;
     }
@@ -152,16 +160,15 @@ class LabelHistoryFilter
     /**
      * @param bool|null $archive
      */
-    public function setArchive($archive)
+    public function setArchive(?bool $archive)
     {
-        if (!is_bool($archive) && null !== $archive) {
-            throw new \InvalidArgumentException('$archive must be a boolean value or NULL');
-        }
-
         $this->archiveMode = $archive;
     }
 
-    public function getLocked()
+    /**
+     * @return bool|null
+     */
+    public function getLocked() : ?bool
     {
         return $this->locked;
     }
@@ -169,12 +176,8 @@ class LabelHistoryFilter
     /**
      * @param bool $locked
      */
-    public function setLocked($locked)
+    public function setLocked(bool $locked)
     {
-        if (!is_bool($locked)) {
-            throw new \InvalidArgumentException('$locked must be a boolean value');
-        }
-
         $this->locked = $locked;
     }
 
