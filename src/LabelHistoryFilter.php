@@ -36,75 +36,8 @@ class LabelHistoryFilter
     /** @var string */
     private $partner;
 
-    /** @var string */
-    private $assessmentType;
-
-    /**
-     * TRUE: only archived buildings pass the filter
-     * FALSE: only unarchived buildings pass
-     * NULL: archived and unarchived buildings pass
-     *
-     * @var bool|null
-     */
-    private $archiveMode = false;
-
-    /** @var bool TRUE: only locked buildings, FALSE: only unlocked buildings, NULL: don't filter on locked/unlocked status */
-    private $locked = null;
-
-    /**
-     * Initialize an instance of this class from the collection of values that are posted by the filter inputs rendered
-     * above each table. Note that this doesn't include every filter option, since some are hard-coded based on the
-     * context in which the label history is rendered - for example the Assessor's view always includes a user ID, and
-     * the admin view never does.
-     *
-     * @param array $filterValues
-     * @return LabelHistoryFilter
-     */
-    public static function fromFormValues(array $filterValues)
-    {
-        $instance = new self();
-
-        if (!empty($filterValues['date-max'])) {
-            $maxDate = self::getDateFromFormValue($filterValues['date-max']);
-            $instance->setMaxDate($maxDate);
-        } else {
-            $instance->setMaxDate(date_create_from_format(self::DATE_FORMAT, date(self::DATE_FORMAT, strtotime('+1 months'))));
-        }
-        if (!empty($filterValues['date-min'])) {
-            $minDate = self::getDateFromFormValue($filterValues['date-min']);
-            $instance->setMinDate($minDate);
-        } else {
-            $instance->setMinDate(date_create_from_format(self::DATE_FORMAT, date(self::DATE_FORMAT, strtotime('-3 months'))));
-        }
-        if (!empty($filterValues['building-id-min']) || !empty($filterValues['building-id-max'])) {
-            // Allow the user to set only building ID min or only building ID max. If only
-            // one is set then both will be set to the same value.
-            $buildingIdMin = empty($filterValues['building-id-min']) ? $filterValues['building-id-max'] : $filterValues['building-id-min'];
-            $buildingIdMax = empty($filterValues['building-id-max']) ? $filterValues['building-id-min'] : $filterValues['building-id-max'];
-
-            $instance->setBuildingIdRange($buildingIdMin, $buildingIdMax);
-        }
-        if (!empty($filterValues['address'])) {
-            $instance->setAddress($filterValues['address']);
-        }
-
-        // This class supports multiple users in the filter, but our GUI only supports a single user.
-        if (!empty($filterValues['user'])) {
-            $instance->setUserIds([ $filterValues['user'] ]);
-        }
-
-        if (!empty($filterValues['external_building_id'])) {
-            $instance->setExternalBuildingId($filterValues['external_building_id']);
-        }
-        if(!empty($filterValues['archive-mode'])){
-            $instance->setArchive(null);
-        }
-        if(!empty($filterValues['assessment-type'])) {
-            $instance->setAssessmentType($filterValues['assessment-type']);
-        }
-
-        return $instance;
-    }
+    /** @var string[] */
+    private $assessmentTypes;
 
     /**
      * @return \DateTime|null
@@ -278,28 +211,18 @@ class LabelHistoryFilter
     }
 
     /**
-     * @return string
+     * @return string[]
      */
-    public function getAssessmentType() : string
+    public function getAssessmentTypes() : array
     {
-        return $this->assessmentType;
+        return $this->assessmentTypes;
     }
 
     /**
-     * @param string $assessmentType
+     * @param string[] $assessmentTypes
      */
-    public function setAssessmentType(string $assessmentType)
+    public function setAssessmentTypes(array $assessmentTypes)
     {
-        $this->assessmentType = $assessmentType;
-    }
-
-    /**
-     * Converts a value submitted from a form into a date
-     * @param string $formValue
-     * @return \DateTime|null
-     */
-    private static function getDateFromFormValue(string $formValue) : ?\DateTime
-    {
-        return date_create_from_format(self::DATE_FORMAT, $formValue) ?: null;
+        $this->assessmentTypes = $assessmentTypes;
     }
 }
