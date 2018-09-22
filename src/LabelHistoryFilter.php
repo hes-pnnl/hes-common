@@ -90,17 +90,33 @@ class LabelHistoryFilter
     /**
      * @return int
      */
-    public function getMinBuildingId()
+    public function getMinBuildingId() : ?int
     {
         return $this->minBuildingId;
     }
 
     /**
+     * @param int $minBuildingId
+     */
+    public function setMinBuildingId(int $minBuildingId)
+    {
+        $this->minBuildingId = $minBuildingId;
+    }
+
+    /**
      * @return int
      */
-    public function getMaxBuildingId()
+    public function getMaxBuildingId() : ?int
     {
         return $this->maxBuildingId;
+    }
+
+    /**
+     * @param int $maxBuildingId
+     */
+    public function setMaxBuildingId(int $maxBuildingId)
+    {
+        $this->maxBuildingId = $maxBuildingId;
     }
 
     /**
