@@ -104,28 +104,6 @@ class LabelHistoryFilter
     }
 
     /**
-     * @param int $minBuildingId
-     * @param int $maxBuildingId
-     */
-    public function setBuildingIdRange($minBuildingId, $maxBuildingId)
-    {
-        if (intval($maxBuildingId) != $maxBuildingId) {
-            throw new \InvalidArgumentException('Param $maxBuildingId must be an integer value');
-        }
-        if (intval($minBuildingId) != $minBuildingId) {
-            throw new \InvalidArgumentException('Param $minBuildingId must be an integer value');
-        }
-        if ($minBuildingId > $maxBuildingId) {
-            $tmp = $minBuildingId;
-            $minBuildingId = $maxBuildingId;
-            $maxBuildingId = $tmp;
-        }
-
-        $this->maxBuildingId = $maxBuildingId;
-        $this->minBuildingId = $minBuildingId;
-    }
-
-    /**
      * @return string|null
      */
     public function getAddress() : ?string
