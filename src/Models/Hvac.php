@@ -106,6 +106,25 @@ class Hvac
     }
 
     /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return !(
+            $this->getFraction()                ||
+            $this->getHeatingFuel()             ||
+            $this->getHeatingType()             ||
+            $this->getHeatingEfficiencyMethod() ||
+            $this->getHeatingEfficiency()       ||
+            $this->getHeatingYearInstalled()    ||
+            $this->getCoolingType()             ||
+            $this->getCoolingEfficiencyMethod() ||
+            $this->getCoolingEfficiency()       ||
+            $this->getCoolingYearInstalled()
+        );
+    }
+
+    /**
      * @return float|null
      */
     public function getFraction(): ?float

@@ -44,6 +44,14 @@ class Duct
     }
 
     /**
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return !($this->getLocation() || $this->getFraction() || $this->isInsulated() || $this->isSealed());
+    }
+
+    /**
      * @return null|string
      */
     public function getLocation(): ?string
