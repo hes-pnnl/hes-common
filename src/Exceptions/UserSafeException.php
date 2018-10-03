@@ -3,7 +3,7 @@
 namespace HESCommon\Exceptions;
 use Exception;
 
-/***
+/**
  * Class UserSafeException
  * Use this class for exceptions that are safe to be displayed to the user
  */
