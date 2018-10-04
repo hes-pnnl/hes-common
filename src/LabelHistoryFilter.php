@@ -36,6 +36,9 @@ class LabelHistoryFilter
     /** @var string */
     private $partner;
 
+    /** @var string */
+    private $mentee;
+    
     /** @var string[] */
     private $assessmentTypes;
 
@@ -197,6 +200,22 @@ class LabelHistoryFilter
     public function setPartner(?string $partner)
     {
         $this->partner = $partner;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getMentee() : ?string
+    {
+        return $this->mentee;
+    }
+
+    /**
+     * @param string $mentee
+     */
+    public function setMentee(?string $mentee)
+    {
+        $this->mentee = $mentee;
     }
 
     /**
