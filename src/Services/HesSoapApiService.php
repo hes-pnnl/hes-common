@@ -33,6 +33,7 @@ abstract class HesSoapApiService
     protected $mainElementNames = [
         'retrieve_buildings_by_id'        => 'buildings_by_id',
         'retrieve_buildings_by_partner'   => 'buildings_by_partner',
+        'retrieve_buildings_by_mentor'    => 'buildings_by_mentor',
         'retrieve_buildings_by_address'   => 'buildings_by_address',
         'retrieve_inputs'                 => 'building_info',
         'retrieve_recommendations'        => 'building_info',
