@@ -13,8 +13,7 @@ abstract class HesSoapApiService
      * Some methods do not have to have a valid session_token to be called
      */
     const NO_SESSION_TOKEN_METHODS = [
-        'get_session_token',
-        'destroy_session_token'
+        'get_session_token'
     ];
 
     /**
