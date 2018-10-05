@@ -13,7 +13,13 @@ abstract class HesSoapApiService
      * Some methods do not have to have a valid session_token to be called
      */
     const NO_SESSION_TOKEN_METHODS = [
-        'get_session_token'
+        'get_session_token',
+
+        // These methods require no session token because they are internal-only methods - they're not publicly accessible
+        // at all and are only called via internal call to the LBNL API
+        'calculate_base_building',
+        'commit_results',
+        'calculate_package_building'
     ];
 
     /**
@@ -39,6 +45,9 @@ abstract class HesSoapApiService
         'retrieve_extended_results'       => 'building_info',
         'retrieve_label_results'          => 'building_info',
         'retrieve_hpwes'                  => 'building_info',
+        'calculate_base_building'         => 'building_info',
+        'commit_results'                  => 'building_info',
+        'calculate_package_building'      => 'building_info',
         'submit_address'                  => 'building_address',
         'submit_inputs'                   => 'building',
         'generate_label'                  => 'building_label',
