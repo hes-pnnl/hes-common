@@ -38,7 +38,10 @@ class LabelHistoryFilter
 
     /** @var string */
     private $mentee;
-    
+
+    /** @var string */
+    private $qa;
+
     /** @var string[] */
     private $assessmentTypes;
 
@@ -208,6 +211,22 @@ class LabelHistoryFilter
     public function getMentee() : ?string
     {
         return $this->mentee;
+    }
+
+    /**
+     * @param string $qa
+     */
+    public function getQA(?string $mentee)
+    {
+        $this->qa = $qa;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function setQA() : ?string
+    {
+        return $this->qa;
     }
 
     /**
