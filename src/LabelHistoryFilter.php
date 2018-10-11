@@ -216,7 +216,7 @@ class LabelHistoryFilter
     /**
      * @param string $qa
      */
-    public function getQA(?string $mentee)
+    public function setQA(?string $qa)
     {
         $this->qa = $qa;
     }
@@ -224,7 +224,7 @@ class LabelHistoryFilter
     /**
      * @return string|null
      */
-    public function setQA() : ?string
+    public function getQA() : ?string
     {
         return $this->qa;
     }
