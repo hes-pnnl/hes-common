@@ -5,7 +5,7 @@ namespace HESCommon\Models;
 /**
  * Class Hvac - Stores the HVAC values associated with a building
  */
-class Hvac
+class Hvac extends Model
 {
     const HEATING_TYPE_HEAT_PUMP = 'heat_pump';
     const HEATING_TYPE_CENTRAL_FURNACE = 'central_furnace';

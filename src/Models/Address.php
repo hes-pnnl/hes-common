@@ -5,7 +5,7 @@ namespace HESCommon\Models;
  * Class Address
  * Simple data container for the values that make up a home's address
  */
-class Address
+class Address extends Model
 {
     /** @var string */
     private $street;

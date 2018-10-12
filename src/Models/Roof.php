@@ -5,7 +5,7 @@ namespace HESCommon\Models;
 /**
  * Class Roof - Contains the values for one of a building's roof zones
  */
-class Roof
+class Roof extends Model
 {
     const TYPE_VENTED_ATTIC = 'vented_attic';
     const TYPE_CONDITIONED_ATTIC = 'cond_attic';

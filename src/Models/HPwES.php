@@ -8,7 +8,7 @@ use HESCommon\DateRange;
  * Class HPwES
  * Data container for Home performance with Energy Star values
  */
-class HPwES
+class HPwES extends Model
 {
     /** @var DateRange|null */
     protected $installationDates;

@@ -9,7 +9,7 @@ namespace HESCommon\Models;
  * Note that a "floor" in the nomenclature of the API is actually a foundation, not a floor in the sense of a story or
  * the home's room flooring.
  */
-class Floor
+class Floor extends Model
 {
     const TYPE_UNCONDITIONED_BASEMENT = 'uncond_basement';
     const TYPE_CONDITIONED_BASEMENT   = 'cond_basement';

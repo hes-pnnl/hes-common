@@ -4,7 +4,7 @@ namespace HESCommon\Models;
 
 use HESCommon\Services\BooleanService;
 
-class Building
+class Building extends Model
 {
     const SHAPE_RECTANGLE = 'rectangle';
     const SHAPE_TOWNHOUSE = 'town_house';

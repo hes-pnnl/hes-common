@@ -5,7 +5,7 @@ namespace HESCommon\Models;
 /**
  * Class Wall - Stores information about the walls on one side of a building
  */
-class Wall
+class Wall extends Model
 {
     /** @var string|null */
     protected $assemblyCode;

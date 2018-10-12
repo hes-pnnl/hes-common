@@ -5,7 +5,7 @@ namespace HESCommon\Models;
 /**
  * Class Duct - Stores values associated with a single set of ductwork for an HVAC system
  */
-class Duct
+class Duct extends Model
 {
     const LOCATION_CONDITIONED_SPACE = 'cond_space';
     const LOCATION_UNCONDITIONED_BASEMENT = 'uncond_basement';

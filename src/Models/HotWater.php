@@ -5,7 +5,7 @@ namespace HESCommon\Models;
 /**
  * Class HotWater - Stores water heater information for a building
  */
-class HotWater
+class HotWater extends Model
 {
     const CATEGORY_UNIT = 'unit';
     const CATEGORY_COMBINED = 'combined';

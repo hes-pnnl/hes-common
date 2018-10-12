@@ -5,7 +5,7 @@ namespace HESCommon\Models;
 /**
  * Class Photovoltaic - Stores values related to the photovoltaic generation capabilities of a Building
  */
-class Photovoltaic
+class Photovoltaic extends Model
 {
     const ORIENTATION_NORTH     = 'north';
     const ORIENTATION_SOUTH     = 'south';

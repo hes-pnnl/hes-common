@@ -5,7 +5,7 @@ namespace HESCommon\Models;
 /**
  * Class Window - Stores information about the windows on one side of a building
  */
-class Window
+class Window extends Model
 {
     /** @var int */
     protected $area;
