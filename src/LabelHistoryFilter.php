@@ -40,7 +40,7 @@ class LabelHistoryFilter
     private $mentee;
 
     /** @var string */
-    private $qa;
+    private $qualityAssuranceProvider;
 
     /** @var string[] */
     private $assessmentTypes;
@@ -214,19 +214,19 @@ class LabelHistoryFilter
     }
 
     /**
-     * @param string $qa
+     * @param string $qualityAssuranceProvider
      */
-    public function setQA(?string $qa)
+    public function setQualityAssuranceProvider(?string $qualityAssuranceProvider)
     {
-        $this->qa = $qa;
+        $this->qualityAssuranceProvider = $qualityAssuranceProvider;
     }
 
     /**
      * @return string|null
      */
-    public function getQA() : ?string
+    public function getQualityAssuranceProvider() : ?string
     {
-        return $this->qa;
+        return $this->qualityAssuranceProvider;
     }
 
     /**
