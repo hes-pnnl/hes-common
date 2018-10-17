@@ -2,6 +2,8 @@
 
 namespace HESCommon\Models;
 
+use HESCommon\Services\BooleanService;
+
 /**
  * Class Duct - Stores values associated with a single set of ductwork for an HVAC system
  */
@@ -35,11 +37,12 @@ class Duct
      */
     public function getValuesAsArray(int $system, int $count)
     {
+        $boolService = BooleanService::getInstance();
         return [
             'duct_location_'.$count.'_'.$system => $this->getLocation(),
             'duct_fraction_'.$count.'_'.$system => $this->getFraction(),
-            'duct_insulated_'.$count.'_'.$system => (int) $this->isInsulated(),
-            'duct_sealed_'.$count.'_'.$system => (int) $this->isSealed(),
+            'duct_insulated_'.$count.'_'.$system => $boolService->getIntValForThreeValueBoolean($this->isInsulated()),
+            'duct_sealed_'.$count.'_'.$system => $boolService->getIntValForThreeValueBoolean($this->isSealed()),
         ];
     }
 
