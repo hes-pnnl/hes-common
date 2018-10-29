@@ -2,14 +2,32 @@
 
 namespace HESCommon\Services;
 
-
+use HESCommon\Models\Building;
 use HESCommon\Exceptions\UserSafeException;
 
-class ValidationService extends Service
+class ValidationService
 {
     const BLOCKER = 'blocker';
     const ERROR  = 'error';
     const MANDATORY = 'mandatory';
+
+    /**
+     * The path to the directory under which NPM modules are installed (usually called node_modules/)
+     * @var string
+     */
+    protected $nodeModulesPath;
+
+    /**
+     * Stores the last result returned from getValidations()
+     *
+     * @var array
+     */
+    protected $validations;
+
+    public function __construct(string $nodeModulesPath)
+    {
+        $this->nodeModulesPath = $nodeModulesPath;
+    }
 
     /**
      * Calls validate_home_audit from the terminal via home_audit.cli.js
@@ -23,16 +41,27 @@ class ValidationService extends Service
         $this->assertNodeIsInstalled();
         $homeValues = json_encode($homeValuesArray);
         $homeValues = escapeshellarg($homeValues);
-        exec('node ../node_modules/hes-validation-engine/home_audit.cli.js '.$homeValues.' 2>&1', $output);
+        exec("node $this->nodeModulesPath/hes-validation-engine/home_audit.cli.js $homeValues 2>&1", $output);
         /*
          * home_audit.cli will always return only one value.
          * If error is detected, home_audit.node will log a console error, which will be the first entries in our array
          * ie, $homeValues = '\'{"banana" : "apple"}\''
          */
         if(count($output) > 1){
-            throw new UserSafeException($output[0]);
+            throw new UserSafeException("Validation failed: " . $output[0]);
         }
-        return json_decode(stripslashes($output[0]), true);
+        $this->validations = json_decode(stripslashes($output[0]), true);
+        return $this->validations;
+    }
+
+    /**
+     * @param Building $building
+     * @return array
+     * @throws UserSafeException
+     */
+    public function getValidationsForBuilding(Building $building) : array
+    {
+        return $this->getValidations($building->getValuesForValidation());
     }
 
     /**
@@ -53,15 +82,21 @@ class ValidationService extends Service
     }
 
     /**
-     * Gets validation message for a specific element
+     * Gets validation message for a specific element.
      *
-     * @param array $validations Array of validation messages
      * @param string $name Name of the desired values/message
+     * @param array $validationMessages Optional. In a situation where you are dealing with multiple buildings or otherwise
+     *     need to supply the validation messages instead of using the last result of getValidations(), you can pass the
+     *     result returned by getValidation() as this argument.
      * @return string|null
      */
-    public function getValidationMessage(array $validations, string $name) : ?string
+    public function getValidationMessage(string $name, $validationMessages = null) : ?string
     {
-        foreach($validations as $type) {
+        if (null === $validationMessages && null === $this->validations) {
+            throw new \Exception('This message cannot be called without a $validationMessages argument unless getValidations() has been called to populate the validations');
+        }
+
+        foreach($validationMessages ?? $this->validations as $type) {
             if(array_key_exists($name, $type)) {
                 return $type[$name];
             }
@@ -72,12 +107,18 @@ class ValidationService extends Service
     /**
      * Checks if validation messages are contained in validations array
      *
-     * @param array $validations Array of validation messages
+     * @throws \Exception
+     * @param array $validations Array of validation messages Optional, if not passed then the last result of
+     *     getValidationMessages() is used
      * @return bool
      */
-    public function validationMessagesExist(array $validations) : bool
+    public function validationMessagesExist(array $validations = null) : bool
     {
-        foreach($validations as $type) {
+        if (null === $validations && null === $this->validations) {
+            throw new \Exception('This message cannot be called without a $validationMessages argument unless getValidations() has been called to populate the validations');
+        }
+
+        foreach($validations ?? $this->validations as $type) {
             if(!empty($type)) {
                 return true;
             }
