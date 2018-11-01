@@ -172,7 +172,6 @@ class BuildingService
         }
 
         $hotWater = $building->getHotWater();
-        $set('systems.domestic_hot_water.category', $hotWater);
         $set('systems.domestic_hot_water.type', $hotWater);
         $set('systems.domestic_hot_water.fuel_primary', $hotWater, 'setFuel');
         $set('systems.domestic_hot_water.efficiency_method', $hotWater);

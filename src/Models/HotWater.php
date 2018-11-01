@@ -68,21 +68,14 @@ class HotWater extends Model
     }
 
     /**
+     * Note that there is no setter for category - the category is set automatically when the type is set, because
+     * the two are linked.
+     *
      * @return null|string
      */
     public function getCategory(): ?string
     {
         return $this->category;
-    }
-
-    /**
-     * @param null|string $category
-     * @return HotWater
-     */
-    public function setCategory(?string $category): HotWater
-    {
-        $this->category = $category;
-        return $this;
     }
 
     /**
@@ -100,6 +93,13 @@ class HotWater extends Model
     public function setType(?string $type): HotWater
     {
         $this->type = $type;
+
+        if (in_array($type, [ self::TYPE_INDIRECT, self::TYPE_TANKLESS_COIL ])) {
+            $this->category = self::CATEGORY_COMBINED;
+        } else {
+            $this->category = self::CATEGORY_UNIT;
+        }
+
         return $this;
     }
 
