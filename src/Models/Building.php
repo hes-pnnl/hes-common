@@ -44,6 +44,12 @@ class Building extends Model
         self::ASSESSMENT_TYPE_VOID
     ];
 
+    const OFFICIAL_TYPES = [
+        self::ASSESSMENT_TYPE_INITIAL,
+        self::ASSESSMENT_TYPE_CORRECTED,
+        self::ASSESSMENT_TYPE_FINAL
+    ];
+
     /** @var int */
     protected $id;
 
@@ -358,6 +364,15 @@ class Building extends Model
     {
         $this->shape = $shape;
         return $this;
+    }
+
+    /**
+     * Convenience function to check whether the building's shape is SHAPE_TOWNHOUSE
+     * @return bool
+     */
+    public function isTownhouse() : bool
+    {
+        return $this->getShape() === self::SHAPE_TOWNHOUSE;
     }
 
     /**
@@ -701,5 +716,14 @@ class Building extends Model
     public function getPhotovoltaic() : Photovoltaic
     {
         return $this->photovoltaic;
+    }
+
+    /**
+     * Returns true if this building assessment is considered "official" based on its assessment type
+     * @return bool
+     */
+    public function isOfficial() : bool
+    {
+        return in_array($this->getAssessmentType(), self::OFFICIAL_TYPES);
     }
 }
