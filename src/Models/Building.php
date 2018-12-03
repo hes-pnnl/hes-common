@@ -127,19 +127,19 @@ class Building extends Model
     protected $isWindowConstructionSameOnAllSides;
 
     /** @var Roof[] */
-    protected $roofs;
+    protected $roofs = [];
 
     /** @var Floor[] */
-    protected $floors;
+    protected $floors = [];
 
     /** @var Wall[] */
-    protected $walls;
+    protected $walls = [];
 
     /** @var Window[] */
-    protected $windows;
+    protected $windows = [];
 
     /** @var Hvac[] */
-    protected $hvacs;
+    protected $hvacs = [];
 
     /** @var Address */
     protected $address;
@@ -621,6 +621,14 @@ class Building extends Model
         }
 
         return $this->roofs[$roofNumber];
+    }
+
+    /**
+     * @return Roof[]
+     */
+    public function getRoofs() : array
+    {
+        return $this->roofs;
     }
 
     /**
