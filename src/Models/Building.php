@@ -172,14 +172,13 @@ class Building extends Model
         $this->photovoltaic = new Photovoltaic();
         $this->address = new Address();
     }
-
+    
     /**
      * @return array
      */
-    public function getValuesForValidation()
+    public function getHomeDetailsArray()
     {
-        $boolService = BooleanService::getInstance();
-        $values = [
+        return [
             'assessment_date' => $this->getAssessmentDate() !== null ? $this->getAssessmentDate()->format('Y-m-d') : null,
             'comments' => $this->getComments(),
             'year_built' => $this->getYearBuilt(),
@@ -198,7 +197,16 @@ class Building extends Model
             //Windows
             'window_construction_same' => $boolService->getIntValForThreeValueBoolean($this->isWindowConstructionSameOnAllSides()),
         ];
-
+    }
+    
+    /**
+     * @return array
+     */
+    public function getBuildingComponentsArrays()
+    {
+        $boolService = BooleanService::getInstance();
+        
+        $homeDetails = $this->getHomeDetailsArray();
         $roofValues = [];
         foreach([1,2] as $count) {
             $roof = $this->getRoof($count);
@@ -234,20 +242,33 @@ class Building extends Model
         $hwValues = $hw->getValuesAsArray();
         $pv = $this->getPhotovoltaic();
         $pvValues = $pv->getValuesAsArray();
+        
+        $return = [];
+        $return['HOME DETAILS'] = $homeDetails;
+        $return['ROOF'] = $roofValues;
+        $return['FOUNDATION'] = $floorValues;
+        $return['WALLS'] = $wallValues;
+        $return['WINDOWS'] = $windowValues;
+        $return['HVAC SYSTEMS'] = $hvacValues;
+        $return['HVAC DISTRIBUTION'] = $ductValues;
+        $return['HOT WATER'] = $hwValues;
+        $return['PHOTOVOLTAIC'] = $pvValues;
+        
+        return $return;
+    }                                                   
 
-        $values = array_merge(
-            $values,
-            $roofValues,
-            $floorValues,
-            $wallValues,
-            $windowValues,
-            $hvacValues,
-            $ductValues,
-            $hwValues,
-            $pvValues
-        );
+    /**
+     * @return array
+     */
+    public function getValuesForValidation()
+    {
+        $return = [];
+        
+        foreach($this->getBuildingComponentsArrays() as $key => $values) {
+            $return = array_merge($return, $values);
+        }
 
-        return $values;
+        return $return;
     }
 
     /**
