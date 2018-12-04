@@ -7,6 +7,8 @@ use HESCommon\Exceptions\UserSafeException;
 
 /**
  * Class EmailService
+ *
+ * TODO: This class should be a Helper instead of a Service
  */
 class EmailService extends Service
 {
