@@ -178,6 +178,8 @@ class Building extends Model
      */
     public function getHomeDetailsArray()
     {
+        $boolService = BooleanService::getInstance();
+        
         return [
             'assessment_date' => $this->getAssessmentDate() !== null ? $this->getAssessmentDate()->format('Y-m-d') : null,
             'comments' => $this->getComments(),
@@ -204,8 +206,6 @@ class Building extends Model
      */
     public function getBuildingComponentsArrays()
     {
-        $boolService = BooleanService::getInstance();
-        
         $homeDetails = $this->getHomeDetailsArray();
         $roofValues = [];
         foreach([1,2] as $count) {
@@ -255,7 +255,7 @@ class Building extends Model
         $return['PHOTOVOLTAIC'] = $pvValues;
         
         return $return;
-    }                                                   
+    }
 
     /**
      * @return array
