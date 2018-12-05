@@ -316,4 +316,12 @@ class Hvac extends Model
 
         return $this->ducts[$ductNumber];
     }
+
+    /**
+     * @return Duct[] in the form [ <duct number> => Duct, ...] where duct number is 1-based
+     */
+    public function getDucts() : array
+    {
+        return $this->ducts;
+    }
 }

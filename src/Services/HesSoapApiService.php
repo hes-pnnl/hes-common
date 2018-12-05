@@ -51,7 +51,10 @@ abstract class HesSoapApiService
         'submit_address'                  => 'building_address',
         'submit_inputs'                   => 'building',
         'generate_label'                  => 'building_label',
-        'generate_custom_label'           => 'custom_building_label'
+        'generate_custom_label'           => 'custom_building_label',
+
+        'get_building_status'             => 'building_info',
+        'validate_inputs'                 => 'building_info',
     ];
 
     /**
