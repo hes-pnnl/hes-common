@@ -40,6 +40,11 @@ abstract class HesSoapApiService
         'retrieve_buildings_by_partner'   => 'buildings_by_partner',
         'retrieve_buildings_by_mentor'    => 'buildings_by_mentor',
         'retrieve_buildings_by_address'   => 'buildings_by_address',
+        'submit_address'                  => 'building_address',
+        'submit_inputs'                   => 'building',
+        'generate_label'                  => 'building_label',
+        'generate_custom_label'           => 'custom_building_label',
+
         'retrieve_inputs'                 => 'building_info',
         'retrieve_recommendations'        => 'building_info',
         'retrieve_extended_results'       => 'building_info',
@@ -48,13 +53,9 @@ abstract class HesSoapApiService
         'calculate_base_building'         => 'building_info',
         'commit_results'                  => 'building_info',
         'calculate_package_building'      => 'building_info',
-        'submit_address'                  => 'building_address',
-        'submit_inputs'                   => 'building',
-        'generate_label'                  => 'building_label',
-        'generate_custom_label'           => 'custom_building_label',
-
         'get_building_status'             => 'building_info',
         'validate_inputs'                 => 'building_info',
+        'building_ca_id'                  => 'building_info',
     ];
 
     /**
