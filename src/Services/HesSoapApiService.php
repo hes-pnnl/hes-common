@@ -10,19 +10,6 @@ namespace HESCommon\Services;
 abstract class HesSoapApiService
 {
     /**
-     * Some methods do not have to have a valid session_token to be called
-     */
-    const NO_SESSION_TOKEN_METHODS = [
-        'get_session_token',
-
-        // These methods require no session token because they are internal-only methods - they're not publicly accessible
-        // at all and are only called via internal call to the LBNL API
-        'calculate_base_building',
-        'commit_results',
-        'calculate_package_building'
-    ];
-
-    /**
      * Defines methods that are handled by the LBNL API rather than by our own
      * code. Calls to these methods will be transparently passed to the copy of
      * the LBNL API that we are running and the response will be passed back to
@@ -128,17 +115,10 @@ abstract class HesSoapApiService
     public function generateSoapCall(string $operationName, array $parameters) : ?array
     {
         // Automatically add the session_token and user_key parameters to each outgoing request
-        if ( !in_array($operationName, self::LBNL_METHODS)
-          && !in_array($operationName, self::NO_SESSION_TOKEN_METHODS)
-          && empty($parameters['session_token'])
-        ) {
-            $parameters = [
-                'session_token' => $this->getSessionToken()
-            ] + $parameters;
+        if ( !in_array($operationName, static::getNoSessionTokenMethods()) && empty($parameters['session_token']) ) {
+            $parameters['session_token'] = $this->getSessionToken();
         }
-        $parameters = [
-            'user_key' => $this->userKey
-        ] + $parameters;
+        $parameters['user_key'] = $this->userKey;
 
         $mainElementName = isset($this->mainElementNames[$operationName]) ? $this->mainElementNames[$operationName] : $operationName;
         $parameters = [
@@ -212,5 +192,24 @@ abstract class HesSoapApiService
     public function getLastResponseXml()
     {
         return $this->getSoapClient()->__getLastResponse();
+    }
+
+    /**
+     * Gets the names of all API methods that should not get a session_token field set. This is a method rather than a
+     * constant so that child classes can override as necessary.
+     *
+     * @return string[]
+     */
+    public static function getNoSessionTokenMethods() : array
+    {
+        return [
+            'get_session_token',
+
+            // These methods require no session token because they are internal-only methods - they're not publicly accessible
+            // at all and are only called via internal call to the LBNL API
+            'calculate_base_building',
+            'commit_results',
+            'calculate_package_building'
+        ];
     }
 }
