@@ -265,26 +265,35 @@ class HumanReadableHelper extends Helper
                 $newValue = $this->getWindowAssembly($value);
             }
             $newName = $newName ?? $this->snakeToCapitalizedWords($name);
-            $newValue = $newValue ?? (
-                ($value === true || $value === 'user') ? 'Yes' : (
-                    ($value === false || $value === 'shipment_weighted') ? 'No' : (
-                        $value === null ? 'N/A' : (
-                            gettype($value) === 'string' ? $this->snakeToCapitalizedWords($value) :
-                            $value
-                        )
-                    )
-                )
-            );
+            
+            if(!isset($newValue)) {
+                switch ($value) {
+                    case true:
+                    case 'user':
+                        $newValue = 'Yes';
+                        break;
+                    case false:
+                    case 'shipment_weighted':
+                        $newValue = 'No';
+                        break;
+                    case null:
+                        $newValue = 'N/A';
+                        break;
+                    default:
+                        $newValue = $this->snakeToCapitalizedWords($value);
+                }
+            }
+            
             $return[$newName] = $newValue ?? $value;
         }
       return $return;
     }
     
     /**
-     * @param string $snake a snake_case_string
+     * @param $snake a snake_case_string
      * @return string a Capitalized String
      */
-    public function snakeToCapitalizedWords(string $snake)
+    protected function snakeToCapitalizedWords($snake) : string
     {
         $return = [];
         $words = explode('_', $snake);
