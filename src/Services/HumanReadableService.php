@@ -2,8 +2,14 @@
 
 namespace HESCommon\Services;
 
+/**
+ * HumanReadableService is used to convert the machine/api recognizable fields and values in our
+ * Building models to the human readable versions in our GUI and Label.
+ */
+
 class HumanReadableService extends Service
 {
+    // Fields that designate areas - we will append 'sq ft' to the end of their values
     const AREA_FIELDS = [
         'condiditioned_floor_area',
         'roof_area_1',
@@ -236,7 +242,7 @@ class HumanReadableService extends Service
      * @param array $values hash of building values where name => value
      * @return array entered array returned with human readable values
      */
-    public function nameAndValueToHumanReadable(array $values)
+    public function nameAndValueToHumanReadable(array $values) : array
     {
         $return = [];
         foreach($values as $name => $value) {

@@ -204,7 +204,7 @@ class Building extends Model
     /**
      * @return array
      */
-    public function getBuildingComponentsArrays()
+    public function getBuildingComponentsArrays() : array
     {
         $homeDetails = $this->getHomeDetailsArray();
         $roofValues = [];
@@ -260,7 +260,7 @@ class Building extends Model
     /**
      * @return array
      */
-    public function getValuesForValidation()
+    public function getValuesForValidation() : array
     {
         $return = [];
         
