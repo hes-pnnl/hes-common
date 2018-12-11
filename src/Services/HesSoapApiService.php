@@ -10,16 +10,25 @@ namespace HESCommon\Services;
 abstract class HesSoapApiService
 {
     /**
-     * Some methods do not have to have a valid session_token to be called
+     * Defines methods that are handled by the LBNL API rather than by our own
+     * code. Calls to these methods will be transparently passed to the copy of
+     * the LBNL API that we are running and the response will be passed back to
+     * the caller.
+     *
+     * @var array
      */
-    const NO_SESSION_TOKEN_METHODS = [
-        'get_session_token',
-
-        // These methods require no session token because they are internal-only methods - they're not publicly accessible
-        // at all and are only called via internal call to the LBNL API
+    const LBNL_METHODS = [
+        'submit_address',
+        'submit_hpxml_inputs',
+        'submit_inputs',
         'calculate_base_building',
+        'calculate_package_building',
         'commit_results',
-        'calculate_package_building'
+        'retrieve_extended_results',
+        'retrieve_inputs',
+        'retrieve_label_results',
+        'retrieve_recommendations',
+        'retrieve_results'
     ];
 
     /**
@@ -40,6 +49,11 @@ abstract class HesSoapApiService
         'retrieve_buildings_by_partner'   => 'buildings_by_partner',
         'retrieve_buildings_by_mentor'    => 'buildings_by_mentor',
         'retrieve_buildings_by_address'   => 'buildings_by_address',
+        'submit_address'                  => 'building_address',
+        'submit_inputs'                   => 'building',
+        'generate_label'                  => 'building_label',
+        'generate_custom_label'           => 'custom_building_label',
+
         'retrieve_inputs'                 => 'building_info',
         'retrieve_recommendations'        => 'building_info',
         'retrieve_extended_results'       => 'building_info',
@@ -48,10 +62,9 @@ abstract class HesSoapApiService
         'calculate_base_building'         => 'building_info',
         'commit_results'                  => 'building_info',
         'calculate_package_building'      => 'building_info',
-        'submit_address'                  => 'building_address',
-        'submit_inputs'                   => 'building',
-        'generate_label'                  => 'building_label',
-        'generate_custom_label'           => 'custom_building_label'
+        'get_building_status'             => 'building_info',
+        'validate_inputs'                 => 'building_info',
+        'building_ca_id'                  => 'building_info',
     ];
 
     /**
@@ -102,14 +115,10 @@ abstract class HesSoapApiService
     public function generateSoapCall(string $operationName, array $parameters) : ?array
     {
         // Automatically add the session_token and user_key parameters to each outgoing request
-        if (!in_array($operationName, self::NO_SESSION_TOKEN_METHODS) && empty($parameters['session_token'])) {
-            $parameters = [
-                'session_token' => $this->getSessionToken()
-            ] + $parameters;
+        if ( !in_array($operationName, static::getNoSessionTokenMethods()) && empty($parameters['session_token']) ) {
+            $parameters['session_token'] = $this->getSessionToken();
         }
-        $parameters = [
-            'user_key' => $this->userKey
-        ] + $parameters;
+        $parameters['user_key'] = $this->userKey;
 
         $mainElementName = isset($this->mainElementNames[$operationName]) ? $this->mainElementNames[$operationName] : $operationName;
         $parameters = [
@@ -183,5 +192,24 @@ abstract class HesSoapApiService
     public function getLastResponseXml()
     {
         return $this->getSoapClient()->__getLastResponse();
+    }
+
+    /**
+     * Gets the names of all API methods that should not get a session_token field set. This is a method rather than a
+     * constant so that child classes can override as necessary.
+     *
+     * @return string[]
+     */
+    public static function getNoSessionTokenMethods() : array
+    {
+        return [
+            'get_session_token',
+
+            // These methods require no session token because they are internal-only methods - they're not publicly accessible
+            // at all and are only called via internal call to the LBNL API
+            'calculate_base_building',
+            'commit_results',
+            'calculate_package_building'
+        ];
     }
 }

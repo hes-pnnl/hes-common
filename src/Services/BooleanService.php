@@ -2,7 +2,7 @@
 
 namespace HESCommon\Services;
 
-
+// TODO: This class should be a Helper instead of a Service
 class BooleanService extends Service
 {
     /**

@@ -11,6 +11,13 @@ class Roof extends Model
     const TYPE_CONDITIONED_ATTIC = 'cond_attic';
     const TYPE_CATHEDRAL_CEILING = 'cath_ceiling';
 
+    const COLOR_WHITE = 'white';
+    const COLOR_LIGHT = 'light';
+    const COLOR_MEDIUM = 'medium';
+    const COLOR_MEDIUM_DARK = 'medium_dark';
+    const COLOR_DARK = 'dark';
+    const COLOR_COOL = 'cool_color';
+
     /**
      * The footprint of the roof in square feet
      *

@@ -9,9 +9,9 @@ class Building extends Model
     const SHAPE_RECTANGLE = 'rectangle';
     const SHAPE_TOWNHOUSE = 'town_house';
 
-    const TOWNHOUSE_POSITION_LEFT   = 'back_right_front';
+    const TOWNHOUSE_POSITION_RIGHT   = 'back_right_front';
     const TOWNHOUSE_POSITION_MIDDLE = 'back_front';
-    const TOWNHOUSE_POSITION_RIGHT  = 'back_front_left';
+    const TOWNHOUSE_POSITION_LEFT  = 'back_front_left';
 
     const ORIENTATION_NORTH     = 'north';
     const ORIENTATION_SOUTH     = 'south';
@@ -323,14 +323,15 @@ class Building extends Model
 
     /**
      * @param string $assessmentType One of this class's ASSESSMENT_TYPE_* constants
-     * @return string
+     * @return Building
      */
-    public function setAssessmentType(string $assessmentType)
+    public function setAssessmentType(string $assessmentType) : Building
     {
         if (!in_array($assessmentType, self::ASSESSMENT_TYPES)) {
             throw new \InvalidArgumentException("$assessmentType is not a valid assessment type");
         }
         $this->assessmentType = $assessmentType;
+        return $this;
     }
 
     /**
@@ -667,6 +668,14 @@ class Building extends Model
     }
 
     /**
+     * @return Floor[]
+     */
+    public function getFloors() : array
+    {
+        return $this->floors;
+    }
+
+    /**
      * @throws \InvalidArgumentException
      * @param string $side
      * @return Wall
@@ -681,11 +690,25 @@ class Building extends Model
     }
 
     /**
-     * @return array in the form ['front' => Wall, 'back' => Wall, 'left' => Wall, 'right' => Wall]
+     * @param bool $omitSharedTownhouseWalls Pass TRUE to have a townhouse's common walls omitted from the result
+     * @return Wall[] in the form ['front' => Wall, 'back' => Wall, 'left' => Wall, 'right' => Wall]
      */
-    public function getWalls() : array
+    public function getWalls(bool $omitSharedTownhouseWalls = false) : array
     {
-        return $this->walls;
+        // Unless this is a townhouse and we've been asked to omit shared walls for a townhouse, just return the building's walls
+        if (!$omitSharedTownhouseWalls || !$this->isTownhouse()) {
+            return $this->walls;
+        }
+
+        $position = $this->getTownhousePosition();
+        $walls = ['front' => $this->walls['front'], 'back' => $this->walls['back']];
+        if ($position === self::TOWNHOUSE_POSITION_LEFT) {
+            $walls['left'] = $this->walls['left'];
+        } elseif ($position === self::TOWNHOUSE_POSITION_RIGHT) {
+            $walls['right'] = $this->walls['right'];
+        }
+
+        return $walls;
     }
 
     /**
@@ -703,11 +726,25 @@ class Building extends Model
     }
 
     /**
-     * @return array in the form ['front' => Window, 'back' => Window, 'left' => Window, 'right' => Window]
+     * @param bool $omitSharedTownhouseWalls Pass TRUE to have windows from sides shared in a townhouse omitted from the result
+     * @return Window[] in the form ['front' => Window, 'back' => Window, 'left' => Window, 'right' => Window]
      */
-    public function getWindows() : array
+    public function getWindows(bool $omitSharedTownhouseWalls = false) : array
     {
-        return $this->windows;
+        // Unless this is a townhouse and we've been asked to omit shared walls for a townhouse, just return the building's windows
+        if (!$omitSharedTownhouseWalls || !$this->isTownhouse()) {
+            return $this->windows;
+        }
+
+        $position = $this->getTownhousePosition();
+        $windows = ['front' => $this->windows['front'], 'back' => $this->windows['back']];
+        if ($position === self::TOWNHOUSE_POSITION_LEFT) {
+            $windows['left'] = $this->windows['left'];
+        } elseif ($position === self::TOWNHOUSE_POSITION_RIGHT) {
+            $windows['right'] = $this->windows['right'];
+        }
+
+        return $windows;
     }
 
     /**
@@ -721,6 +758,14 @@ class Building extends Model
         }
 
         return $this->hvacs[$hvacNumber];
+    }
+
+    /**
+     * @return Hvac[] in the form [<system number> => Hvac, ...] System number is 1-based.
+     */
+    public function getHvacs() : array
+    {
+        return $this->hvacs;
     }
 
     /**
