@@ -2,6 +2,8 @@
 
 namespace HESCommon\Helpers;
 
+use \HESCommon\Services\BooleanService;
+
 /**
  * HumanReadableHelper is used to convert the machine/api recognizable fields and values in our
  * Building models to the human readable versions in our GUI and Label.
@@ -246,17 +248,20 @@ class HumanReadableHelper extends Helper
     {
         $return = [];
         foreach($values as $name => $value) {
-            /*
-                TODO: While this code will likely need to be implemented, it currently leaves some
-                      information unclear since all Roofs, Foundation, and Systems are grouped
-                      together.  We first need to separate them into different indexes in getBuildingComponentsArrays()
-            **************************************************************************************************************
-                // Check if name is of indexed field (ie, Roof, Foundation, Systems)
-                $pos_1 = strpos($name, '_1') ?: strlen($name);
-                $pos_2 = strpos($name, '_2') ?: strlen($name);
-                $index = min($pos_1, $pos_2);
-                $name = substr($name, 0, $index);
-            */
+            // Check if name is of indexed field (ie, Roof, Foundation, Systems)
+            $pos_1 = strpos($name, '_1') ?: strlen($name);
+            $pos_2 = strpos($name, '_2') ?: strlen($name);
+            $index = min($pos_1, $pos_2);
+            $name = substr($name, 0, $index);
+            
+            $intToBoolFields = [
+                'blower_door_test',
+                'air_sealing_present',
+                'wall_construction_same',
+                'window_construction_same',
+                'duct_insulated',
+                'duct_sealed'
+            ];
             
             if ($name === 'num_floor_above_grade') {
                 $newName = 'Stories Above Ground Level';
@@ -275,6 +280,8 @@ class HumanReadableHelper extends Helper
                 $newValue = self::ATTIC_TYPE[$value];
             } else if (in_array($name, ['window_code_front', 'window_code_back', 'window_code_right', 'window_code_left'])) {
                 $newValue = self::getWindowAssembly($value);
+            } else if (in_array($name, $intToBoolFields)) {
+                $value = BooleanService::getInstance()->getBoolValForThreeValueInt($value);
             }
             $newName = $newName ?? self::snakeToCapitalizedWords($name);
             
