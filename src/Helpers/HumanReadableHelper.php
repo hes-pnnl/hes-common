@@ -256,15 +256,15 @@ class HumanReadableHelper extends Helper
             } else if (in_array($name, self::AREA_FIELDS)) {
                 $newValue = $value + ' sq ft';
             } else if (in_array($name, ['wall_assembly_code_front', 'wall_assembly_code_back', 'wall_assembly_code_right', 'wall_assembly_code_left'])) {
-                $newValue = $this->getWallAssembly($value);
+                $newValue = self::getWallAssembly($value);
             } else if (in_array($name, ['roof_assembly_code_1', 'roof_assembly_code_2'])) {
-                $newValue = $this->getRoofAssembly($value);
+                $newValue = self::getRoofAssembly($value);
             } else if (strpos($name, 'roof_type_') === 0){
                 $newValue = self::ATTIC_TYPE[$value];
             } else if (in_array($name, ['window_code_front', 'window_code_back', 'window_code_right', 'window_code_left'])) {
-                $newValue = $this->getWindowAssembly($value);
+                $newValue = self::getWindowAssembly($value);
             }
-            $newName = $newName ?? $this->snakeToCapitalizedWords($name);
+            $newName = $newName ?? self::snakeToCapitalizedWords($name);
             
             if(!isset($newValue)) {
                 switch ($value) {
@@ -280,7 +280,7 @@ class HumanReadableHelper extends Helper
                         $newValue = 'N/A';
                         break;
                     default:
-                        $newValue = $this->snakeToCapitalizedWords($value);
+                        $newValue = self::snakeToCapitalizedWords($value);
                 }
             }
             
