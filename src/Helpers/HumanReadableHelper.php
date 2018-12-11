@@ -1,13 +1,13 @@
 <?php
 
-namespace HESCommon\Services;
+namespace HESCommon\Helpers;
 
 /**
- * HumanReadableService is used to convert the machine/api recognizable fields and values in our
+ * HumanReadableHelper is used to convert the machine/api recognizable fields and values in our
  * Building models to the human readable versions in our GUI and Label.
  */
 
-class HumanReadableService extends Service
+class HumanReadableHelper extends Helper
 {
     // Fields that designate areas - we will append 'sq ft' to the end of their values
     const AREA_FIELDS = [
