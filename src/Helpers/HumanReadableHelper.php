@@ -197,7 +197,7 @@ class HumanReadableHelper extends Helper
      * @param string|null $assemblyCode
      * @return string|null
      */
-    function getWallAssembly($assemblyCode) : ?string
+    public static function getWallAssembly($assemblyCode) : ?string
     {
         if($assemblyCode !== null) {
             $assembly = self::CONSTRUCTION_WALL[substr($assemblyCode, 0, 4)];
@@ -212,7 +212,7 @@ class HumanReadableHelper extends Helper
      * @param string|null $assemblyCode
      * @return string|null
      */
-    function getWindowAssembly($assemblyCode) : ?string
+    public static function getWindowAssembly($assemblyCode) : ?string
     {
         if($assemblyCode !== null) {
             $assembly = self::PANES[substr($assemblyCode, 0, 1)];
@@ -227,7 +227,7 @@ class HumanReadableHelper extends Helper
      * @param string|null $assemblyCode
      * @return string|null
      */
-    function getRoofAssembly($assemblyCode) : ?string
+    public static function getRoofAssembly($assemblyCode) : ?string
     {
         if($assemblyCode !== null) {
             $assembly = self::CONSTRUCTION_ROOF[substr($assemblyCode, 0, 4)];
@@ -242,7 +242,7 @@ class HumanReadableHelper extends Helper
      * @param array $values hash of building values where name => value
      * @return array entered array returned with human readable values
      */
-    public function nameAndValueToHumanReadable(array $values) : array
+    public static function nameAndValueToHumanReadable(array $values) : array
     {
         $return = [];
         foreach($values as $name => $value) {
