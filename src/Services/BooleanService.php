@@ -17,4 +17,24 @@ class BooleanService extends Service
         }
         return null;
     }
+    
+    /**
+     * Returns bool value of an int, or null or entered value is null
+     * @param int|null $val
+     * @return bool|null
+     */
+    public function getBoolValForThreeValueInt(?int $val) : ?bool
+    {
+        switch($val) {
+            case 1:
+                $return = true;
+                break;
+            case 0:
+                $return = false;
+                break;
+            default:
+                $return = null;
+        }
+        return $return;
+    }
 }
