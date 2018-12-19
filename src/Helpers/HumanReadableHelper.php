@@ -248,10 +248,11 @@ class HumanReadableHelper extends Helper
     {
         $return = [];
         foreach($values as $name => $value) {
-            // Check if name is of indexed field (ie, Roof, Foundation, Systems)
+            // Check if name is of indexed field (ie, Roof, Foundation, Systems, Ducts)
             $pos_1 = strpos($name, '_1') ?: strlen($name);
             $pos_2 = strpos($name, '_2') ?: strlen($name);
-            $index = min($pos_1, $pos_2);
+            $pos_3 = strpos($name, '_3') ?: strlen($name);
+            $index = min($pos_1, $pos_2, $pos_3);
             $name = substr($name, 0, $index);
             
             $intToBoolFields = [
@@ -276,9 +277,11 @@ class HumanReadableHelper extends Helper
                 $newValue = self::getWallAssembly($value);
             } else if (in_array($name, ['roof_assembly_code_1', 'roof_assembly_code_2'])) {
                 $newValue = self::getRoofAssembly($value);
+            } else if (in_array($name, ['floor_assembly_code_1', 'floor_assembly_code_2'])) {
+                $newValue = self::INSULATION_FLOOR[$value];
             } else if (strpos($name, 'roof_type_') === 0){
                 $newValue = self::ATTIC_TYPE[$value];
-            } else if (in_array($name, ['window_code_front', 'window_code_back', 'window_code_right', 'window_code_left'])) {
+            } else if (in_array($name, ['window_code_front', 'window_code_back', 'window_code_right', 'window_code_left', 'skylight_code'])) {
                 $newValue = self::getWindowAssembly($value);
             } else if (in_array($name, $intToBoolFields)) {
                 $value = BooleanService::getInstance()->getBoolValForThreeValueInt($value);
