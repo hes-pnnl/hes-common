@@ -116,6 +116,21 @@ class HumanReadableHelper extends Helper
         "cond_attic" => "Conditioned Attic",
         "cath_ceiling" => "Cathedral Ceiling"
     ];
+    const ATTIC_INSULATION = [
+        "ecwf00" => "R-0",
+        "ecwf03" => "R-3",
+        "ecwf06" => "R-6",
+        "ecwf09" => "R-9",
+        "ecwf11" => "R-11",
+        "ecwf19" => "R-19",
+        "ecwf21" => "R-21",
+        "ecwf25" => "R-25",
+        "ecwf30" => "R-30",
+        "ecwf38" => "R-38",
+        "ecwf44" => "R-44",
+        "ecwf49" => "R-49",
+        "ecwf60" => "R-60"
+    ];
     
     /* Foundation Codes */
     const FOUNDATION_TYPE = [
@@ -277,6 +292,8 @@ class HumanReadableHelper extends Helper
                 $newValue = self::getWallAssembly($value);
             } else if ($name === 'roof_assembly_code') {
                 $newValue = self::getRoofAssembly($value);
+            } else if ($name === 'ceiling_assembly_code') {
+                $newValue === self::ATTIC_INSULATION[$value];
             } else if ($name === 'floor_assembly_code') {
                 $newValue = self::INSULATION_FLOOR[$value];
             } else if (strpos($name, 'roof_type_') === 0){
