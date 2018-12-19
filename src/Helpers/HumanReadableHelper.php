@@ -293,7 +293,7 @@ class HumanReadableHelper extends Helper
             } else if ($name === 'roof_assembly_code') {
                 $newValue = self::getRoofAssembly($value);
             } else if ($name === 'ceiling_assembly_code') {
-                $newValue === self::ATTIC_INSULATION[$value];
+                $newValue = self::ATTIC_INSULATION[$value];
             } else if ($name === 'floor_assembly_code') {
                 $newValue = self::INSULATION_FLOOR[$value];
             } else if (strpos($name, 'roof_type_') === 0){
