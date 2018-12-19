@@ -214,7 +214,15 @@ class BuildingService
         ];
         $buildingInfo = $this->soapApiService->generateSoapCall('retrieve_buildings_by_id', $soapParameters);
         
-        // $buildingInfo should only contain one building with the parameters given
-        return $buildingInfo['qualified_assessor_id'];
+        if(isset($buildingInfo['id'])) {
+            return $buildingInfo['qualified_assessor_id'];
+        } else {
+            foreach($buildingInfo as $building) {
+                if($building['id'] === 6) {
+                    return $building['qualified_assessor_id'];
+                }
+            }
+        }
+        
     }
 }
