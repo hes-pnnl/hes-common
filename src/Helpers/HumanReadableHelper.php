@@ -275,9 +275,9 @@ class HumanReadableHelper extends Helper
                 $newValue = $value + ' sq ft';
             } else if (in_array($name, ['wall_assembly_code_front', 'wall_assembly_code_back', 'wall_assembly_code_right', 'wall_assembly_code_left'])) {
                 $newValue = self::getWallAssembly($value);
-            } else if (in_array($name, ['roof_assembly_code_1', 'roof_assembly_code_2'])) {
+            } else if ($name === 'roof_assembly_code') {
                 $newValue = self::getRoofAssembly($value);
-            } else if (in_array($name, ['floor_assembly_code_1', 'floor_assembly_code_2'])) {
+            } else if ($name === 'floor_assembly_code') {
                 $newValue = self::INSULATION_FLOOR[$value];
             } else if (strpos($name, 'roof_type_') === 0){
                 $newValue = self::ATTIC_TYPE[$value];
