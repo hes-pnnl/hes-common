@@ -206,7 +206,7 @@ class BuildingService
      * @param int $buildingId
      * @return string
      */
-    public function getBuildingOwner($buildingId)
+    public function getBuildingOwner($buildingId) : string
     {
         $soapParameters = [
             'min_building_id' => $buildingId,
@@ -214,11 +214,12 @@ class BuildingService
         ];
         $buildingInfo = $this->soapApiService->generateSoapCall('retrieve_buildings_by_id', $soapParameters);
         
+        // Check if returned building is only building, else we have ancestry array and must get specific home
         if(isset($buildingInfo['id'])) {
             return $buildingInfo['qualified_assessor_id'];
         } else {
             foreach($buildingInfo as $building) {
-                if($building['id'] === 6) {
+                if($building['id'] === $buildingId) {
                     return $building['qualified_assessor_id'];
                 }
             }
