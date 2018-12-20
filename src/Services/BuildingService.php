@@ -45,6 +45,7 @@ class BuildingService
         }
 
         $building = new Building($buildingId);
+        $building->setOwningAssessor($this->getBuildingOwner($buildingId));
 
         /**
          * Sets a property in $building from a value in $response
@@ -198,5 +199,31 @@ class BuildingService
         $HPwES->setContractorZipCode($HPwESResponse['contractor_zip_code']);
         $HPwES->setIsIncomeEligible($HPwESResponse['is_income_eligible_program']);
         return $building;
+    }
+    
+    /**
+     * @throws \Exception
+     * @param int $buildingId
+     * @return string
+     */
+    public function getBuildingOwner($buildingId) : string
+    {
+        $soapParameters = [
+            'min_building_id' => $buildingId,
+            'max_building_id' => $buildingId
+        ];
+        $buildingInfo = $this->soapApiService->generateSoapCall('retrieve_buildings_by_id', $soapParameters);
+        
+        // Check if returned building is only building, else we have ancestry array and must get specific home
+        if(isset($buildingInfo['id'])) {
+            return $buildingInfo['qualified_assessor_id'];
+        } else {
+            foreach($buildingInfo as $building) {
+                if($building['id'] === $buildingId) {
+                    return $building['qualified_assessor_id'];
+                }
+            }
+        }
+        
     }
 }

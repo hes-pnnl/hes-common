@@ -61,6 +61,9 @@ class Building extends Model
 
     /** @var string|null */
     protected $externalBuildingId;
+    
+    /** @var string|null */
+    protected $owningAssessor;
 
     /** @var \DateTime */
     protected $assessmentDate;
@@ -326,6 +329,24 @@ class Building extends Model
     public function setExternalBuildingId(?string $externalBuildingId): Building
     {
         $this->externalBuildingId = $externalBuildingId;
+        return $this;
+    }
+    
+    /**
+     * @return null|string
+     */
+    public function getOwningAssessor(): ?string
+    {
+        return $this->owningAssessor;
+    }
+
+    /**
+     * @param null|string $owningAssessor
+     * @return Building
+     */
+    public function setOwningAssessor(?string $owningAssessor): Building
+    {
+        $this->owningAssessor = $owningAssessor;
         return $this;
     }
 
