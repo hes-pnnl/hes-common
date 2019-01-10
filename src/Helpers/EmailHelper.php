@@ -1,16 +1,14 @@
 <?php
 
-namespace HESCommon\Services;
+namespace HESCommon\Helpers;
 
 use HESCommon\Email;
 use HESCommon\Exceptions\UserSafeException;
 
 /**
- * Class EmailService
- *
- * TODO: This class should be a Helper instead of a Service
+ * Class EmailHelper
  */
-class EmailService extends Service
+class EmailHelper extends Helper
 {
     /**
      * Send an email
@@ -19,7 +17,7 @@ class EmailService extends Service
      * @param Email $email
      * @return bool
      */
-    function sendEmail(Email $email) : bool
+    public static function sendEmail(Email $email) : bool
     {
         $recipient = $email->getRecipient();
         if($recipient === null) {
