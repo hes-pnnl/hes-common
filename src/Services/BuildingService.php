@@ -208,22 +208,20 @@ class BuildingService
      */
     public function getBuildingOwner($buildingId) : string
     {
-        $soapParameters = [
-            'min_building_id' => $buildingId,
-            'max_building_id' => $buildingId
-        ];
-        $buildingInfo = $this->soapApiService->generateSoapCall('retrieve_buildings_by_id', $soapParameters);
-        
-        // Check if returned building is only building, else we have ancestry array and must get specific home
-        if(isset($buildingInfo['id'])) {
-            return $buildingInfo['qualified_assessor_id'];
-        } else {
-            foreach($buildingInfo as $building) {
-                if($building['id'] === $buildingId) {
-                    return $building['qualified_assessor_id'];
-                }
+        try {
+            $response = $this->soapApiService->generateSoapCall(
+                'building_ca_id',
+                [
+                    'building_id' => $buildingId
+                ]
+            );
+        } catch (\SoapFault $soapFault) {
+            if ($soapFault->getMessage() === "No building found for building_id #$buildingId") {
+                return null;
+            } else {
+                throw $soapFault;
             }
         }
-        
+        return $response['qualified_assessor_id'];
     }
 }
