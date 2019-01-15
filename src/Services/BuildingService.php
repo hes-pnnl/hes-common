@@ -45,7 +45,6 @@ class BuildingService
         }
 
         $building = new Building($buildingId);
-        $building->setOwningAssessor($this->getBuildingOwner($buildingId));
 
         /**
          * Sets a property in $building from a value in $response
