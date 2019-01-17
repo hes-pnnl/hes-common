@@ -11,6 +11,18 @@ use \HESCommon\Services\BooleanService;
 
 class HumanReadableHelper extends Helper
 {
+    const ASSESSMENT_TYPES = [
+        'initial'         => 'Initial',
+        'final'           => 'Final',
+        'qa'              => 'QA',
+        'alternative'     => 'Alternative EEM',
+        'test'            => 'Test',
+        'corrected'       => 'Corrected',
+        'mentor'          => 'Mentor',
+        'preconstruction' => 'Preconstruction',
+        'void'            => 'Void'
+    ];
+    
     // Fields that designate areas - we will append 'sq ft' to the end of their values
     const AREA_FIELDS = [
         'condiditioned_floor_area',
