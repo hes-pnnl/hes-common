@@ -718,10 +718,10 @@ class Building extends Model
 
         $position = $this->getTownhousePosition();
         $walls = ['front' => $this->walls['front'], 'back' => $this->walls['back']];
-        if ($position === self::TOWNHOUSE_POSITION_LEFT) {
-            $walls['left'] = $this->walls['left'];
-        } elseif ($position === self::TOWNHOUSE_POSITION_RIGHT) {
+        if ($position === self::TOWNHOUSE_POSITION_RIGHT) {
             $walls['right'] = $this->walls['right'];
+        } elseif ($position === self::TOWNHOUSE_POSITION_LEFT) {
+            $walls['left'] = $this->walls['left'];
         }
 
         return $walls;
@@ -754,10 +754,10 @@ class Building extends Model
 
         $position = $this->getTownhousePosition();
         $windows = ['front' => $this->windows['front'], 'back' => $this->windows['back']];
-        if ($position === self::TOWNHOUSE_POSITION_LEFT) {
-            $windows['left'] = $this->windows['left'];
-        } elseif ($position === self::TOWNHOUSE_POSITION_RIGHT) {
+        if ($position === self::TOWNHOUSE_POSITION_RIGHT) {
             $windows['right'] = $this->windows['right'];
+        } elseif ($position === self::TOWNHOUSE_POSITION_LEFT) {
+            $windows['left'] = $this->windows['left'];
         }
 
         return $windows;
