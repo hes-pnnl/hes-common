@@ -707,7 +707,7 @@ class Building extends Model
 
     /**
      * @param bool $omitSharedTownhouseWalls Pass TRUE to have a townhouse's common walls omitted from the result
-     * @return Wall[] in the form ['front' => Wall, 'back' => Wall, 'left' => Wall, 'right' => Wall]
+     * @return Wall[] in the form ['front' => Wall, 'back' => Wall, 'right' => Wall, 'left' => Wall]
      */
     public function getWalls(bool $omitSharedTownhouseWalls = false) : array
     {
@@ -743,7 +743,7 @@ class Building extends Model
 
     /**
      * @param bool $omitSharedTownhouseWalls Pass TRUE to have windows from sides shared in a townhouse omitted from the result
-     * @return Window[] in the form ['front' => Window, 'back' => Window, 'left' => Window, 'right' => Window]
+     * @return Window[] in the form ['front' => Window, 'back' => Window, 'right' => Window, 'left' => Window]
      */
     public function getWindows(bool $omitSharedTownhouseWalls = false) : array
     {
