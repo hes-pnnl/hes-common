@@ -9,7 +9,7 @@ _sync(){
 
 sync_all(){
     ROOT_DIR=${DIR}/../..
-    _sync ${ROOT_DIR}/laravel-hes-gui
+    _sync ${ROOT_DIR}/hes-gui
     _sync ${ROOT_DIR}/hes-api
     _sync ${ROOT_DIR}/hes-tests
 }
