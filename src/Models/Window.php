@@ -44,7 +44,7 @@ class Window extends Model
     /**
      * @return bool|null
      */
-    public function hasSolarScreen(): ?int
+    public function hasSolarScreen(): ?bool
     {
         return $this->solarScreen;
     }
@@ -52,7 +52,7 @@ class Window extends Model
     /**
      * @return bool|null
      */
-    public function setSolarScreen($solarScreen): ?int
+    public function setSolarScreen($solarScreen): ?bool
     {
         $this->solarScreen = $solarScreen;
         return $this;
