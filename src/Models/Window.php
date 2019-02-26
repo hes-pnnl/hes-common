@@ -7,6 +7,9 @@ namespace HESCommon\Models;
  */
 class Window extends Model
 {
+    /** @var bool */
+    protected $solarScreen;
+    
     /** @var int */
     protected $area;
 
@@ -29,12 +32,30 @@ class Window extends Model
     public function getValuesAsArray(string $position) : array
     {
         return [
+            'solar_screen_'.$position => $this->hasSolarScreen(),
             'window_area_'.$position => $this->getArea(),
             'window_method_'.$position => $this->getMethod(),
             'window_code_'.$position => $this->getCode(),
             'window_u_value_'.$position => $this->getUValue(),
             'window_shgc_'.$position => $this->getShgc(),
         ];
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function hasSolarScreen(): ?int
+    {
+        return $this->solarScreen;
+    }
+    
+    /**
+     * @return bool|null
+     */
+    public function setSolarScreen($solarScreen): ?int
+    {
+        $this->solarScreen = $solarScreen;
+        return $this;
     }
 
     /**
