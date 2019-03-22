@@ -4,7 +4,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 _sync(){
-    rsync -rtv --exclude=".git" /${DIR}/.. $1/vendor/pnnl
+    mkdir -p /${DIR}/../src $1/vendor/pnnl/hes-common/src # in case the directory is missing for any reason
+    rsync -rtv --exclude=".git" /${DIR}/../src $1/vendor/pnnl/hes-common
 }
 
 sync_all(){
