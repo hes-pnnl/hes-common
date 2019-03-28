@@ -10,16 +10,35 @@ class BuildingService
     /** @var HesSoapApiService */
     protected $soapApiService;
 
+    /** @var Building[] Cache of retrieved buildings. to prevent redundant SOAP calls */
+    protected $buildings = [];
+
     public function __construct(HesSoapApiService $soapApiService) {
         $this->soapApiService = $soapApiService;
     }
 
     /**
+     * Retrieves a Building instance. Buildings are locally cached, so there is no performance issue with making
+     * multiple calls to this method for the same Building during the same request.
+     *
      * @throws \Exception
      * @param int $buildingId
      * @return Building|null
      */
     public function getBuilding(int $buildingId) : ?Building
+    {
+        if (!array_key_exists($buildingId, $this->buildings)) {
+            $this->buildings[$buildingId] = $this->getBuildingFromSoapApi($buildingId);
+        }
+
+        return $this->buildings[$buildingId];
+    }
+
+    /**
+     * @param int $buildingId
+     * @return Building|null
+     */
+    private function getBuildingFromSoapApi(int $buildingId) : ?Building
     {
         try {
             $response = $this->soapApiService->generateSoapCall(
