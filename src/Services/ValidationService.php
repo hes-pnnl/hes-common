@@ -2,10 +2,11 @@
 
 namespace HESCommon\Services;
 
+use HESCommon\Services\Service;
 use HESCommon\Models\Building;
 use HESCommon\Exceptions\UserSafeException;
 
-class ValidationService
+class ValidationService extends Service
 {
     const BLOCKER = 'blocker';
     const ERROR  = 'error';
@@ -124,18 +125,5 @@ class ValidationService
             }
         }
         return false;
-    }
-
-    /**
-     * Ensure node is installed before attempting to call command
-     *
-     * @throws UserSafeException
-     */
-    protected function assertNodeIsInstalled()
-    {
-        exec('which node 2>&1', $output);
-        if(empty($output)){
-            throw new UserSafeException('Node is not installed.');
-        }
     }
 }

@@ -2,10 +2,10 @@
 
 namespace HESCommon\Services;
 
-
+use HESCommon\Services\Service;
 use HESCommon\Models\Building;
 
-class BuildingService
+class BuildingService extends Service
 {
     /** @var HesSoapApiService */
     protected $soapApiService;
