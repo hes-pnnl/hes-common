@@ -36,6 +36,15 @@ class Window extends Model
             'window_shgc_'.$position => $this->getShgc(),
         ];
     }
+    
+    /**
+     * Check if window has any entered values
+     * @return bool
+     */
+    public function isEmpty() : bool
+    {
+        return !($this->getArea() || $this->getMethod() || $this->getCode() || $this->getUValue() || $this->getShgc());
+    }
 
     /**
      * @return int|null
