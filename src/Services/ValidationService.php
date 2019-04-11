@@ -2,11 +2,11 @@
 
 namespace HESCommon\Services;
 
-use HESCommon\Services\Service;
 use HESCommon\Models\Building;
 use HESCommon\Exceptions\UserSafeException;
+use HESCommon\Helpers\ExecHelper;
 
-class ValidationService extends Service
+class ValidationService
 {
     const BLOCKER = 'blocker';
     const ERROR  = 'error';
@@ -39,7 +39,7 @@ class ValidationService extends Service
      */
     public function getValidations(array $homeValuesArray) : array
     {
-        $this->assertNodeIsInstalled();
+        ExecHelper::assertNodeIsInstalled();
         $homeValues = json_encode($homeValuesArray);
         $homeValues = escapeshellarg($homeValues);
         exec("node $this->nodeModulesPath/hes-validation-engine/home_audit.cli.js $homeValues 2>&1", $output);
