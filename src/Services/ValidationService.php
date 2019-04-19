@@ -50,7 +50,7 @@ class ValidationService
         if(count($output) > 1){
             throw new UserSafeException("Validation failed: " . $output[0]);
         }
-        $this->validations = json_decode(stripslashes($output[0]), true);
+        $this->validations = json_decode($output[0], true);
         return $this->validations;
     }
 
