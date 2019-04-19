@@ -2,7 +2,6 @@
 
 namespace HESCommon\Services;
 
-
 use HESCommon\Models\Building;
 
 class BuildingService
