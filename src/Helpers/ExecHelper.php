@@ -11,7 +11,7 @@ class ExecHelper
      *
      * @throws UserSafeException
      */
-    public function assertNodeIsInstalled()
+    public static function assertNodeIsInstalled()
     {
         exec('which node 2>&1', $output);
         if(empty($output)){
