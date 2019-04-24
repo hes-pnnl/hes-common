@@ -18,6 +18,7 @@ abstract class HesSoapApiService
      * @var array
      */
     const LBNL_METHODS = [
+        'submit_address',
         'submit_hpxml_inputs',
         'submit_inputs',
         'calculate_base_building',
