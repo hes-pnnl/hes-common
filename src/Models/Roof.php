@@ -21,7 +21,7 @@ class Roof extends Model
     /**
      * The footprint of the roof in square feet
      *
-     * @var int|null
+     * @var float|null
      */
     protected $area;
 
@@ -42,7 +42,7 @@ class Roof extends Model
     /** @var string|null */
     protected $ceilingAssemblyCode;
 
-    /** @var int|null */
+    /** @var float|null */
     protected $skylightArea;
 
     /** @var string|null */
@@ -84,18 +84,18 @@ class Roof extends Model
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getArea(): ?int
+    public function getArea(): ?float
     {
         return $this->area;
     }
 
     /**
-     * @param int|null $area
+     * @param float|null $area
      * @return Roof
      */
-    public function setArea(?int $area): Roof
+    public function setArea(?float $area): Roof
     {
         $this->area = $area;
         return $this;
@@ -192,18 +192,18 @@ class Roof extends Model
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getSkylightArea(): ?int
+    public function getSkylightArea(): ?float
     {
         return $this->skylightArea;
     }
 
     /**
-     * @param int|null $skylightArea
+     * @param float|null $skylightArea
      * @return Roof
      */
-    public function setSkylightArea(?int $skylightArea): Roof
+    public function setSkylightArea(?float $skylightArea): Roof
     {
         $this->skylightArea = $skylightArea;
         return $this;

@@ -7,7 +7,7 @@ namespace HESCommon\Models;
  */
 class Window extends Model
 {
-    /** @var int */
+    /** @var float */
     protected $area;
 
     /** @var string */
@@ -47,18 +47,18 @@ class Window extends Model
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getArea(): ?int
+    public function getArea(): ?float
     {
         return $this->area;
     }
 
     /**
-     * @param int|null $area
+     * @param float|null $area
      * @return Window
      */
-    public function setArea(?int $area): Window
+    public function setArea(?float $area): Window
     {
         $this->area = $area;
         return $this;

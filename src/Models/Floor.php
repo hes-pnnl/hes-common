@@ -17,7 +17,7 @@ class Floor extends Model
     const TYPE_UNVENTED_CRAWL         = 'unvented_crawl';
     const TYPE_SLAB_ON_GRADE          = 'slab_on_grade';
 
-    /** @var int|null */
+    /** @var float|null */
     protected $area;
 
     /** @var string|null One of this class's TYPE_* constants */
@@ -44,18 +44,18 @@ class Floor extends Model
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getArea(): ?int
+    public function getArea(): ?float
     {
         return $this->area;
     }
 
     /**
-     * @param int|null $area
+     * @param float|null $area
      * @return Floor
      */
-    public function setArea(?int $area): Floor
+    public function setArea(?float $area): Floor
     {
         $this->area = $area;
         return $this;
