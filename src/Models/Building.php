@@ -101,7 +101,7 @@ class Building extends Model
 
     /**
      * Total conditioned floor area of the home in square feet
-     * @var int
+     * @var float
      */
     protected $conditionedFloorArea;
 
@@ -504,18 +504,18 @@ class Building extends Model
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getConditionedFloorArea(): ?int
+    public function getConditionedFloorArea(): ?float
     {
         return $this->conditionedFloorArea;
     }
 
     /**
-     * @param int|null $conditionedFloorArea
+     * @param float|null $conditionedFloorArea
      * @return Building
      */
-    public function setConditionedFloorArea(?int $conditionedFloorArea): Building
+    public function setConditionedFloorArea(?float $conditionedFloorArea): Building
     {
         $this->conditionedFloorArea = $conditionedFloorArea;
         return $this;
