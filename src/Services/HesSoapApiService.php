@@ -25,7 +25,6 @@ abstract class HesSoapApiService
         'commit_results',
         'retrieve_extended_results',
         'retrieve_inputs',
-        'retrieve_label_results',
         'retrieve_recommendations',
         'retrieve_results'
     ];
