@@ -18,7 +18,6 @@ abstract class HesSoapApiService
      * @var array
      */
     const LBNL_METHODS = [
-        'submit_address',
         'submit_hpxml_inputs',
         'submit_inputs',
         'calculate_base_building',
@@ -26,7 +25,6 @@ abstract class HesSoapApiService
         'commit_results',
         'retrieve_extended_results',
         'retrieve_inputs',
-        'retrieve_label_results',
         'retrieve_recommendations',
         'retrieve_results'
     ];
@@ -110,12 +108,13 @@ abstract class HesSoapApiService
      * @throws \RuntimeException If the SOAP call returns any error other than a SoapFault
      * @param string $operationName
      * @param array $parameters
+     * @param bool $requireSessionToken
      * @return array|null NULL if we are in asynchronous mode
      */
-    public function generateSoapCall(string $operationName, array $parameters) : ?array
+    public function generateSoapCall(string $operationName, array $parameters, bool $requireSessionToken = true) : ?array
     {
         // Automatically add the session_token and user_key parameters to each outgoing request
-        if ( !in_array($operationName, static::getNoSessionTokenMethods()) && empty($parameters['session_token']) ) {
+        if ( !in_array($operationName, static::getNoSessionTokenMethods()) && empty($parameters['session_token']) && $requireSessionToken ) {
             $parameters['session_token'] = $this->getSessionToken();
         }
         $parameters['user_key'] = $this->userKey;

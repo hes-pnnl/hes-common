@@ -4,6 +4,7 @@ namespace HESCommon\Services;
 
 use HESCommon\Models\Building;
 use HESCommon\Exceptions\UserSafeException;
+use HESCommon\Helpers\ExecHelper;
 
 class ValidationService
 {
@@ -38,7 +39,7 @@ class ValidationService
      */
     public function getValidations(array $homeValuesArray) : array
     {
-        $this->assertNodeIsInstalled();
+        ExecHelper::assertNodeIsInstalled();
         $homeValues = json_encode($homeValuesArray);
         $homeValues = escapeshellarg($homeValues);
         exec("node $this->nodeModulesPath/hes-validation-engine/home_audit.cli.js $homeValues 2>&1", $output);
@@ -50,7 +51,7 @@ class ValidationService
         if(count($output) > 1){
             throw new UserSafeException("Validation failed: " . $output[0]);
         }
-        $this->validations = json_decode(stripslashes($output[0]), true);
+        $this->validations = json_decode($output[0], true);
         return $this->validations;
     }
 
@@ -124,18 +125,5 @@ class ValidationService
             }
         }
         return false;
-    }
-
-    /**
-     * Ensure node is installed before attempting to call command
-     *
-     * @throws UserSafeException
-     */
-    protected function assertNodeIsInstalled()
-    {
-        exec('which node 2>&1', $output);
-        if(empty($output)){
-            throw new UserSafeException('Node is not installed.');
-        }
     }
 }

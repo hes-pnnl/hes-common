@@ -10,7 +10,7 @@ class Window extends Model
     /** @var bool */
     protected $solarScreen;
     
-    /** @var int */
+    /** @var float */
     protected $area;
 
     /** @var string */
@@ -40,6 +40,15 @@ class Window extends Model
             'window_shgc_'.$position => $this->getShgc(),
         ];
     }
+    
+    /**
+     * Check if window has any entered values
+     * @return bool
+     */
+    public function isEmpty() : bool
+    {
+        return !($this->getArea() || $this->getMethod() || $this->getCode() || $this->getUValue() || $this->getShgc());
+    }
 
     /**
      * @return bool|null
@@ -59,18 +68,18 @@ class Window extends Model
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getArea(): ?int
+    public function getArea(): ?float
     {
         return $this->area;
     }
 
     /**
-     * @param int|null $area
+     * @param float|null $area
      * @return Window
      */
-    public function setArea(?int $area): Window
+    public function setArea(?float $area): Window
     {
         $this->area = $area;
         return $this;
