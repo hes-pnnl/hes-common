@@ -41,6 +41,9 @@ class Roof extends Model
 
     /** @var string|null */
     protected $ceilingAssemblyCode;
+    
+    /** @var bool */
+    protected $solarScreen;
 
     /** @var float|null */
     protected $skylightArea;
@@ -73,6 +76,7 @@ class Roof extends Model
         ];
         //Skylight
         if($count == 1) {
+            $values['solar_screen'] = $this->hasSolarScreen();
             $values['skylight_area'] = $this->getSkylightArea();
             $values['skylight_method'] = $this->getSkylightMethod();
             $values['skylight_code'] = $this->getSkylightAssemblyCode();
@@ -188,6 +192,23 @@ class Roof extends Model
     public function setCeilingAssemblyCode(?string $ceilingAssemblyCode): Roof
     {
         $this->ceilingAssemblyCode = $ceilingAssemblyCode;
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function hasSolarScreen(): ?bool
+    {
+        return $this->solarScreen;
+    }
+    
+    /**
+     * @return bool|null
+     */
+    public function setSolarScreen($solarScreen): ?bool
+    {
+        $this->solarScreen = $solarScreen;
         return $this;
     }
 
