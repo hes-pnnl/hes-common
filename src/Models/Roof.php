@@ -204,9 +204,9 @@ class Roof extends Model
     }
     
     /**
-     * @return Window
+     * @return Roof
      */
-    public function setSolarScreen($solarScreen): ?bool
+    public function setSolarScreen($solarScreen): Roof
     {
         $this->solarScreen = $solarScreen;
         return $this;

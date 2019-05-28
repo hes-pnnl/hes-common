@@ -61,7 +61,7 @@ class Window extends Model
     /**
      * @return Window
      */
-    public function setSolarScreen($solarScreen): ?bool
+    public function setSolarScreen($solarScreen): Window
     {
         $this->solarScreen = $solarScreen;
         return $this;
