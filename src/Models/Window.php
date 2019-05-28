@@ -59,7 +59,7 @@ class Window extends Model
     }
     
     /**
-     * @return bool|null
+     * @return Window
      */
     public function setSolarScreen($solarScreen): ?bool
     {
