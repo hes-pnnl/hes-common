@@ -140,7 +140,7 @@ class BuildingService
             $set("zone.zone_roof.$responseRoofNumber.roof_absorptance", $roof, 'setAbsorptance');
             $set("zone.zone_roof.$responseRoofNumber.roof_type", $roof, 'setType');
             $set("zone.zone_roof.$responseRoofNumber.ceiling_assembly_code", $roof, 'setCeilingAssemblyCode');
-            $set("zone.zone_roof.$responseRoofNumber.zone_skylight.solar_screen", $roof, 'hasSolarScreen');
+            $set("zone.zone_roof.$responseRoofNumber.zone_skylight.solar_screen", $roof, 'setSolarScreen');
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.skylight_area", $roof, 'setSkylightArea');
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.skylight_method", $roof, 'setSkylightMethod');
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.skylight_code", $roof, 'setSkylightAssemblyCode');
@@ -160,7 +160,7 @@ class BuildingService
             $set("zone.zone_wall.$side.wall_assembly_code", $wall, 'setAssemblyCode');
         }
         foreach ($building->getWindows() as $side => $window) {
-            $set("zone.zone_wall.$side.zone_window.solar_screen", $window, 'hasSolarScreen');
+            $set("zone.zone_wall.$side.zone_window.solar_screen", $window, 'setSolarScreen');
             $set("zone.zone_wall.$side.zone_window.window_area", $window, 'setArea');
             $set("zone.zone_wall.$side.zone_window.window_method", $window, 'setMethod');
             $set("zone.zone_wall.$side.zone_window.window_code", $window, 'setCode');
