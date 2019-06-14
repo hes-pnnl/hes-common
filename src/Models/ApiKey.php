@@ -105,12 +105,10 @@ class ApiKey extends Model
      */
     public function setStatus(string $status) : ApiKey
     {
-        if (in_array($status, self::VALID_API_KEY_STATUS_VALS))
-        {
+        if (in_array($status, self::VALID_API_KEY_STATUS_VALS)) {
             $this->status = $status;
             return $this;
-        }
-        else{
+        } else {
             throw new \InvalidArgumentException("Unexpected status value '$status'. Must be one of this class's VALID_API_KEY_STATUS_VALS constants");
         }
     }
