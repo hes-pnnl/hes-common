@@ -2,23 +2,25 @@
 class ApiKey extends Model
 {
 
-    const API_KEY_STATUS = [
+    const VALID_API_KEY_STATUS_VALS = [
         self::ACTIVE_STATUS,
         self::INACTIVE_STATUS,
         self::CANDIDATE_STATUS
     ];
 
-    /** @var int|null */
+    /** @var int */
     protected $keyId;
 
-    //the actual value of the api key
-    /** @var string|null */
-    protected $apiKey;
+    /**
+    * The actual value of the API key - the string that is passed in the user_key field of SOAP API calls
+    * @var string
+    */
+    protected $apiKeyString;
 
-    /** @var string|null */
+    /** @var int */
     protected $softwareProvider;
 
-    /** @var string|null */
+    /** @var string */
     protected $application;
 
     /** @var string */
@@ -34,15 +36,15 @@ class ApiKey extends Model
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getApiKey() : ApiKey
+    public function getApiKeyString() : string
     {
-        return $this->apiKey;
+        return $this->apiKeyString;
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getSoftwareProvider() : string
     {
@@ -50,7 +52,7 @@ class ApiKey extends Model
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getApplication() : string
     {
@@ -58,7 +60,7 @@ class ApiKey extends Model
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function getStatus() : string
     {
@@ -68,15 +70,17 @@ class ApiKey extends Model
     //Setter methods
     /**
      * @return ApiKey
+     * @param string $apiKeyString
      */
-    public function setApiKey(string $apiKey) : ApiKey
+    public function setApiKey(string $apiKeyString) : ApiKey
     {
-        $this->apiKey = $apiKey;
+        $this->apiKeyString = $apiKeyString;
         return $this;
     }
 
     /**
      * @return ApiKey
+     * @param string $softwareProvider
      */
     public function setSoftwareProvider(string $softwareProvider) : ApiKey
     {
@@ -86,6 +90,7 @@ class ApiKey extends Model
 
     /**
      * @return ApiKey
+     * @param string $application
      */
     public function setApplication(string $application) : ApiKey
     {
@@ -95,10 +100,18 @@ class ApiKey extends Model
 
     /**
      * @return ApiKey
+     * @param string $status Must be one of the values contained VALID_API_KEY_STATUS_VALS
+     * @throws \InvalidArgumentException
      */
     public function setStatus(string $status) : ApiKey
     {
-        $this->status = $status;
-        return $this;
+        if (in_array($status, self::VALID_API_KEY_STATUS_VALS))
+        {
+            $this->status = $status;
+            return $this;
+        }
+        else{
+            throw new \InvalidArgumentException("Unexpected status value '$status'. Must be one of this class's VALID_API_KEY_STATUS_VALS constants");
+        }
     }
  }
