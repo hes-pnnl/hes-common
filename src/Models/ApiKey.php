@@ -9,7 +9,7 @@ class ApiKey extends Model
     ];
 
     /** @var int */
-    protected $keyId;
+    protected $id;
 
     /**
     * The actual value of the API key - the string that is passed in the user_key field of SOAP API calls
