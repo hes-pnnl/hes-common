@@ -47,7 +47,7 @@ class Window extends Model
      */
     public function isEmpty() : bool
     {
-        return !($this->getArea() || $this->getMethod() || $this->getCode() || $this->getUValue() || $this->getShgc());
+        return !($this->getArea() || $this->hasSolarScreen() || $this->getMethod() || $this->getCode() || $this->getUValue() || $this->getShgc());
     }
 
     /**
@@ -59,9 +59,9 @@ class Window extends Model
     }
     
     /**
-     * @return bool|null
+     * @return Window
      */
-    public function setSolarScreen($solarScreen): ?bool
+    public function setSolarScreen($solarScreen): Window
     {
         $this->solarScreen = $solarScreen;
         return $this;
