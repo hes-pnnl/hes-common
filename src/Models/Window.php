@@ -47,7 +47,7 @@ class Window extends Model
      */
     public function isEmpty() : bool
     {
-        return !($this->getArea() || $this->getMethod() || $this->getCode() || $this->getUValue() || $this->getShgc());
+        return !($this->hasSolarScreen() || $this->getMethod() || $this->getCode() || $this->getUValue() || $this->getShgc());
     }
 
     /**
