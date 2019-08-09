@@ -213,7 +213,7 @@ class HumanReadableHelper extends Helper
         "heat_pump"         => "Heat Pump",
         "indirect"          => "Indirect Tank",
         "tankless_coil"     => "Tankless Coil",
-        "tankless"          => "Indirect"
+        "tankless"          => "Instantaneous"
     ];
     const HOT_WATER_FUEL = [
         "electric"      => "Electric",
