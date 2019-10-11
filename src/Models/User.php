@@ -27,7 +27,7 @@ class User extends Model
     /** @var ?int */
     protected $qualityAssuranceProviderId;
 
-    /** @var int  */
+    /** @var int  0 or 1 */
     protected $isBlocked;
 
     /** @var string */
@@ -223,7 +223,7 @@ class User extends Model
      * @return User
      * @param Company $company
      */
-    public function setCompany(string $company) : User
+    public function setCompany(Company $company) : User
     {
         $this->company = $company;
         return $this;
