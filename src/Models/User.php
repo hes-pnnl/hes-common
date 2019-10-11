@@ -81,7 +81,7 @@ class User extends Model
     }
 
     /**
-     * @return int
+     * @return ?int
      */
     public function getPerformQAId() : ?int
     {
@@ -181,9 +181,9 @@ class User extends Model
 
     /**
      * @return User
-     * @param int $performQAId
+     * @param ?int $performQAId
      */
-    public function setPerformQAId(int $performQAId) : User
+    public function setPerformQAId(?int $performQAId) : User
     {
         $this->performQAId = $performQAId;
         return $this;
