@@ -39,6 +39,9 @@ class User extends Model
     /** @var array of string */
     protected $roles;
 
+    /** @var array of string */
+    protected $certification;
+
     //Getter methods
     /**
      * @return int
@@ -126,6 +129,14 @@ class User extends Model
     public function getRoles() : array
     {
         return $this->roles;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCertifications() : array
+    {
+        return $this->certifications;
     }
 
     //Setter methods
@@ -236,6 +247,16 @@ class User extends Model
     public function setRoles(array $roles) : User
     {
         $this->roles = $roles;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param array $certifications
+     */
+    public function setCertifications(array $certifications) : User
+    {
+        $this->certifications = $certifications;
         return $this;
     }
  }
