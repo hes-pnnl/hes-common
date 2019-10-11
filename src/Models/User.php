@@ -40,7 +40,7 @@ class User extends Model
     protected $roles;
 
     /** @var array of string */
-    protected $certification;
+    protected $certifications;
 
     //Getter methods
     /**
@@ -78,7 +78,7 @@ class User extends Model
     /**
      * @return ?int
      */
-    public function getHesPartnerId() : int
+    public function getHesPartnerId() : ?int
     {
         return $this->hesPartnerId;
     }
@@ -93,7 +93,7 @@ class User extends Model
     /**
      * @return ?int
      */
-    public function getQualityAssuranceProviderId() : int
+    public function getQualityAssuranceProviderId() : ?int
     {
         return $this->qualityAssuranceProviderId;
     }
