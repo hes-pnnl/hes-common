@@ -6,7 +6,7 @@ namespace HESCommon\Models;
 class User extends Model
 {
 
-    /** @var int */
+    /** @var ?int */
     protected $id;
 
     /** @var string user name */
@@ -27,7 +27,7 @@ class User extends Model
     /** @var int */
     protected $qualityAssuranceProviderId;
 
-    /** @var boolean  */
+    /** @var int  */
     protected $isBlocked;
 
     /** @var string */
@@ -97,9 +97,9 @@ class User extends Model
 
 
     /**
-     * @return boolean
+     * @return int
      */
-    public function getIsBlocked() : boolean
+    public function getIsBlocked() : int
     {
         return $this->isBlocked;
     }
@@ -129,6 +129,16 @@ class User extends Model
     }
 
     //Setter methods
+    /**
+     * @return User
+     * @param string $id
+     */
+    public function setId(string $id) : User
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     /**
      * @return User
      * @param string $name
@@ -191,9 +201,9 @@ class User extends Model
 
     /**
      * @return User
-     * @param boolean $isBlocked
+     * @param int $isBlocked
      */
-    public function setIsBlocked(boolean $isBlocked) : User
+    public function setIsBlocked(int $isBlocked) : User
     {
         $this->isBlocked = $isBlocked;
         return $this;
@@ -213,7 +223,7 @@ class User extends Model
      * @return User
      * @param Company $company
      */
-    public function setCreated(string $company) : User
+    public function setCompany(string $company) : User
     {
         $this->company = $company;
         return $this;
@@ -221,9 +231,9 @@ class User extends Model
 
     /**
      * @return User
-     * @param asrray $roles
+     * @param array $roles
      */
-    public function setRoles(string $roles) : User
+    public function setRoles(array $roles) : User
     {
         $this->roles = $roles;
         return $this;
