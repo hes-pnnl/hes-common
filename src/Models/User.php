@@ -18,13 +18,13 @@ class User extends Model
     /** @var string */
     protected $email;
 
-    /** @var int */
+    /** @var ?int */
     protected $hesPartnerId;
 
     /** @var ?int */
     protected $performQAId;
 
-    /** @var int */
+    /** @var ?int */
     protected $qualityAssuranceProviderId;
 
     /** @var int  */
@@ -73,7 +73,7 @@ class User extends Model
     }
 
     /**
-     * @return int
+     * @return ?int
      */
     public function getHesPartnerId() : int
     {
@@ -88,7 +88,7 @@ class User extends Model
         return $this->performQAId;
     }
     /**
-     * @return int
+     * @return ?int
      */
     public function getQualityAssuranceProviderId() : int
     {
@@ -171,9 +171,9 @@ class User extends Model
 
     /**
      * @return User
-     * @param int $hesPartnerId
+     * @param ?int $hesPartnerId
      */
-    public function setHesPartnerId(int $hesPartnerId) : User
+    public function setHesPartnerId(?int $hesPartnerId) : User
     {
         $this->hesPartnerId = $hesPartnerId;
         return $this;
@@ -191,9 +191,9 @@ class User extends Model
 
     /**
      * @return User
-     * @param int $qualityAssuranceProviderId
+     * @param ?int $qualityAssuranceProviderId
      */
-    public function setQualityAssuranceProviderId(int $qualityAssuranceProviderId) : User
+    public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : User
     {
         $this->qualityAssuranceProviderId = $qualityAssuranceProviderId;
         return $this;
