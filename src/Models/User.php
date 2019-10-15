@@ -33,8 +33,10 @@ class User extends Model
     /** @var \DateTime */
     protected $created;
 
-    /** @var Company */
-    protected $Company;
+    /** @var Company|null */
+    // The company information is a required field when edit a user, but there are a lot of user doesn't has company
+    //information, so we use optional here
+    protected $company;
 
     /** @var int[] */
     protected $roles;
@@ -116,9 +118,9 @@ class User extends Model
     }
 
     /**
-     * @return Company
+     * @return Company|null
      */
-    public function getCompany() : Company
+    public function getCompany() : ?Company
     {
         return $this->company;
     }
@@ -232,9 +234,9 @@ class User extends Model
 
     /**
      * @return User
-     * @param Company $company
+     * @param Company|null $company
      */
-    public function setCompany(Company $company) : User
+    public function setCompany(?Company $company) : User
     {
         $this->company = $company;
         return $this;
