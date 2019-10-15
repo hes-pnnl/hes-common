@@ -27,7 +27,7 @@ class User extends Model
     /** @var int|null */
     protected $qualityAssuranceProviderId;
 
-    /** @var int  0 or 1 */
+    /** @var bool */
     protected $isBlocked;
 
     /** @var \DateTime */
@@ -100,9 +100,9 @@ class User extends Model
 
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getIsBlocked() : int
+    public function getIsBlocked() : bool
     {
         return $this->isBlocked;
     }
@@ -212,9 +212,9 @@ class User extends Model
 
     /**
      * @return User
-     * @param int $isBlocked
+     * @param bool $isBlocked
      */
-    public function setIsBlocked(int $isBlocked) : User
+    public function setIsBlocked(bool $isBlocked) : User
     {
         $this->isBlocked = $isBlocked;
         return $this;
