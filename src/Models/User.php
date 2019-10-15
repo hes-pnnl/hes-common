@@ -6,7 +6,7 @@ namespace HESCommon\Models;
 class User extends Model
 {
 
-    /** @var ?int */
+    /** @var int|null */
     protected $id;
 
     /** @var string user name */
@@ -18,33 +18,33 @@ class User extends Model
     /** @var string */
     protected $email;
 
-    /** @var ?int */
+    /** @var int|null */
     protected $hesPartnerId;
 
-    /** @var ?int */
+    /** @var int|null */
     protected $performQAId;
 
-    /** @var ?int */
+    /** @var int|null */
     protected $qualityAssuranceProviderId;
 
     /** @var int  0 or 1 */
     protected $isBlocked;
 
-    /** @var string */
+    /** @var \DateTime */
     protected $created;
 
     /** @var Company */
     protected $Company;
 
-    /** @var array of string */
+    /** @var int[] */
     protected $roles;
 
-    /** @var array of string */
+    /** @var int[] */
     protected $certifications;
 
     //Getter methods
     /**
-     * @return int
+     * @return int|null
      */
     public function getId() : ?int
     {
@@ -76,7 +76,7 @@ class User extends Model
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
     public function getHesPartnerId() : ?int
     {
@@ -84,14 +84,14 @@ class User extends Model
     }
 
     /**
-     * @return ?int
+     * @return int|null
      */
     public function getPerformQAId() : ?int
     {
         return $this->performQAId;
     }
     /**
-     * @return ?int
+     * @return int|null
      */
     public function getQualityAssuranceProviderId() : ?int
     {
@@ -108,9 +108,9 @@ class User extends Model
     }
 
     /**
-     * @return string
+     * @return \DateTime
      */
-    public function getCreated() : string
+    public function getCreated() : \DateTime
     {
         return $this->created;
     }
@@ -124,7 +124,7 @@ class User extends Model
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getRoles() : array
     {
@@ -132,7 +132,7 @@ class User extends Model
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getCertifications() : array
     {
@@ -142,9 +142,9 @@ class User extends Model
     //Setter methods
     /**
      * @return User
-     * @param string $id
+     * @param int $id
      */
-    public function setId(string $id) : User
+    public function setId(int $id) : User
     {
         $this->id = $id;
         return $this;
@@ -154,7 +154,7 @@ class User extends Model
      * @return User
      * @param string $name
      */
-    public function setUser(string $name) : User
+    public function setName(string $name) : User
     {
         $this->name = $name;
         return $this;
@@ -182,7 +182,7 @@ class User extends Model
 
     /**
      * @return User
-     * @param ?int $hesPartnerId
+     * @param int|null $hesPartnerId
      */
     public function setHesPartnerId(?int $hesPartnerId) : User
     {
@@ -192,7 +192,7 @@ class User extends Model
 
     /**
      * @return User
-     * @param ?int $performQAId
+     * @param int|null $performQAId
      */
     public function setPerformQAId(?int $performQAId) : User
     {
@@ -202,7 +202,7 @@ class User extends Model
 
     /**
      * @return User
-     * @param ?int $qualityAssuranceProviderId
+     * @param int|null $qualityAssuranceProviderId
      */
     public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : User
     {
@@ -222,9 +222,9 @@ class User extends Model
 
     /**
      * @return User
-     * @param string $created
+     * @param \DateTime $created
      */
-    public function setCreated(string $created) : User
+    public function setCreated(\DateTime $created) : User
     {
         $this->created = $created;
         return $this;

@@ -18,7 +18,7 @@ class Company extends Model
      * @param string $name
      * @return Company
      */
-    public function setName($name)
+    public function setName(string $name): Company
     {
         $this->name = $name;
         return $this;
@@ -28,7 +28,7 @@ class Company extends Model
      * @param Address $address
      * @return Company
      */
-    public function setAddress($address)
+    public function setAddress(Address $address): Company
     {
         $this->address = $address;
         return $this;
@@ -37,7 +37,7 @@ class Company extends Model
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -45,7 +45,7 @@ class Company extends Model
     /**
      * @return Address
      */
-    public function getAddress()
+    public function getAddress(): Address
     {
         return $this->address;
     }
