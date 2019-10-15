@@ -14,6 +14,9 @@ class Company extends Model
     /** @var Address */
     private $address;
 
+    /** @var string */
+    private $phone;
+
     /**
      * @param string $name
      * @return Company
@@ -35,6 +38,16 @@ class Company extends Model
     }
 
     /**
+     * @param string $phone
+     * @return Company
+     */
+    public function setPhone(string $phone): Company
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getName(): string
@@ -48,5 +61,13 @@ class Company extends Model
     public function getAddress(): Address
     {
         return $this->address;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone(): string
+    {
+        return $this->phone;
     }
 }
