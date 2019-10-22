@@ -24,6 +24,9 @@ class Partner extends Model
     private $assessorPrefix;
 
     /** @var int */
+    private $assessorCount;
+
+    /** @var int */
     private $hescoreLabelStatusId;
     
     /** @var int */
@@ -76,6 +79,16 @@ class Partner extends Model
     public function setAssessorPrefix(string $assessorPrefix): Partner
     {
         $this->assessorPrefix = $assessorPrefix;
+        return $this;
+    }
+
+    /**
+     * @return Partner
+     * @param int $assessorCount
+     */
+    public function setAssessorCount(int $assessorCount) : Partner
+    {
+        $this->assessorCount = $assessorCount;
         return $this;
     }
 
