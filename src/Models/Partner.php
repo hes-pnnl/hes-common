@@ -20,13 +20,13 @@ class Partner extends Model
     /** @var int|null */
     private $softwareProviderId;
 
-    /** @var string */
+    /** @var string|null */
     private $assessorPrefix;
 
     /** @var int */
     private $assessorCount;
 
-    /** @var int */
+    /** @var int|null */
     private $hescoreLabelStatusId;
     
     /** @var int|null */
@@ -73,10 +73,10 @@ class Partner extends Model
     }
 
     /**
-     * @param string $assessorPrefix
+     * @param string|null $assessorPrefix
      * @return Partner
      */
-    public function setAssessorPrefix(string $assessorPrefix): Partner
+    public function setAssessorPrefix(?string $assessorPrefix): Partner
     {
         $this->assessorPrefix = $assessorPrefix;
         return $this;
@@ -93,10 +93,10 @@ class Partner extends Model
     }
 
     /**
-     * @param int $hescoreLabelStatusId
+     * @param int|null $hescoreLabelStatusId
      * @return Partner
      */
-    public function setHescoreLabelStatusId(int $hescoreLabelStatusId): Partner
+    public function setHescoreLabelStatusId(?int $hescoreLabelStatusId): Partner
     {
         $this->hescoreLabelStatusId = $hescoreLabelStatusId;
         return $this;
@@ -145,9 +145,9 @@ class Partner extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getAssessorPrefix(): string
+    public function getAssessorPrefix(): ?string
     {
         return $this->assessorPrefix;
     }
@@ -155,7 +155,15 @@ class Partner extends Model
     /**
      * @return int
      */
-    public function getHescoreLabelStatusId(): int
+    public function getAssessorCount(): int
+    {
+        return $this->assessorCount;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getHescoreLabelStatusId(): ?int
     {
         return $this->hescoreLabelStatusId;
     }
