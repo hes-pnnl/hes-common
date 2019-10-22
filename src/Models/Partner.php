@@ -29,7 +29,7 @@ class Partner extends Model
     /** @var int */
     private $hescoreLabelStatusId;
     
-    /** @var int */
+    /** @var int|null */
     private $assessorProfileStrategyId;
 
     /**
@@ -103,10 +103,10 @@ class Partner extends Model
     }
 
     /**
-     * @param int $assessorProfileStrategyId
+     * @param int|null $assessorProfileStrategyId
      * @return Partner
      */
-    public function setAssessorProfileStrategyId(int $assessorProfileStrategyId): Partner
+    public function setAssessorProfileStrategyId(?int $assessorProfileStrategyId): Partner
     {
         $this->hescoreLabelStatusId = $assessorProfileStrategyId;
         return $this;
@@ -161,9 +161,9 @@ class Partner extends Model
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getAssessorProfileStrategyId(): int
+    public function getAssessorProfileStrategyId(): ?int
     {
         return $this->assessorProfileStrategyId;
     }
