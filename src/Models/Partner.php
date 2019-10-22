@@ -14,7 +14,7 @@ class Partner extends Model
     /** @var string */
     private $name;
 
-    /** @var int */
+    /** @var int|null */
     private $statusId;
 
     /** @var int|null */
@@ -54,9 +54,9 @@ class Partner extends Model
 
     /**
      * @return Partner
-     * @param int $statusId
+     * @param int|null $statusId
      */
-    public function setStatusId(int $statusId) : Partner
+    public function setStatusId(?int $statusId) : Partner
     {
         $this->statusId = $statusId;
         return $this;
@@ -129,9 +129,9 @@ class Partner extends Model
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    public function getStatusId(): int
+    public function getStatusId(): ?int
     {
         return $this->statusId;
     }
