@@ -21,13 +21,13 @@ class Assessor extends Model
     /** @var int|null */
     protected $hesPartnerId;
 
-    /** @var \Datetime */
+    /** @var \Datetime|null */
     protected $roleCreated;
 
-    /** @var \Datetime */
+    /** @var \Datetime|null */
     protected $roleUpdated;
 
-    /** @var \Datetime */
+    /** @var \Datetime|null */
     protected $roleDeactivated;
 
     //Getter methods
@@ -72,25 +72,25 @@ class Assessor extends Model
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getRoleCreated() : \DateTime
+    public function getRoleCreated() : ?\DateTime
     {
         return $this->roleCreated;
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getRoleUpdated() : \DateTime
+    public function getRoleUpdated() : ?\DateTime
     {
         return $this->roleUpdated;
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getRoleDeactivated() : \DateTime
+    public function getRoleDeactivated() : ?\DateTime
     {
         return $this->roleDeactivated;
     }
@@ -147,20 +147,20 @@ class Assessor extends Model
     }
 
     /**
-     * @param \DateTime $roleCreated
+     * @param \DateTime|null $roleCreated
      * @return Assessor
      */
-    public function setRoleCreated(\DateTime $roleCreated) : Assessor
+    public function setRoleCreated(?\DateTime $roleCreated) : Assessor
     {
         $this->roleCreated = $roleCreated;
         return $this;
     }
 
     /**
-     * @param \DateTime $roleUpdated
+     * @param \DateTime|null $roleUpdated
      * @return Assessor
      */
-    public function setRoleUpdated(\DateTime $roleUpdated) : Assessor
+    public function setRoleUpdated(?\DateTime $roleUpdated) : Assessor
     {
         $this->roleUpdated = $roleUpdated;
         return $this;
@@ -168,9 +168,9 @@ class Assessor extends Model
 
     /**
      * @return Assessor
-     * @param \DateTime
+     * @param \DateTime|null $roleDeactived
      */
-    public function setRoleDeactivated(\DateTime $roleDeactived) : Assessor
+    public function setRoleDeactivated(?\DateTime $roleDeactived) : Assessor
     {
         $this->roleDeactivated = $roleDeactived;
         return $this;
