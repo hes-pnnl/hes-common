@@ -108,7 +108,7 @@ class Partner extends Model
      */
     public function setAssessorProfileStrategyId(?int $assessorProfileStrategyId): Partner
     {
-        $this->hescoreLabelStatusId = $assessorProfileStrategyId;
+        $this->assessorProfileStrategyId = $assessorProfileStrategyId;
         return $this;
     }
 
