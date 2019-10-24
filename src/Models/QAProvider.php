@@ -23,7 +23,7 @@ class QAProvider extends Model
     /** @var string */
     private $labelPrefix;
 
-    /** @var string */
+    /** @var string|null */
     private $application;
 
     /**
@@ -77,10 +77,10 @@ class QAProvider extends Model
     }
 
     /**
-     * @param string $application
+     * @param string|null $application
      * @return QAProvider
      */
-    public function setApplication(string $application): QAProvider
+    public function setApplication(?string $application): QAProvider
     {
         $this->application = $application;
         return $this;
@@ -127,9 +127,9 @@ class QAProvider extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getApplication(): string
+    public function getApplication(): ?string
     {
         return $this->application;
     }
