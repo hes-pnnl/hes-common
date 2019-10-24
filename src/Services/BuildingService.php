@@ -9,9 +9,6 @@ class BuildingService
     /** @var HesSoapApiService */
     protected $soapApiService;
 
-    /** @var Building[] Cache of retrieved buildings. to prevent redundant SOAP calls */
-    protected $buildings = [];
-
     public function __construct(HesSoapApiService $soapApiService) {
         $this->soapApiService = $soapApiService;
     }
