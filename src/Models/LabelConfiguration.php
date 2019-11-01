@@ -47,6 +47,9 @@ class LabelConfiguration extends Model
     /** @var bool */
     protected $removeCurrentlyWastes;
 
+    /** @var int[] */
+    protected $homeFactIds;
+
     //Getter methods
 
     /**
@@ -151,6 +154,14 @@ class LabelConfiguration extends Model
     public function getRemoveCurrentlyWastes(): bool
     {
         return $this->removeCurrentlyWastes;
+    }
+
+    /**
+     * @return int[]
+     */
+    public function getHomeFactIds(): array
+    {
+        return $this->homeFactIds;
     }
 
 
@@ -283,6 +294,16 @@ class LabelConfiguration extends Model
     public function setRemoveCurrentlyWastes(bool $removeCurrentlyWastes): LabelConfiguration
     {
         $this->removeCurrentlyWastes = $removeCurrentlyWastes;
+        return $this;
+    }
+
+    /**
+     * @param int[] $homeFactIds
+     * @return LabelConfiguration
+     */
+    public function setHomeFactIds(array $homeFactIds): LabelConfiguration
+    {
+        $this->homeFactIds = $homeFactIds;
         return $this;
     }
 }
