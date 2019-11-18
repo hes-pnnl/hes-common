@@ -32,19 +32,19 @@ class Assessor extends Model
     /** @var \Datetime|null */
     protected $roleDeactivated;
 
-    /** @var string */
+    /** @var string|null */
     private $city;
 
-    /** @var string */
+    /** @var string|null */
     private $state;
 
-    /** @var string */
+    /** @var string|null */
     private $zip;
 
-    /** @var string */
+    /** @var string|null */
     protected $phone;
 
-    /** @var string */
+    /** @var string|null */
     protected $website;
 
     //Getter methods
@@ -115,42 +115,42 @@ class Assessor extends Model
 
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCity(): String
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getState(): String
+    public function getState(): ?string
     {
         return $this->state;
     }
 
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getZip(): String
+    public function getZip(): ?string
     {
         return $this->zip;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPhone(): String
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getWebsite(): String
+    public function getWebsite(): ?string
     {
         return $this->website;
     }
@@ -239,50 +239,50 @@ class Assessor extends Model
     }
 
     /**
-     * @param string $city
+     * @param string|null $city
      * @return Assessor
      */
-    public function setCity($city): Assessor
+    public function setCity(?string $city): Assessor
     {
         $this->city = $city;
         return $this;
     }
 
     /**
-     * @param string $state
+     * @param string|null $state
      * @return Assessor
      */
-    public function setState($state): Assessor
+    public function setState(?string $state): Assessor
     {
         $this->state = strtoupper($state);
         return $this;
     }
 
     /**
-     * @param string $zip
+     * @param string|null $zip
      * @return Assessor
      */
-    public function setZip($zip): Assessor
+    public function setZip(?string $zip): Assessor
     {
         $this->zip = $zip;
         return $this;
     }
 
     /**
-     * @param string $phone
+     * @param string|null $phone
      * @return Assessor
      */
-    public function setPhone($phone): Assessor
+    public function setPhone(?string $phone): Assessor
     {
         $this->phone = $phone;
         return $this;
     }
 
     /**
-     * @param string $website
+     * @param string|null $website
      * @return Assessor
      */
-    public function setWebsite($website): Assessor
+    public function setWebsite(?string $website): Assessor
     {
         $this->website = $website;
         return $this;
