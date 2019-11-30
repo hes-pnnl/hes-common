@@ -129,6 +129,7 @@ abstract class HesSoapApiService
         $originalSocketTimeout = ini_get('default_socket_timeout');
         try {
             // Timeout after 10 minutes, unless we are in asynchronous mode, in which case we timeout immediately
+            ini_set('MAX_EXECUTION_TIME', 700); // Ensure the PHP script won't timeout before the socket does
             ini_set('default_socket_timeout', $this->isAsyncronousMode ? 1 : 600);
             $response = $soapClient->__soapCall($operationName, $parameters);
         } catch (\SoapFault $e) {
