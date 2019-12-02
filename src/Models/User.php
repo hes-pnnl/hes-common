@@ -12,6 +12,9 @@ class User extends Model
     /** @var string user name */
     protected $name;
 
+    /** @var string hashed password */
+    protected $password;
+
     /** @var string */
     protected $fullName;
 
@@ -59,6 +62,14 @@ class User extends Model
     public function getName() : string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword() : string
+    {
+        return $this->password;
     }
 
     /**
@@ -159,6 +170,16 @@ class User extends Model
     public function setName(string $name) : User
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param string $password
+     */
+    public function setPassword(string $password) : User
+    {
+        $this->password = $password;
         return $this;
     }
 
