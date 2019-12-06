@@ -26,6 +26,9 @@ class PublickProfile extends Model
     /** @var string */
     private $website;
 
+    /** @var string */
+    private $phone;
+
     /**
      * @param int $id
      * @return PublickProfile
@@ -87,6 +90,17 @@ class PublickProfile extends Model
     }
 
     /**
+     * @param string $phone
+     * @return PublickProfile
+     */
+    public function setPhone(string $phone): PublickProfile
+    {
+        $this->phone = $phone;
+        return $this;
+    }
+
+
+    /**
      * @return int|null
      */
     public function getId(): ?int
@@ -132,5 +146,13 @@ class PublickProfile extends Model
     public function getWebsite(): string
     {
         return $this->website;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone(): string
+    {
+        return $this->phone;
     }
 }
