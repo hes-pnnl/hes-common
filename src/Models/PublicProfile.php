@@ -3,10 +3,10 @@
 namespace HESCommon\Models;
 
 /**
- * Class PublickProfile
+ * Class PublicProfile
  * User company information.
  */
-class PublickProfile extends Model
+class PublicProfile extends Model
 {
     /** @var int|null */
     private $id;
@@ -31,9 +31,9 @@ class PublickProfile extends Model
 
     /**
      * @param int $id
-     * @return PublickProfile
+     * @return PublicProfile
      */
-    public function setId(int $id): PublickProfile
+    public function setId(int $id): PublicProfile
     {
         $this->id = $id;
         return $this;
@@ -41,9 +41,9 @@ class PublickProfile extends Model
 
     /**
      * @param int $userId
-     * @return PublickProfile
+     * @return PublicProfile
      */
-    public function setUserId(int $userId): PublickProfile
+    public function setUserId(int $userId): PublicProfile
     {
         $this->userId = $userId;
         return $this;
@@ -51,9 +51,9 @@ class PublickProfile extends Model
 
     /**
      * @param string $name
-     * @return PublickProfile
+     * @return PublicProfile
      */
-    public function setName(string $name): PublickProfile
+    public function setName(string $name): PublicProfile
     {
         $this->name = $name;
         return $this;
@@ -61,9 +61,9 @@ class PublickProfile extends Model
 
     /**
      * @param bool $published
-     * @return PublickProfile
+     * @return PublicProfile
      */
-    public function setPublished(bool $published): PublickProfile
+    public function setPublished(bool $published): PublicProfile
     {
         $this->published = $published;
         return $this;
@@ -71,9 +71,9 @@ class PublickProfile extends Model
 
     /**
      * @param Address $address
-     * @return PublickProfile
+     * @return PublicProfile
      */
-    public function setAddress(Address $address): PublickProfile
+    public function setAddress(Address $address): PublicProfile
     {
         $this->address = $address;
         return $this;
@@ -81,9 +81,9 @@ class PublickProfile extends Model
 
     /**
      * @param string $website
-     * @return PublickProfile
+     * @return PublicProfile
      */
-    public function setWebsite(string $website): PublickProfile
+    public function setWebsite(string $website): PublicProfile
     {
         $this->website = $website;
         return $this;
@@ -91,9 +91,9 @@ class PublickProfile extends Model
 
     /**
      * @param string $phone
-     * @return PublickProfile
+     * @return PublicProfile
      */
-    public function setPhone(string $phone): PublickProfile
+    public function setPhone(string $phone): PublicProfile
     {
         $this->phone = $phone;
         return $this;
