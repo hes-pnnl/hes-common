@@ -23,10 +23,10 @@ class PublicProfile extends Model
     /** @var Address */
     private $address;
 
-    /** @var string */
+    /** @var string|null */
     private $website;
 
-    /** @var string */
+    /** @var string|null */
     private $phone;
 
     /**
@@ -80,20 +80,20 @@ class PublicProfile extends Model
     }
 
     /**
-     * @param string $website
+     * @param string|null $website
      * @return PublicProfile
      */
-    public function setWebsite(string $website): PublicProfile
+    public function setWebsite(?string $website): PublicProfile
     {
         $this->website = $website;
         return $this;
     }
 
     /**
-     * @param string $phone
+     * @param string|null $phone
      * @return PublicProfile
      */
-    public function setPhone(string $phone): PublicProfile
+    public function setPhone(?string $phone): PublicProfile
     {
         $this->phone = $phone;
         return $this;
@@ -141,17 +141,17 @@ class PublicProfile extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getWebsite(): string
+    public function getWebsite(): ?string
     {
         return $this->website;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPhone(): string
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
