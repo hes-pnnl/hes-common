@@ -3,6 +3,7 @@
 namespace HESCommon\Services;
 
 use HESCommon\Models\Building;
+use HESCommon\Models\HPwES;
 
 class BuildingService
 {
@@ -210,12 +211,9 @@ class BuildingService
                 'building_id' => $buildingId
             ]
         );
-        $HPwES = $building->getHPwES();
-        $HPwES->setInstallationStartDate(date_create_from_format('Y-m-d', $HPwESResponse['improvement_installation_start_date']) ?: null);
-        $HPwES->setInstallationCompletionDate(date_create_from_format('Y-m-d', $HPwESResponse['improvement_installation_completion_date']) ?: null);
-        $HPwES->setContractorBusinessName($HPwESResponse['contractor_business_name']);
-        $HPwES->setContractorZipCode($HPwESResponse['contractor_zip_code']);
-        $HPwES->setIsIncomeEligible($HPwESResponse['is_income_eligible_program']);
+        $HPwES = HPwES::fromRetrieveHPwESSoapResponse($HPwESResponse);
+        $building->setHPwES($HPwES);
+
         return $building;
     }
     
