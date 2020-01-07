@@ -29,12 +29,9 @@ class HPwES extends Model
      */
     public static function fromRetrieveHPwESSoapResponse(array $response)
     {
-        $startDate = date_create_from_format('Y-m-d', $response['improvement_installation_start_date']);
-        $completionDate = date_create_from_format('Y-m-d', $response['improvement_installation_completion_date']);
-
         $HPwES = new static();
-        $HPwES->setInstallationStartDate($startDate)
-            ->setInstallationCompletionDate($completionDate)
+        $HPwES->setInstallationStartDate($response['improvement_installation_start_date'], 'Y-m-d')
+            ->setInstallationCompletionDate($response['improvement_installation_completion_date'], 'Y-m-d')
             ->setContractorBusinessName($response['contractor_business_name'])
             ->setContractorZipCode($response['contractor_zip_code']);
 
@@ -126,9 +123,6 @@ class HPwES extends Model
     private function _getDate($date, string $format = null) : \DateTime
     {
         if ($format) {
-            if (!is_string($date)) {
-                throw new \InvalidArgumentException("date must be a string if you pass a format");
-            }
             $date = date_create_from_format($format, $date);
         }
 
