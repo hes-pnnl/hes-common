@@ -123,9 +123,6 @@ class HPwES extends Model
     private function _getDate($date, string $format = null) : \DateTime
     {
         if ($format) {
-            if (!is_string($date)) {
-                throw new \InvalidArgumentException("date must be a string if you pass a format");
-            }
             $date = date_create_from_format($format, $date);
         }
 
