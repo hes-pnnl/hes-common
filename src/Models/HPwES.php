@@ -98,7 +98,7 @@ class HPwES extends Model
      */
     public function setInstallationStartDate($installationStartDate, string $format = null): HPwES
     {
-        $this->installationStartDate = $this->_getDate($installationStartDate, $format);
+        $this->installationStartDate = $this->_resolveDateValue($installationStartDate, $format);
         return $this;
     }
 
@@ -109,7 +109,7 @@ class HPwES extends Model
      */
     public function setInstallationCompletionDate($installationEndDate, string $format = null): HPwES
     {
-        $this->installationEndDate = $this->_getDate($installationEndDate, $format);
+        $this->installationEndDate = $this->_resolveDateValue($installationEndDate, $format);
         return $this;
     }
 
@@ -118,11 +118,15 @@ class HPwES extends Model
      *
      * @param \DateTime|string|null $date
      * @param string $format Pass if $installationEndDate is a string, to indicate the format of the string
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    private function _getDate($date, string $format = null) : \DateTime
+    private function _resolveDateValue($date, string $format = null) : ?\DateTime
     {
-        if ($format) {
+        if (null === $date) {
+            return null;
+        }
+
+        if (is_string($date) && $format !== null) {
             $date = date_create_from_format($format, $date);
         }
 
