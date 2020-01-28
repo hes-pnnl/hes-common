@@ -2,17 +2,12 @@
 
 namespace HESCommon\Models;
 
-use HESCommon\DateRange;
-
 /**
  * Class HPwES
  * Data container for Home performance with Energy Star values
  */
 class HPwES extends Model
 {
-    /** @var DateRange|null */
-    protected $installationDates;
-
     /** @var \DateTime|null */
     protected $installationStartDate;
 
@@ -25,23 +20,6 @@ class HPwES extends Model
     /** @var string|null */
     protected $contractorZipCode;
 
-    /** @var bool|null */
-    protected $isIncomeEligible;
-
-    /**
-     * @return array
-     */
-    public function getValuesAsArray()
-    {
-        return [
-            'improvement_installation_start_date' => $this->getInstallationStartDate(),
-            'improvement_installation_completion_date' => $this->getInstallationCompletionDate(),
-            'contractor_business_name' => $this->getContractorBusinessName(),
-            'contractor_zip_code' => $this->getContractorZipCode(),
-            'is_income_eligible_program' => $this->getIsIncomeEligible(),
-        ];
-    }
-
     /**
      * Takes an array in the form returned by a call to the retrieve_hpwes SOAP API method and converts it to
      * an instance of HPwES
@@ -51,23 +29,11 @@ class HPwES extends Model
      */
     public static function fromRetrieveHPwESSoapResponse(array $response)
     {
-        $startDate = $response['improvement_installation_start_date'];
-        $completionDate = $response['improvement_installation_completion_date'];
-        if ($startDate && $completionDate) {
-            $dateRange = new DateRange(
-                date_create_from_format('Y-m-d', $startDate),
-                date_create_from_format('Y-m-d', $completionDate)
-            );
-        } else {
-            $dateRange = null;
-        }
-
-        $HPwES = new static(
-            $dateRange,
-            $response['contractor_business_name'],
-            $response['contractor_zip_code'],
-            $response['is_income_eligible_program'] === "true"
-        );
+        $HPwES = new static();
+        $HPwES->setInstallationStartDate($response['improvement_installation_start_date'], 'Y-m-d')
+            ->setInstallationCompletionDate($response['improvement_installation_completion_date'], 'Y-m-d')
+            ->setContractorBusinessName($response['contractor_business_name'])
+            ->setContractorZipCode($response['contractor_zip_code']);
 
         return $HPwES;
     }
@@ -77,33 +43,35 @@ class HPwES extends Model
      */
     public function hasAtLeastOneSetValue()
     {
-        return $this->getInstallationDates()
+        return $this->getInstallationStartDate()
+            || $this->getInstallationCompletionDate()
             || $this->getContractorBusinessName()
-            || $this->getContractorZipCode()
-            || $this->isIncomeEligible();
+            || $this->getContractorZipCode();
     }
 
     /**
-     * @return DateRange?null
+     * @param string $format Pass to get the date as a string in the given format. e.g. "Y-m-d"
+     * @return \DateTime|string|null
      */
-    public function getInstallationDates() : ?DateRange
+    public function getInstallationStartDate(string $format = null)
     {
-        return $this->installationDates;
-    }
+        if ($format && $this->installationStartDate !== null) {
+            return $this->installationStartDate->format($format);
+        }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getInstallationStartDate() : ?\DateTime
-    {
         return $this->installationStartDate;
     }
 
     /**
-     * @return \DateTime|null
+     * @param string $format Pass to get the date as a string in the given format. e.g. "Y-m-d"
+     * @return \DateTime|string|null
      */
-    public function getInstallationCompletionDate() : ?\DateTime
+    public function getInstallationCompletionDate(string $format = null)
     {
+        if ($format && $this->installationEndDate !== null) {
+            return $this->installationEndDate->format($format);
+        }
+
         return $this->installationEndDate;
     }
 
@@ -124,42 +92,49 @@ class HPwES extends Model
     }
 
     /**
-     * @return bool|null
-     */
-    public function isIncomeEligible() : ?bool
-    {
-        return $this->isIncomeEligible;
-    }
-
-    //TODO: If the way I've reimplemented DateRange works, I don't think this function is needed anymore...
-    /**
-     * @param DateRange|null $installationDates
+     * @param \DateTime|string|null $installationStartDate
+     * @param string $format Pass if $installationStartDate is a string, to indicate the format of the string
      * @return HPwES
      */
-    public function setInstallationDates(?DateRange $installationDates): HPwES
+    public function setInstallationStartDate($installationStartDate, string $format = null): HPwES
     {
-        $this->installationDates = $installationDates;
+        $this->installationStartDate = $this->_resolveDateValue($installationStartDate, $format);
         return $this;
     }
 
     /**
-     * @param \DateTime|null $installationDates
+     * @param \DateTime|string|null $installationEndDate
+     * @param string $format Pass if $installationEndDate is a string, to indicate the format of the string
      * @return HPwES
      */
-    public function setInstallationStartDate(?\DateTime $installationStartDate): HPwES
+    public function setInstallationCompletionDate($installationEndDate, string $format = null): HPwES
     {
-        $this->installationStartDate = $installationStartDate;
+        $this->installationEndDate = $this->_resolveDateValue($installationEndDate, $format);
         return $this;
     }
 
     /**
-     * @param \DateTime|null $installationDates
-     * @return HPwES
+     * Allows a date to be defined either as a \DateTime instance, or as a string with an accompanying format.
+     *
+     * @param \DateTime|string|null $date
+     * @param string $format Pass if $installationEndDate is a string, to indicate the format of the string
+     * @return \DateTime|null
      */
-    public function setInstallationCompletionDate(?\DateTime $installationEndDate): HPwES
+    private function _resolveDateValue($date, string $format = null) : ?\DateTime
     {
-        $this->installationEndDate = $installationEndDate;
-        return $this;
+        if (null === $date) {
+            return null;
+        }
+
+        if (is_string($date) && $format !== null) {
+            $date = date_create_from_format($format, $date);
+        }
+
+        if (!$date instanceof \DateTime) {
+            throw new \InvalidArgumentException("date must either be a DateTime or a string with an accompanying format.");
+        }
+
+        return $date;
     }
 
     /**
@@ -180,76 +155,5 @@ class HPwES extends Model
     {
         $this->contractorZipCode = $contractorZipCode;
         return $this;
-    }
-
-    /**
-     * @param bool|null $isIncomeEligible
-     * @return HPwES
-     */
-    public function setIsIncomeEligible(?bool $isIncomeEligible): HPwES
-    {
-        $this->isIncomeEligible = $isIncomeEligible;
-        return $this;
-    }
-
-    /**
-     * Renders a date range picker for the improvement installation start and completion dates
-     * @return string
-     */
-    public function renderDateInput()
-    {
-        $dateRange = $this->getInstallationDates();
-        $dateRange = $dateRange ? $dateRange->toString() : '';
-
-        return <<<HTML
-            <input id="HPwES-date-range"
-                   name="HPwES-date-range"
-                   class="date-range"
-                   value="$dateRange">
-            <script>
-                $('#HPwES-date-range').dateRangePicker({});
-            </script>
-HTML;
-    }
-
-    /**
-     * @return string
-     */
-    public function renderContractorBusinessName()
-    {
-        $contractorBusinessName = $this->getContractorBusinessName();
-        return "
-            <input id='HPwES-contractor-business-name'
-                   name='HPwES-contractor-business-name'
-                   value='$contractorBusinessName'>
-        ";
-    }
-
-    /**
-     * @return string
-     */
-    public function renderContractorZipCode()
-    {
-        $contractorZipCode = $this->getContractorZipCode();
-        return "
-            <input id='HPwES-contractor-zip-code'
-                   name='HPwES-contractor-zip-code'
-                   value='$contractorZipCode'>
-        ";
-    }
-
-    /**
-     * @return string
-     */
-    public function renderIsIncomeEligible()
-    {
-        $checked = $this->isIncomeEligible() ? 'checked' : '';
-        return "
-            <input type='checkbox'
-                   id='HPwES-is-income-eligible'
-                   name='HPwES-is-income-eligible'
-                   value='1'
-                   $checked>
-        ";
     }
 }
