@@ -304,10 +304,10 @@ class Building extends Model
     }
 
     /**
-     * @param int $parentId
+     * @param null|int $parentId
      * @return Building
      */
-    public function setParentId(int $parentId) : Building
+    public function setParentId(?int $parentId) : Building
     {
         $this->parentId = $parentId;
         return $this;
