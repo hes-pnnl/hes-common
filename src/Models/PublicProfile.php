@@ -17,6 +17,9 @@ class PublicProfile extends Model
     /** @var string */
     private $name;
 
+    /** @var string */
+    private $email;
+
     /** @var bool */
     private $published;
 
@@ -58,6 +61,17 @@ class PublicProfile extends Model
         $this->name = $name;
         return $this;
     }
+
+    /**
+     * @param string $email
+     * @return PublicProfile
+     */
+    public function setEmail(string $email): PublicProfile
+    {
+        $this->email = $email;
+        return $this;
+    }
+
 
     /**
      * @param bool $published
@@ -122,6 +136,14 @@ class PublicProfile extends Model
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
+    {
+        return $this->email;
     }
 
     /**
