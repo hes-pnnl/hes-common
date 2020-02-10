@@ -213,6 +213,13 @@ class BuildingService
         );
         $HPwES = HPwES::fromRetrieveHPwESSoapResponse($HPwESResponse);
         $building->setHPwES($HPwES);
+        
+        // Get extra context info for building
+        $buildingInfoResponse = $this->soapApiService->generateSoapCall(
+            'get_building_info',
+            ['building_ids' => $buildingId]
+        );
+        $building->setParentId($buildingInfoResponse['parent_id']);
 
         return $building;
     }
