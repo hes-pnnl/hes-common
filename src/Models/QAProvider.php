@@ -20,9 +20,6 @@ class QAProvider extends Model
     /** @var int|null */
     private $softwareProviderId;
 
-    /** @var string */
-    private $labelPrefix;
-
     /** @var string|null */
     private $application;
 
@@ -67,16 +64,6 @@ class QAProvider extends Model
     }
 
     /**
-     * @param string $application
-     * @return QAProvider
-     */
-    public function setLabelPrefix(string $labelPrefix): QAProvider
-    {
-        $this->labelPrefix = $labelPrefix;
-        return $this;
-    }
-
-    /**
      * @param string|null $application
      * @return QAProvider
      */
@@ -116,14 +103,6 @@ class QAProvider extends Model
     public function getSoftwareProviderId(): ?int
     {
         return $this->softwareProviderId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLabelPrefix(): string
-    {
-        return $this->labelPrefix;
     }
 
     /**
