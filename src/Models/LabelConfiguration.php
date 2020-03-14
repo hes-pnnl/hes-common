@@ -11,7 +11,7 @@ class LabelConfiguration extends Model
     /** @var int|null */
     protected $id;
 
-    /** @var string */
+    /** @var string|null */
     protected $name;
 
     /** @var string|null */
@@ -61,9 +61,9 @@ class LabelConfiguration extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -178,10 +178,10 @@ class LabelConfiguration extends Model
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      * @return LabelConfiguration
      */
-    public function setName(string $name): LabelConfiguration
+    public function setName(?string $name): LabelConfiguration
     {
         $this->name = $name;
         return $this;
