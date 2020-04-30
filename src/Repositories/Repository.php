@@ -2,7 +2,7 @@
 
 namespace HESCommon\Repositories;
 
-use HESAPI\Services\DatabaseConnection;
+use HESCommon\DatabaseConnection;
 use Illuminate\Database\DatabaseManager;
 
 /**
