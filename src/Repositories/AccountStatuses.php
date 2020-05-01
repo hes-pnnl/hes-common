@@ -72,10 +72,9 @@ class AccountStatuses extends Repository
      */
     public function statusIdExists(int $statusId) : bool
     {
-        $result = $this->getHesAdminDb()->select(
+        return $this->getHesAdminDb()->doesResultExist(
             "SELECT 1 FROM `account_statuses` WHERE id = ?",
             [$statusId]
         );
-        return count($result) > 0;
     }
 }
