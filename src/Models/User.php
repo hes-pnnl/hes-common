@@ -25,7 +25,7 @@ class User extends Model
     protected $hesPartnerId;
 
     /** @var int|null */
-    protected $performQAId;
+    protected $performsQaForProviderId;
 
     /** @var int|null */
     protected $qualityAssuranceProviderId;
@@ -99,9 +99,9 @@ class User extends Model
     /**
      * @return int|null
      */
-    public function getPerformQAId() : ?int
+    public function getPerformsQaForProviderId() : ?int
     {
-        return $this->performQAId;
+        return $this->performsQaForProviderId;
     }
     /**
      * @return int|null
@@ -215,11 +215,11 @@ class User extends Model
 
     /**
      * @return User
-     * @param int|null $performQAId
+     * @param int|null $performsQaForProviderId
      */
-    public function setPerformQAId(?int $performQAId) : User
+    public function setPerformsQaForProviderId(?int $performsQaForProviderId) : User
     {
-        $this->performQAId = $performQAId;
+        $this->performsQaForProviderId = $performsQaForProviderId;
         return $this;
     }
 
