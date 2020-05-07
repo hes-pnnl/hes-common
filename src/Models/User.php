@@ -57,33 +57,33 @@ class User extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName() : string
+    public function getName() : ?string
     {
         return $this->name;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getPassword() : string
+    public function getPassword() : ?string
     {
         return $this->password;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFullName() : string
+    public function getFullName() : ?string
     {
         return $this->fullName;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEmail() : string
+    public function getEmail() : ?string
     {
         return $this->email;
     }
