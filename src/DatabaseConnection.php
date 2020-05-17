@@ -120,7 +120,7 @@ class DatabaseConnection implements ConnectionInterface
 
         $results = $this->select("
             SELECT `$keyField`,
-                   `$$valueField`
+                   `$valueField`
               FROM `$table`
         ");
         $return = [];
