@@ -104,6 +104,32 @@ class DatabaseConnection implements ConnectionInterface
         return $count > 0;
     }
 
+    /**
+     * Get the hash map of 2 fields of a table
+     * @param string $table
+     * @param string $keyField
+     * @param string $valueField
+     * @return array
+     * @throws \Exception
+     */
+    public function getFieldMapping(string $table, string $keyField, string $valueField): array
+    {
+        if(!(preg_match('/^[a-z\_]+$/', $table) && preg_match('/^[a-z\_]+$/', $keyField) && preg_match('/^[a-z\_]+$/', $valueField))) {
+            throw new \Exception("Table name or field name is not valid.");
+        }
+
+        $results = $this->select("
+            SELECT `$keyField`,
+                   `$$valueField`
+              FROM `$table`
+        ");
+        $return = [];
+        foreach ($results as $status) {
+            $return[$status->$keyField] = $status->$valueField;
+        }
+        return $return;
+    }
+
     /***
      * The methods in this section all simply map to the equivalent method of the underlying connection class.
      */
