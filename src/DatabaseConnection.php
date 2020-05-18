@@ -105,6 +105,17 @@ class DatabaseConnection implements ConnectionInterface
     }
 
     /**
+     *Helper function to check if the table or field name is valid, only accepts name contains letters and underscore
+     * @param string $name
+     * @throws \Exception
+     */
+    private function validateTableOrField(string $name){
+        if(!preg_match('/^[a-z\_]+$/', $name) ) {
+            throw new \Exception("Table name or field name $name is not valid.");
+        }
+    }
+
+    /**
      * Get the hash map of 2 fields of a table
      * @param string $table
      * @param string $keyField
@@ -114,9 +125,9 @@ class DatabaseConnection implements ConnectionInterface
      */
     public function getFieldMapping(string $table, string $keyField, string $valueField): array
     {
-        if(!(preg_match('/^[a-z\_]+$/', $table) && preg_match('/^[a-z\_]+$/', $keyField) && preg_match('/^[a-z\_]+$/', $valueField))) {
-            throw new \Exception("Table name or field name is not valid.");
-        }
+        $this->validateTableOrField($table);
+        $this->validateTableOrField($keyField);
+        $this->validateTableOrField($valueField);
 
         $results = $this->select("
             SELECT `$keyField`,
