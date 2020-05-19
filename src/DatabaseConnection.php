@@ -104,6 +104,43 @@ class DatabaseConnection implements ConnectionInterface
         return $count > 0;
     }
 
+    /**
+     *Helper function to check if the table or field name is valid, only accepts name contains letters and underscore
+     * @param string $name
+     * @throws \Exception
+     */
+    private function validateTableOrField(string $name){
+        if(!preg_match('/^[a-z\_]+$/', $name) ) {
+            throw new \Exception("Table name or field name $name is not valid.");
+        }
+    }
+
+    /**
+     * Get the hash map of 2 fields of a table
+     * @param string $table
+     * @param string $keyField
+     * @param string $valueField
+     * @return array
+     * @throws \Exception
+     */
+    public function getFieldMapping(string $table, string $keyField, string $valueField): array
+    {
+        $this->validateTableOrField($table);
+        $this->validateTableOrField($keyField);
+        $this->validateTableOrField($valueField);
+
+        $results = $this->select("
+            SELECT `$keyField`,
+                   `$valueField`
+              FROM `$table`
+        ");
+        $return = [];
+        foreach ($results as $status) {
+            $return[$status->$keyField] = $status->$valueField;
+        }
+        return $return;
+    }
+
     /***
      * The methods in this section all simply map to the equivalent method of the underlying connection class.
      */
