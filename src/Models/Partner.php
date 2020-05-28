@@ -29,8 +29,8 @@ class Partner extends Model
     /** @var int|null */
     private $hescoreLabelStatusId;
     
-    /** @var int|null */
-    private $assessorProfileStrategyId;
+    /** @var string|null */
+    private $assessorProfileStrategy;
 
     /**
      * @return Partner
@@ -103,12 +103,12 @@ class Partner extends Model
     }
 
     /**
-     * @param int|null $assessorProfileStrategyId
+     * @param string|null $assessorProfileStrategy
      * @return Partner
      */
-    public function setAssessorProfileStrategyId(?int $assessorProfileStrategyId): Partner
+    public function setAssessorProfileStrategy(?string $assessorProfileStrategy): Partner
     {
-        $this->assessorProfileStrategyId = $assessorProfileStrategyId;
+        $this->assessorProfileStrategy = $assessorProfileStrategy;
         return $this;
     }
 
@@ -169,11 +169,10 @@ class Partner extends Model
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getAssessorProfileStrategyId(): ?int
+    public function getAssessorProfileStrategy(): ?string
     {
-        return $this->assessorProfileStrategyId;
+        return $this->assessorProfileStrategy;
     }
-    
 }
