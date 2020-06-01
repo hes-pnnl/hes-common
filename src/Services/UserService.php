@@ -23,6 +23,14 @@ class UserService extends Service
      */
     public function getValidRoles() : array
     {
-        return [ self::ROLE_ADMIN, self::ROLE_ASSESSOR, self::ROLE_PARTNER, self::ROLE_MENTOR, self::ROLE_MENTEE, self::ROLE_QA ];
+        return [
+            self::ROLE_ASSESSOR,
+            self::ROLE_ADMIN,
+            self::ROLE_PARTNER,
+            self::ROLE_MENTOR,
+            self::ROLE_MENTEE,
+            self::ROLE_QA,
+            self::ROLE_TRAINING_ADMIN
+        ];
     }
 }
