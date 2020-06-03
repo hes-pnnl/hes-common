@@ -14,7 +14,6 @@ class UserService extends Service
     const ROLE_ADMIN = 'administrator';
     const ROLE_PARTNER = 'partner';
     const ROLE_MENTOR = 'mentor';
-    const ROLE_MENTEE = 'mentee_assessor';
     const ROLE_QA = 'qa';
     const ROLE_TRAINING_ADMIN = 'training_administrator';
 
@@ -26,9 +25,9 @@ class UserService extends Service
      */
     const ROLE_CANDIDATE_ASSESSOR = 'candidate_assessor';
     const ROLE_TRAINEE_ASSESSOR = 'trainee_assessor';
-    const ROLE_MENTEE_ASSESSOR = 'mentee_assessor';
     const ROLE_LAPSED_ASSESSOR = 'lapsed_assessor';
     const ROLE_INACTIVE_ASSESSOR = 'inactive_assessor';
+    const ROLE_MENTEE = 'mentee_assessor';
 
     /**
      * Roles that can be assigned to an assessor - depending on their training
@@ -39,7 +38,7 @@ class UserService extends Service
         self::ROLE_ASSESSOR,
         self::ROLE_CANDIDATE_ASSESSOR,
         self::ROLE_TRAINEE_ASSESSOR,
-        self::ROLE_MENTEE_ASSESSOR,
+        self::ROLE_MENTEE,
         self::ROLE_LAPSED_ASSESSOR,
         self::ROLE_INACTIVE_ASSESSOR
     ];
