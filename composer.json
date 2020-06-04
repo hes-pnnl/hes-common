@@ -1,5 +1,6 @@
 {
     "name": "pnnl/hes-common",
+    "version": "1.2.2",
     "license": "proprietary",
     "description": "Common code used among multiple Home Energy Score projects",
     "autoload": {
