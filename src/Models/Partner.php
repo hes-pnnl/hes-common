@@ -29,7 +29,7 @@ class Partner extends Model
     /** @var int|null */
     private $hescoreLabelStatusId;
     
-    /** @var string|null */
+    /** @var string|null One of the Partners::REVIEW_STRATEGY_* constants */
     private $assessorProfileStrategy;
 
     /**
@@ -103,7 +103,7 @@ class Partner extends Model
     }
 
     /**
-     * @param string|null $assessorProfileStrategy
+     * @param string|null $assessorProfileStrategy One of the Partners::REVIEW_STRATEGY_* constants
      * @return Partner
      */
     public function setAssessorProfileStrategy(?string $assessorProfileStrategy): Partner
