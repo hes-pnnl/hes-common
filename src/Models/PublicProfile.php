@@ -11,9 +11,6 @@ class PublicProfile extends Model
     /** @var int|null */
     private $id;
 
-    /** @var int */
-    private $userId;
-
     /** @var string */
     private $name;
 
@@ -39,16 +36,6 @@ class PublicProfile extends Model
     public function setId(int $id): PublicProfile
     {
         $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @param int $userId
-     * @return PublicProfile
-     */
-    public function setUserId(int $userId): PublicProfile
-    {
-        $this->userId = $userId;
         return $this;
     }
 
@@ -120,14 +107,6 @@ class PublicProfile extends Model
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return int
-     */
-    public function getUserId(): int
-    {
-        return $this->userId;
     }
 
     /**
