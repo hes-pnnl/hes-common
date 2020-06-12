@@ -39,7 +39,7 @@ class UserService extends Service
         self::ROLE_CANDIDATE_ASSESSOR,
         self::ROLE_TRAINEE_ASSESSOR,
         self::ROLE_MENTEE,
-        self::ROLE_LAPSED_ASSESSOR,
-        self::ROLE_INACTIVE_ASSESSOR
+        self::ROLE_INACTIVE_ASSESSOR,
+        self::ROLE_LAPSED_ASSESSOR
     ];
 }
