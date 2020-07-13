@@ -15,9 +15,6 @@ class Partner extends Model
     private $name;
 
     /** @var int|null */
-    private $statusId;
-
-    /** @var int|null */
     private $softwareProviderId;
 
     /** @var string|null */
@@ -49,16 +46,6 @@ class Partner extends Model
     public function setName(string $name) : Partner
     {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return Partner
-     * @param int|null $statusId
-     */
-    public function setStatusId(?int $statusId) : Partner
-    {
-        $this->statusId = $statusId;
         return $this;
     }
 
@@ -126,14 +113,6 @@ class Partner extends Model
     public function getName() : string
     {
         return $this->name;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getStatusId(): ?int
-    {
-        return $this->statusId;
     }
 
     /**
