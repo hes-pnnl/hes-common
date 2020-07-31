@@ -23,8 +23,8 @@ class Partner extends Model
     /** @var int */
     private $assessorCount;
 
-    /** @var int|null */
-    private $hescoreLabelStatusId;
+    /** @var string|null */
+    private $labelConfigurationStatus;
     
     /** @var string|null One of the Partners::REVIEW_STRATEGY_* constants */
     private $assessorProfileStrategy;
@@ -80,12 +80,12 @@ class Partner extends Model
     }
 
     /**
-     * @param int|null $hescoreLabelStatusId
+     * @param string|null $labelConfigurationStatus
      * @return Partner
      */
-    public function setHescoreLabelStatusId(?int $hescoreLabelStatusId): Partner
+    public function setLabelConfigurationStatus(?string $labelConfigurationStatus): Partner
     {
-        $this->hescoreLabelStatusId = $hescoreLabelStatusId;
+        $this->labelConfigurationStatus = $labelConfigurationStatus;
         return $this;
     }
 
@@ -140,11 +140,11 @@ class Partner extends Model
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getHescoreLabelStatusId(): ?int
+    public function getLabelConfigurationStatus(): ?string
     {
-        return $this->hescoreLabelStatusId;
+        return $this->labelConfigurationStatus;
     }
 
     /**
