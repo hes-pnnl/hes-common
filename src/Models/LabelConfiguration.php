@@ -23,8 +23,8 @@ class LabelConfiguration extends Model
     /** @var int */
     protected $hesPartnerId;
 
-    /** @var int */
-    protected $statusId;
+    /** @var string */
+    protected $status;
 
     /** @var float */
     protected $averageScore;
@@ -95,9 +95,9 @@ class LabelConfiguration extends Model
     /**
      * @return int
      */
-    public function getStatusId(): int
+    public function getStatus(): string
     {
-        return $this->statusId;
+        return $this->status;
     }
 
     /**
@@ -218,12 +218,12 @@ class LabelConfiguration extends Model
     }
 
     /**
-     * @param int $statusId
+     * @param string $status
      * @return LabelConfiguration
      */
-    public function setStatusId(int $statusId): LabelConfiguration
+    public function setStatus(string $status): LabelConfiguration
     {
-        $this->statusId = $statusId;
+        $this->status = $status;
         return $this;
     }
 
