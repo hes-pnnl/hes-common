@@ -22,6 +22,9 @@ abstract class Repository
     /** @var DatabaseConnection */
     static protected $hesAdminDbConnection;
 
+    /** @var DatabaseConnection */
+    static protected $hesApiDbConnection;
+
     public function __construct(DatabaseManager $databaseManager)
     {
         $this->databaseMgr = $databaseManager;
@@ -37,8 +40,24 @@ abstract class Repository
      */
     protected function getHesAdminDb() : DatabaseConnection
     {
+        if (!self::$hesApiDbConnection) {
+            self::$hesApiDbConnection = new DatabaseConnection($this->databaseMgr->connection('hes_admin'));
+        }
+        return self::$hesApiDbConnection;
+    }
+
+    /**
+     * Get a connection to the HES Admin database. This connection, but no others, is defined in
+     * the abstract base class because we use the Admin DB in both the API and the GUI, but the
+     * GUI is strictly forbidden to access other database connections so that we are sure that
+     * we use the API to perform API actions.
+     *
+     * @return DatabaseConnection
+     */
+    protected function getApiDb() : DatabaseConnection
+    {
         if (!self::$hesAdminDbConnection) {
-            self::$hesAdminDbConnection = new DatabaseConnection($this->databaseMgr->connection('hes_admin'));
+            self::$hesAdminDbConnection = new DatabaseConnection($this->databaseMgr->connection('hes_api'));
         }
         return self::$hesAdminDbConnection;
     }
