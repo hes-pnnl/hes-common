@@ -47,22 +47,6 @@ abstract class Repository
     }
 
     /**
-     * Get a connection to the HES Admin database. This connection, but no others, is defined in
-     * the abstract base class because we use the Admin DB in both the API and the GUI, but the
-     * GUI is strictly forbidden to access other database connections so that we are sure that
-     * we use the API to perform API actions.
-     *
-     * @return DatabaseConnection
-     */
-    protected function getApiDb() : DatabaseConnection
-    {
-        if (!self::$hesAdminDbConnection) {
-            self::$hesAdminDbConnection = new DatabaseConnection($this->databaseMgr->connection('hes_api'));
-        }
-        return self::$hesAdminDbConnection;
-    }
-
-    /**
      * Removes any invalid characters in database identifiers and wraps them in backticks
      *
      * @param array $identifiers

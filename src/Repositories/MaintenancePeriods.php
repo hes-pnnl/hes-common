@@ -18,7 +18,7 @@ class MaintenancePeriods extends Repository
      */
     public function startMaintenancePeriod(string $message) : void
     {
-        $this->getApiDb()->insert('
+        $this->getHesAdminDb()->insert('
             INSERT INTO maintenance_periods SET message = :message
         ', [
             'message' => $message
@@ -31,7 +31,7 @@ class MaintenancePeriods extends Repository
      */
     public function endMaintenancePeriod() : void
     {
-        $this->getApiDb()->update('
+        $this->getHesAdminDb()->update('
             UPDATE maintenance_periods SET end_time = now() WHERE end_time IS NULL
         ');
     }
@@ -44,7 +44,7 @@ class MaintenancePeriods extends Repository
      */
     public function getMessage() : ?string
     {
-        return $this->getApiDb()->selectOneSingleField('
+        return $this->getHesAdminDb()->selectOneSingleField('
             SELECT message FROM maintenance_periods WHERE end_time IS NULL
         ');
     }
