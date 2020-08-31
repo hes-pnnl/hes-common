@@ -22,6 +22,9 @@ abstract class Repository
     /** @var DatabaseConnection */
     static protected $hesAdminDbConnection;
 
+    /** @var DatabaseConnection */
+    static protected $hesApiDbConnection;
+
     public function __construct(DatabaseManager $databaseManager)
     {
         $this->databaseMgr = $databaseManager;
@@ -37,10 +40,10 @@ abstract class Repository
      */
     protected function getHesAdminDb() : DatabaseConnection
     {
-        if (!self::$hesAdminDbConnection) {
-            self::$hesAdminDbConnection = new DatabaseConnection($this->databaseMgr->connection('hes_admin'));
+        if (!self::$hesApiDbConnection) {
+            self::$hesApiDbConnection = new DatabaseConnection($this->databaseMgr->connection('hes_admin'));
         }
-        return self::$hesAdminDbConnection;
+        return self::$hesApiDbConnection;
     }
 
     /**
