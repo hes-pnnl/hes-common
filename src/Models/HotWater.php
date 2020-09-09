@@ -59,6 +59,7 @@ class HotWater extends Model
     public function getValuesAsArray()
     {
         return [
+            'hot_water_category' => $this->getCategory(),
             'hot_water_type' => $this->getType(),
             'hot_water_fuel' => $this->getFuel(),
             'hot_water_efficiency_method' => $this->getEfficiencyMethod(),
