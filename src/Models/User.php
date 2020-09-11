@@ -33,6 +33,9 @@ class User extends Model
     /** @var bool */
     protected $isBlocked;
 
+    /** @var bool */
+    protected $hasProductionAccess;
+
     /** @var \DateTime */
     protected $created;
 
@@ -103,6 +106,7 @@ class User extends Model
     {
         return $this->performsQaForProviderId;
     }
+
     /**
      * @return int|null
      */
@@ -111,7 +115,6 @@ class User extends Model
         return $this->qualityAssuranceProviderId;
     }
 
-
     /**
      * @return bool
      */
@@ -119,6 +122,15 @@ class User extends Model
     {
         return $this->isBlocked;
     }
+
+    /**
+     * @return bool
+     */
+    public function getHasProductionAccess() : bool
+    {
+        return $this->hasProductionAccess;
+    }
+
 
     /**
      * @return \DateTime
@@ -240,6 +252,16 @@ class User extends Model
     public function setIsBlocked(bool $isBlocked) : User
     {
         $this->isBlocked = $isBlocked;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param bool $hasProductionAccess
+     */
+    public function setHasProductionAccess(bool $hasProductionAccess) : User
+    {
+        $this->hasProductionAccess = $hasProductionAccess;
         return $this;
     }
 
