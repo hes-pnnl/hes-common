@@ -34,6 +34,9 @@ class User extends Model
     protected $isBlocked;
 
     /** @var bool */
+    protected $disableHescoreGUIAccess;
+
+    /** @var bool */
     protected $hasProductionAccess;
 
     /** @var \DateTime */
@@ -121,6 +124,14 @@ class User extends Model
     public function getIsBlocked() : bool
     {
         return $this->isBlocked;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getDisableHescoreGUIAccess() : bool
+    {
+        return $this->disableHescoreGUIAccess;
     }
 
     /**
@@ -252,6 +263,16 @@ class User extends Model
     public function setIsBlocked(bool $isBlocked) : User
     {
         $this->isBlocked = $isBlocked;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param bool $disableHescoreGUIAccess
+     */
+    public function setDisableHescoreGUIAccess(bool $disableHescoreGUIAccess) : User
+    {
+        $this->disableHescoreGUIAccess = $disableHescoreGUIAccess;
         return $this;
     }
 
