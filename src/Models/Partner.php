@@ -29,8 +29,8 @@ class Partner extends Model
     /** @var string|null One of the Partners::REVIEW_STRATEGY_* constants */
     private $assessorProfileStrategy;
 
-    /** @var string|null */
-    private $status;
+    /** @var int|null */
+    private $statusId;
 
     /**
      * @return Partner
@@ -104,11 +104,11 @@ class Partner extends Model
 
     /**
      * @return Partner
-     * @param string|null $status
+     * @param int|null $statusId
      */
-    public function setStatusId(?string $status) : Partner
+    public function setStatusId(?int $statusId) : Partner
     {
-        $this->status = $status;
+        $this->statusId = $statusId;
         return $this;
     }
 
@@ -169,10 +169,10 @@ class Partner extends Model
     }
 
     /**
-     * @return string|null
+     * @return int|null
      */
-    public function getStatus(): ?string
+    public function getStatusId(): ?int
     {
-        return $this->status;
+        return $this->statusId;
     }
 }
