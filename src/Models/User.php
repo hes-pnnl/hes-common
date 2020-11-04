@@ -39,6 +39,9 @@ class User extends Model
     /** @var bool */
     protected $hasProductionAccess;
 
+    /** @var bool */
+    protected $hasSandboxAccess;
+
     /** @var \DateTime */
     protected $created;
 
@@ -142,6 +145,13 @@ class User extends Model
         return $this->hasProductionAccess;
     }
 
+    /**
+     * @return bool
+     */
+    public function getHasSandboxAccess() : bool
+    {
+        return $this->hasSandboxAccess;
+    }
 
     /**
      * @return \DateTime
@@ -283,6 +293,16 @@ class User extends Model
     public function setHasProductionAccess(bool $hasProductionAccess) : User
     {
         $this->hasProductionAccess = $hasProductionAccess;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param bool $hasSandboxAccess
+     */
+    public function setHasSandboxAccess(bool $hasSandboxAccess) : User
+    {
+        $this->hasSandboxAccess = $hasSandboxAccess;
         return $this;
     }
 
