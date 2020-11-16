@@ -34,13 +34,13 @@ class User extends Model
     protected $isBlocked;
 
     /** @var bool */
-    protected $disableHescoreGUIAccess;
+    protected $disableHescoreGUIAccess = false;
 
     /** @var bool */
-    protected $hasProductionAccess;
+    protected $hasProductionAccess = true;
 
     /** @var bool */
-    protected $hasSandboxAccess;
+    protected $hasSandboxAccess = false;
 
     /** @var \DateTime */
     protected $created;
