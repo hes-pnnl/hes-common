@@ -25,27 +25,18 @@ class EmailHelper extends Helper
         }
         $subject = $email->getSubject();
         if($subject === null) {
-            $subject = 'Test Email';
+            $email->setSubject('Test Email');
         }
         $message = $email->getMessage();
         if($message === null) {
-            $message = 'Test Email';
+            $email->setMessage('Test Email');
         }
 
         $from = $email->getFrom();
         if ($from === null) {
-            $from = 'hes.api.support@pnnl.gov';
-        }
-        $headers['From'] = $from;
-        $cc = $email->getCC();
-        if ($cc !== null) {
-            $headers['Cc'] = $cc;
-        }
-        $replyTo = $email->getReplyTo();
-        if ($replyTo !== null) {
-            $headers['Reply-To'] = $replyTo;
+            $email->setFrom(Email::HES_API_SUPPORT_EMAIL);
         }
         
-        return mail($recipient, $subject, $message, $headers, "-f $from");
+        return $email->send();
     }
 }

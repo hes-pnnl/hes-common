@@ -4,5 +4,8 @@
     "description": "Common code used among multiple Home Energy Score projects",
     "autoload": {
         "psr-4": { "HESCommon\\": "src" }
+    },
+    "require": {
+        "phpmailer/phpmailer": "^6.2"
     }
 }

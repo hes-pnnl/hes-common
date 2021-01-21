@@ -5,8 +5,10 @@
 namespace HESCommon;
 
 use HESCommon\Exceptions\UserSafeException;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-class Email
+class Email extends PHPMailer
 {
     // Email addresses our system has permission to send from
     const HES_MAIN_EMAIL = 'homeenergyscore@ee.doe.gov';
@@ -25,30 +27,30 @@ class Email
         self::HES_API_SUPPORT_EMAIL
     ];
 
-    /** @var string */
-    private $recipient;
+    /**
+     * @param string $method - The getter method from PHPMailer
+     * @return string|null
+     */
+    private function getSingleAddress(string $method) {
+        $addresses = $this->$method();
+        return count($addresses) ? $addresses[0] : null;
+    }
 
-    /** @var string */
-    private $subject;
-
-    /** @var string */
-    private $message;
-
-    /** @var string */
-    private $from;
-
-    /** @var string */
-    private $cc;
-
-    /** @var string */
-    private $replyTo;
+    /**
+     * @param string $method - The setter method from PHPMailer
+     * @param string $address - The address
+     */
+    private function setSingleAddress(string $addMethod, string $clearMethod, string $address) {
+        $this->$clearMethod();
+        $this->$addMethod($address);
+    }
 
     /**
      * @return string|null
      */
     public function getRecipient() : ?string
     {
-        return $this->recipient;
+        return $this->getSingleAddress('getToAddresses');
     }
 
     /**
@@ -56,7 +58,7 @@ class Email
      */
     public function setRecipient(?string $recipient)
     {
-        $this->recipient = $recipient;
+        $this->setSingleAddress('addAddress', 'clearAddresses', $recipient);
     }
 
     /**
@@ -64,7 +66,7 @@ class Email
      */
     public function getSubject() : ?string
     {
-        return $this->subject;
+        return $this->Subject;
     }
 
     /**
@@ -72,7 +74,7 @@ class Email
      */
     public function setSubject(?string $subject)
     {
-        $this->subject = $subject;
+        $this->Subject = $subject;
     }
 
     /**
@@ -80,7 +82,7 @@ class Email
      */
     public function getMessage() : ?string
     {
-        return $this->message;
+        return $this->Body;
     }
 
     /**
@@ -88,7 +90,7 @@ class Email
      */
     public function setMessage(?string $message)
     {
-        $this->message = $message;
+        $this->Body = $message;
     }
 
     /**
@@ -96,7 +98,7 @@ class Email
      */
     public function getFrom() : ?string
     {
-        return $this->from;
+        return $this->From;
     }
 
     /**
@@ -110,7 +112,7 @@ class Email
                 '$from' is not an email address HES recognizes. Valid options are $emailsList.
             ");
         }
-        $this->from = $from;
+        parent::setFrom($from);
     }
 
     /**
@@ -118,7 +120,7 @@ class Email
      */
     public function getCC() : ?string
     {
-        return $this->cc;
+        return $this->getSingleAddress('getCcAddresses');
     }
 
     /**
@@ -126,7 +128,7 @@ class Email
      */
     public function setCC(?string $cc)
     {
-        $this->cc = $cc;
+        $this->setSingleAddress('addCC', 'clearCCs', $cc);
     }
 
     /**
@@ -134,7 +136,7 @@ class Email
      */
     public function getReplyTo() : ?string
     {
-        return $this->replyTo;
+        return $this->getSingleAddress('getReplyToAddresses');
     }
 
     /**
@@ -142,6 +144,6 @@ class Email
      */
     public function setReplyTo(?string $replyTo)
     {
-        $this->replyTo = $replyTo;
+        $this->setSingleAddress('addReplyTo', 'clearReplyTos', $replyTo);
     }
 }
