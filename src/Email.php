@@ -33,7 +33,7 @@ class Email extends PHPMailer
      */
     private function getSingleAddress(string $method) {
         $addresses = $this->$method();
-        return count($addresses) ? $addresses[0] : null;
+        return count($addresses) ? $addresses[0][0] : null;
     }
 
     /**
@@ -104,7 +104,7 @@ class Email extends PHPMailer
     /**
      * @param string $from
      */
-    public function setFrom(?string $from)
+    public function setFrom($from, $name = '', $auto = true)
     {
         if(!in_array($from, self::VALID_FROM_EMAILS)) {
             $emailsList = implode(', ', self::VALID_FROM_EMAILS);
