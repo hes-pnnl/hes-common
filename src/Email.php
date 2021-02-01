@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Email extends PHPMailer
 {
-    // Email addresses our system has permission to send from
+    // Email addresses common in our system
     const HES_MAIN_EMAIL = 'homeenergyscore@ee.doe.gov';
     const DOE_ASSESSOR_CONTACT_EMAIL = 'assessor@ee.doe.gov';
     const HES_DEV_TEAM_EMAIL = 'hes.dev.team@pnnl.gov';
@@ -18,9 +18,8 @@ class Email extends PHPMailer
     const HES_ERRORS_EMAIL = 'hes.errors@pnnl.gov';
     const HES_API_SUPPORT_EMAIL = 'hes.api.support@pnnl.gov';
 
+    // Email addresses our system has permission to send from
     const VALID_FROM_EMAILS = [
-        self::HES_MAIN_EMAIL,
-        self::DOE_ASSESSOR_CONTACT_EMAIL,
         self::HES_DEV_TEAM_EMAIL,
         self::HES_HELP_DESK_EMAIL,
         self::HES_ERRORS_EMAIL,
