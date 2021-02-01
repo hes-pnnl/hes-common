@@ -31,11 +31,6 @@ class EmailHelper extends Helper
         if($message === null) {
             $email->setMessage('Test Email');
         }
-
-        $from = $email->getFrom();
-        if ($from === null) {
-            $email->setFrom(Email::HES_API_SUPPORT_EMAIL);
-        }
         
         return $email->send();
     }

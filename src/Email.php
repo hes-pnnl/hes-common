@@ -26,6 +26,12 @@ class Email extends PHPMailer
         self::HES_API_SUPPORT_EMAIL
     ];
 
+    public function __construct() {
+        $this->exceptions = true;
+        $this->From = self::HES_API_SUPPORT_EMAIL;
+        $this->FromName = "Home Energy Score";
+    }
+
     /**
      * @param string $method - The getter method from PHPMailer
      * @return string|null
