@@ -56,6 +56,9 @@ class User extends Model
     /** @var int[] */
     protected $certifications;
 
+    /** @var bool */
+    protected $alwaysActive = false;
+
     //Getter methods
     /**
      * @return int|null
