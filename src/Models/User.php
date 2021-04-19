@@ -185,6 +185,14 @@ class User extends Model
         return $this->certifications;
     }
 
+    /**
+     * @return bool
+     */
+    public function isAlwaysActive() : bool
+    {
+        return $this->alwaysActive;
+    }
+
     //Setter methods
     /**
      * @return User
@@ -343,6 +351,16 @@ class User extends Model
     public function setCertifications(array $certifications) : User
     {
         $this->certifications = $certifications;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param bool $alwaysActive
+     */
+    public function setAlwaysActive(bool $alwaysActive) : User
+    {
+        $this->alwaysActive = $alwaysActive;
         return $this;
     }
  }
