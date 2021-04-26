@@ -56,6 +56,9 @@ class User extends Model
     /** @var int[] */
     protected $certifications;
 
+    /** @var bool */
+    protected $alwaysActive = false;
+
     //Getter methods
     /**
      * @return int|null
@@ -183,6 +186,14 @@ class User extends Model
     public function getCertifications() : array
     {
         return $this->certifications;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAlwaysActive() : bool
+    {
+        return $this->alwaysActive;
     }
 
     //Setter methods
@@ -343,6 +354,16 @@ class User extends Model
     public function setCertifications(array $certifications) : User
     {
         $this->certifications = $certifications;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param bool $alwaysActive
+     */
+    public function setAlwaysActive(bool $alwaysActive) : User
+    {
+        $this->alwaysActive = $alwaysActive;
         return $this;
     }
  }
