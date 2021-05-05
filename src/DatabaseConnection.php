@@ -144,7 +144,7 @@ class DatabaseConnection implements ConnectionInterface
     /***
      * The methods in this section all simply map to the equivalent method of the underlying connection class.
      */
-    public function table($table) { return $this->connection->table($table); }
+    public function table($table, $as = NULL) { return $this->connection->table($table, $as); }
     public function raw($value) { return $this->connection->raw($value); }
     public function selectOne($query, $bindings = [], $useReadPdo = true) { return $this->connection->selectOne($query, $bindings, $useReadPdo); }
     public function select($query, $bindings = [], $useReadPdo = true) { return $this->connection->select($query, $bindings, $useReadPdo); }
@@ -162,4 +162,5 @@ class DatabaseConnection implements ConnectionInterface
     public function rollBack() { $this->connection->rollBack(); }
     public function transactionLevel() { return $this->connection->transactionLevel(); }
     public function pretend(Closure $callback) { return $this->connection->pretend($callback); }
+    public function getDatabaseName() { return $this->connection->getDatabaseName(); }
 }
