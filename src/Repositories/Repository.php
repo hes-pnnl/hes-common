@@ -31,17 +31,27 @@ abstract class Repository
     }
 
     /**
-     * Get a connection to the HES Admin database. This connection, but no others, is defined in
-     * the abstract base class because we use the Admin DB in both the API and the GUI, but the
-     * GUI is strictly forbidden to access other database connections so that we are sure that
-     * we use the API to perform API actions.
+     * Get a connection to the HES Admin database.
      *
      * @return DatabaseConnection
      */
     protected function getHesAdminDb() : DatabaseConnection
     {
+        if (!self::$hesAdminDbConnection) {
+            self::$hesAdminDbConnection = new DatabaseConnection($this->databaseMgr->connection('hes_admin'));
+        }
+        return self::$hesAdminDbConnection;
+    }
+
+    /**
+     * Get a connection to the HES API database.
+     *
+     * @return DatabaseConnection
+     */
+    protected function getApiDb() : DatabaseConnection
+    {
         if (!self::$hesApiDbConnection) {
-            self::$hesApiDbConnection = new DatabaseConnection($this->databaseMgr->connection('hes_admin'));
+            self::$hesApiDbConnection = new DatabaseConnection($this->databaseMgr->connection('hes_api'));
         }
         return self::$hesApiDbConnection;
     }
@@ -83,5 +93,16 @@ abstract class Repository
             },
             $results
         );
+    }
+
+    /**
+     * Gets current time in the database (to protect from web/SQL server time inconsistencies)
+     * @param DatabaseConnection $database (optional) The database to check (default = hes_api)
+     * @return string
+     */
+    protected function getCurrentDatabaseTime(DatabaseConnection $database = null) : string
+    {
+        $database = $database ?? $this->getApiDb();
+        return $database->selectOneSingleField("SELECT NOW() as `currentTime`");
     }
 }
