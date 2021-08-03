@@ -41,11 +41,11 @@ class BooleanHelper extends Helper
     }
 
     /**
-     * Returns bool value of any type of input getting from the front-end
+     * Check if the input, of any type getting from the front-end, is true
      * @param $input
      * @return bool|null
      */
-    public static function getBoolValFromGUI($input): bool
+    public static function isValueTrue($input): bool
     {
         return in_array( $input, ["true", 1, "1", true]);
     }
