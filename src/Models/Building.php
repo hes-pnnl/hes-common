@@ -2,7 +2,7 @@
 
 namespace HESCommon\Models;
 
-use HESCommon\Services\BooleanService;
+use HESCommon\Helpers\BooleanHelper;
 
 class Building extends Model
 {
@@ -178,8 +178,7 @@ class Building extends Model
      */
     public function getHomeDetailsArray()
     {
-        $boolService = BooleanService::getInstance();
-        
+
         return [
             'assessment_date' => $this->getAssessmentDate() !== null ? $this->getAssessmentDate()->format('Y-m-d') : null,
             'comments' => $this->getComments(),
@@ -189,15 +188,15 @@ class Building extends Model
             'floor_to_ceiling_height' => $this->getFloorToCeilingHeight(),
             'conditioned_floor_area' => $this->getConditionedFloorArea(),
             'orientation' => $this->getOrientation(),
-            'blower_door_test' => $boolService->getIntValForThreeValueBoolean($this->wasBlowerTestPerformed()),
+            'blower_door_test' => BooleanHelper::getIntValForThreeValueBoolean($this->wasBlowerTestPerformed()),
             'air_sealing_present' => $boolService->getIntValForThreeValueBoolean($this->isAirSealingPresent()),
             'envelope_leakage' => $this->getEnvelopeLeakage(),
             //Walls
             'shape' => $this->getShape(),
             'town_house_walls' => $this->getTownhousePosition(),
-            'wall_construction_same' => $boolService->getIntValForThreeValueBoolean($this->isWallConstructionSameOnAllSides()),
+            'wall_construction_same' => BooleanHelper::getIntValForThreeValueBoolean($this->isWallConstructionSameOnAllSides()),
             //Windows
-            'window_construction_same' => $boolService->getIntValForThreeValueBoolean($this->isWindowConstructionSameOnAllSides()),
+            'window_construction_same' => BooleanHelper::getIntValForThreeValueBoolean($this->isWindowConstructionSameOnAllSides()),
         ];
     }
     

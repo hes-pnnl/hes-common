@@ -2,8 +2,6 @@
 
 namespace HESCommon\Helpers;
 
-use \HESCommon\Services\BooleanService;
-
 /**
  * HumanReadableHelper is used to convert the machine/api recognizable fields and values in our
  * Building models to the human readable versions in our GUI and Label.
@@ -314,7 +312,7 @@ class HumanReadableHelper extends Helper
             } else if (in_array($name, ['window_code_front', 'window_code_back', 'window_code_right', 'window_code_left', 'skylight_code'])) {
                 $newValue = self::getWindowAssembly($value);
             } else if (in_array($name, $intToBoolFields)) {
-                $value = BooleanService::getInstance()->getBoolValForThreeValueInt($value);
+                $value = BooleanHelper::getBoolValForThreeValueInt($value);
             }
             $newName = $newName ?? self::snakeToCapitalizedWords($name);
             
