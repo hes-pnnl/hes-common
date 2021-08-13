@@ -189,7 +189,7 @@ class Building extends Model
             'conditioned_floor_area' => $this->getConditionedFloorArea(),
             'orientation' => $this->getOrientation(),
             'blower_door_test' => BooleanHelper::getIntValForThreeValueBoolean($this->wasBlowerTestPerformed()),
-            'air_sealing_present' => $boolService->getIntValForThreeValueBoolean($this->isAirSealingPresent()),
+            'air_sealing_present' => BooleanHelper::getIntValForThreeValueBoolean($this->isAirSealingPresent()),
             'envelope_leakage' => $this->getEnvelopeLeakage(),
             //Walls
             'shape' => $this->getShape(),
