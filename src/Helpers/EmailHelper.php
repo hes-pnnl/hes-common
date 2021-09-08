@@ -31,7 +31,25 @@ class EmailHelper extends Helper
         if($message === null) {
             $email->setMessage('Test Email');
         }
-        
+
+        if(env('APP_ENV') === 'production') {
+            return $email->send();
+        } else {
+            return EmailHelper::sendInTestEnvironment($email);
+        }
+    }
+
+    /**
+     * Sends the email with header to the dev team 
+     * @param Email $email The email to send
+     * @return bool
+     */
+    private static function sendInTestEnvironment(Email $email)
+    {
+        $header = $email->createHeader();
+        $email->setMessage($header."\n\n".$email->getMessage());
+        $email->clearAllRecipients();
+        $email->setRecipient(Email::HES_DEV_TEAM_EMAIL);
         return $email->send();
     }
 }
