@@ -16,6 +16,7 @@ class UserService extends Service
     const ROLE_MENTOR = 'mentor';
     const ROLE_QA = 'qa';
     const ROLE_TRAINING_ADMIN = 'training_administrator';
+    const ROLE_TRY_USER = 'try_user';
 
     /**
      * These roles are special roles assigned to assessors, and are determined
