@@ -9,6 +9,9 @@ class User extends Model
     /** @var int|null */
     protected $id;
 
+    /** @var int|null */
+    protected $assessorId;
+
     /** @var string user name */
     protected $name;
 
@@ -23,12 +26,6 @@ class User extends Model
 
     /** @var int|null */
     protected $hesPartnerId;
-
-    /** @var int|null */
-    protected $performsQaForProviderId;
-
-    /** @var int|null */
-    protected $qualityAssuranceProviderId;
 
     /** @var bool */
     protected $isBlocked;
@@ -69,6 +66,14 @@ class User extends Model
     }
 
     /**
+     * @return int|null
+     */
+    public function getAssessorId() : ?int
+    {
+        return $this->assessorId;
+    }
+
+    /**
      * @return string
      */
     public function getName() : string
@@ -106,22 +111,6 @@ class User extends Model
     public function getHesPartnerId() : ?int
     {
         return $this->hesPartnerId;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getPerformsQaForProviderId() : ?int
-    {
-        return $this->performsQaForProviderId;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getQualityAssuranceProviderId() : ?int
-    {
-        return $this->qualityAssuranceProviderId;
     }
 
     /**
@@ -208,6 +197,16 @@ class User extends Model
     }
 
     /**
+     * @param int|null $id
+     * @return User
+     */
+    public function setAssessorId(?int $id) : User
+    {
+        $this->assessorId = $id;
+        return $this;
+    }
+
+    /**
      * @return User
      * @param string $name
      */
@@ -254,26 +253,6 @@ class User extends Model
     public function setHesPartnerId(?int $hesPartnerId) : User
     {
         $this->hesPartnerId = $hesPartnerId;
-        return $this;
-    }
-
-    /**
-     * @return User
-     * @param int|null $performsQaForProviderId
-     */
-    public function setPerformsQaForProviderId(?int $performsQaForProviderId) : User
-    {
-        $this->performsQaForProviderId = $performsQaForProviderId;
-        return $this;
-    }
-
-    /**
-     * @return User
-     * @param int|null $qualityAssuranceProviderId
-     */
-    public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : User
-    {
-        $this->qualityAssuranceProviderId = $qualityAssuranceProviderId;
         return $this;
     }
 
@@ -361,9 +340,9 @@ class User extends Model
      * @return User
      * @param bool $alwaysActive
      */
-    public function setAlwaysActive(bool $alwaysActive) : User
+    public function setAlwaysActive(?bool $alwaysActive) : User
     {
-        $this->alwaysActive = $alwaysActive;
+        $this->alwaysActive = $alwaysActive || false;
         return $this;
     }
  }
