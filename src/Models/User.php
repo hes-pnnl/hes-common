@@ -27,6 +27,12 @@ class User extends Model
     /** @var int|null */
     protected $hesPartnerId;
 
+    /** @var int|null */
+    protected $performsQaForProviderId;
+
+    /** @var int|null */
+    protected $qualityAssuranceProviderId;
+
     /** @var bool */
     protected $isBlocked;
 
@@ -111,6 +117,22 @@ class User extends Model
     public function getHesPartnerId() : ?int
     {
         return $this->hesPartnerId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getPerformsQaForProviderId() : ?int
+    {
+        return $this->performsQaForProviderId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQualityAssuranceProviderId() : ?int
+    {
+        return $this->qualityAssuranceProviderId;
     }
 
     /**
@@ -253,6 +275,26 @@ class User extends Model
     public function setHesPartnerId(?int $hesPartnerId) : User
     {
         $this->hesPartnerId = $hesPartnerId;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param int|null $performsQaForProviderId
+     */
+    public function setPerformsQaForProviderId(?int $performsQaForProviderId) : User
+    {
+        $this->performsQaForProviderId = $performsQaForProviderId;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param int|null $qualityAssuranceProviderId
+     */
+    public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : User
+    {
+        $this->qualityAssuranceProviderId = $qualityAssuranceProviderId;
         return $this;
     }
 
