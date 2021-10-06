@@ -23,6 +23,9 @@ class Assessor extends Model
     /** @var int|null */
     protected $hesPartnerId;
 
+    /** @var int|null */
+    protected $qualityAssuranceProviderId;
+
     //Getter methods
 
     /**
@@ -63,6 +66,14 @@ class Assessor extends Model
     public function getHesPartnerId(): ?int
     {
         return $this->hesPartnerId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getQualityAssuranceProviderId() : ?int
+    {
+        return $this->qualityAssuranceProviderId;
     }
 
     //Setter methods
@@ -116,4 +127,15 @@ class Assessor extends Model
         $this->hesPartnerId = $hesPartnerId;
         return $this;
     }
+
+    /**
+     * @return User
+     * @param int|null $qualityAssuranceProviderId
+     */
+    public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : User
+    {
+        $this->qualityAssuranceProviderId = $qualityAssuranceProviderId;
+        return $this;
+    }
+
 }
