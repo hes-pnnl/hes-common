@@ -11,6 +11,9 @@ class Assessor extends Model
     /** @var int|null */
     protected $id;
 
+    /** @var int|null */
+    protected $userId;
+
     /** @var string user name */
     protected $name;
 
@@ -26,6 +29,9 @@ class Assessor extends Model
     /** @var int|null */
     protected $qualityAssuranceProviderId;
 
+    /** @var bool */
+    protected $alwaysActive = false;
+
     //Getter methods
 
     /**
@@ -34,6 +40,14 @@ class Assessor extends Model
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUserId(): ?int
+    {
+        return $this->userId;
     }
 
     /**
@@ -76,6 +90,14 @@ class Assessor extends Model
         return $this->qualityAssuranceProviderId;
     }
 
+    /**
+     * @return bool
+     */
+    public function isAlwaysActive() : bool
+    {
+        return $this->alwaysActive;
+    }
+
     //Setter methods
 
     /**
@@ -85,6 +107,16 @@ class Assessor extends Model
     public function setId(int $id): Assessor
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param int $userId
+     * @return Assessor
+     */
+    public function setUserId(int $userId): Assessor
+    {
+        $this->userId = $userId;
         return $this;
     }
 
@@ -135,6 +167,16 @@ class Assessor extends Model
     public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : User
     {
         $this->qualityAssuranceProviderId = $qualityAssuranceProviderId;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param bool $alwaysActive
+     */
+    public function setAlwaysActive(?bool $alwaysActive) : User
+    {
+        $this->alwaysActive = $alwaysActive || false;
         return $this;
     }
 
