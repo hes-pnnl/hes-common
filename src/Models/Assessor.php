@@ -20,6 +20,9 @@ class Assessor extends Model
     /** @var string */
     protected $fullName;
 
+    /** @var string hashed password */
+    protected $password;
+
     /** @var string */
     protected $email;
 
@@ -164,7 +167,7 @@ class Assessor extends Model
      * @return User
      * @param int|null $qualityAssuranceProviderId
      */
-    public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : User
+    public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : Assessor
     {
         $this->qualityAssuranceProviderId = $qualityAssuranceProviderId;
         return $this;
@@ -174,7 +177,7 @@ class Assessor extends Model
      * @return User
      * @param bool $alwaysActive
      */
-    public function setAlwaysActive(?bool $alwaysActive) : User
+    public function setAlwaysActive(?bool $alwaysActive) : Assessor
     {
         $this->alwaysActive = $alwaysActive || false;
         return $this;
