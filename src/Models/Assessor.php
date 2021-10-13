@@ -72,6 +72,14 @@ class Assessor extends Model
     /**
      * @return string
      */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
@@ -140,6 +148,16 @@ class Assessor extends Model
     public function setFullName(string $fullName): Assessor
     {
         $this->fullName = $fullName;
+        return $this;
+    }
+
+    /**
+     * @param string $password
+     * @return Assessor
+     */
+    public function setPassword(string $password): Assessor
+    {
+        $this->password = $password;
         return $this;
     }
 

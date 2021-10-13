@@ -139,9 +139,9 @@ class Partner extends Model
     /**
      * @return string|null
      */
-    public function getAssessorPrefix(): ?string
+    public function getAssessorPrefix(): string
     {
-        return $this->assessorPrefix;
+        return $this->assessorPrefix ?? '';
     }
 
     /**
