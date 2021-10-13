@@ -20,7 +20,7 @@ class Assessor extends Model
     /** @var string */
     protected $fullName;
 
-    /** @var string hashed password */
+    /** @var string|null hashed password */
     protected $password;
 
     /** @var string */
@@ -72,7 +72,7 @@ class Assessor extends Model
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
