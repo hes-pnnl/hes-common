@@ -47,6 +47,6 @@ class BooleanHelper extends Helper
      */
     public static function isValueTrue($input): bool
     {
-        return in_array( $input, ["true", 1, "1", true]);
+        return in_array( $input, ["true", 1, "1"]);
     }
 }
