@@ -62,6 +62,8 @@ abstract class HesSoapApiService
         'get_building_status'             => 'building_info',
         'validate_inputs'                 => 'building_info',
         'building_ca_id'                  => 'building_info',
+
+        'validate_hpxml'                  => 'file',
     ];
 
     /**
@@ -203,6 +205,7 @@ abstract class HesSoapApiService
     {
         return [
             'get_session_token',
+            'validate_hpxml',
 
             // These methods require no session token because they are internal-only methods - they're not publicly accessible
             // at all and are only called via internal call to the LBNL API

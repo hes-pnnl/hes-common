@@ -54,6 +54,35 @@ class BuildingService
             }
         }
 
+        $building = $this->getBuildingFromJSON($response, $buildingId);
+        $HPwESResponse = $this->soapApiService->generateSoapCall(
+            'retrieve_hpwes',
+            [
+                'building_id' => $buildingId
+            ]
+        );
+        $HPwES = HPwES::fromRetrieveHPwESSoapResponse($HPwESResponse);
+        $building->setHPwES($HPwES);
+
+        // Get extra context info for building
+        $buildingInfoResponse = $this->soapApiService->generateSoapCall(
+            'get_building_info',
+            ['building_ids' => $buildingId]
+        );
+        $building->setParentId($buildingInfoResponse['parent_id']);
+        return $building;
+    }
+
+    /**
+     * @param array $response
+     * @param int $buildingId
+     * @param bool $throwException set false if conversion is "try your best" mode
+     * @return Building|null
+     * @throws \Exception
+     */
+    public function getBuildingFromJSON(array $response, int $buildingId, bool $throwException = true) : Building
+    {
+        $building = new Building($buildingId);
         // Do a bit of processing on the response to make it easier to work with:
         //   - Change the zone_wall collection to be indexed by side instead of by number
         foreach ($response['zone']['zone_wall'] as $key => $wall) {
@@ -61,8 +90,6 @@ class BuildingService
             $response['zone']['zone_wall'][$side] = $wall;
             unset($response['zone']['zone_wall'][$key]);
         }
-
-        $building = new Building($buildingId);
 
         /**
          * Sets a property in $building from a value in $response
@@ -74,13 +101,17 @@ class BuildingService
          * @param callable $processor If passed, and the value is not NULL, then $processor will be passed the value and
          *                            the the value returned by $processor will be returned from $set
          */
-        $set = function (string $sourceLocation, $obj = null, string $setter = null, callable $processor = null) use ($building, $response) {
+        $set = function (string $sourceLocation, $obj = null, string $setter = null, callable $processor = null) use ($building, $response, $throwException) {
             $sourceParts = explode('.', $sourceLocation);
 
             $value = $response;
             foreach ($sourceParts as $sourcePart) {
                 if (!array_key_exists($sourcePart, $value)) {
-                    throw new \Exception("Missing expected array key $sourcePart");
+                    if($throwException){
+                        throw new \Exception("Missing expected array key $sourcePart");
+                    } else {
+                        return;
+                    }
                 }
 
                 $value = $value[$sourcePart];
@@ -205,31 +236,15 @@ class BuildingService
         $set('systems.generation.solar_electric.year', $photovoltaic);
         $set('systems.generation.solar_electric.array_azimuth', $photovoltaic);
 
-        $HPwESResponse = $this->soapApiService->generateSoapCall(
-            'retrieve_hpwes',
-            [
-                'building_id' => $buildingId
-            ]
-        );
-        $HPwES = HPwES::fromRetrieveHPwESSoapResponse($HPwESResponse);
-        $building->setHPwES($HPwES);
-        
-        // Get extra context info for building
-        $buildingInfoResponse = $this->soapApiService->generateSoapCall(
-            'get_building_info',
-            ['building_ids' => $buildingId]
-        );
-        $building->setParentId($buildingInfoResponse['parent_id']);
-
         return $building;
     }
     
     /**
-     * @throws \Exception
      * @param int $buildingId
-     * @return string
+     * @return string|null
+     *@throws \Exception
      */
-    public function getBuildingOwner($buildingId) : string
+    public function getBuildingOwner($buildingId) : ?string
     {
         try {
             $response = $this->soapApiService->generateSoapCall(
