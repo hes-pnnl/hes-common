@@ -42,7 +42,22 @@ class ValidationService
         ExecHelper::assertNodeIsInstalled();
         $homeValues = json_encode($homeValuesArray);
         $homeValues = escapeshellarg($homeValues);
-        exec("node $this->nodeModulesPath/hes-validation-engine/home_audit.cli.js $homeValues 2>&1", $output);
+        return $this->getValidationsFromHescoreJSON($homeValues);
+    }
+
+
+    /**
+     * Calls validate_home_audit from the terminal via home_audit.cli.js
+     *
+     * @throws UserSafeException
+     * @param string
+     * @return array
+     */
+    public function getValidationsFromHescoreJSON(string $homeJson) : array
+    {
+        ExecHelper::assertNodeIsInstalled();
+
+        exec("node $this->nodeModulesPath/hes-validation-engine/home_audit.cli.js $homeJson 2>&1", $output);
         /*
          * home_audit.cli will always return only one value.
          * If error is detected, home_audit.node will log a console error, which will be the first entries in our array
@@ -125,5 +140,25 @@ class ValidationService
             }
         }
         return false;
+    }
+
+    /**
+     * Convert validation by category to plan array
+     * @param array $validations
+     * @return array
+     */
+    public static function validationToArray(array $validations) : array
+    {
+        $validationMessages = [];
+        foreach ($validations as $messageType => $fieldNameToMessage) {
+            foreach ($fieldNameToMessage as $fieldName => $message) {
+                $validationMessages[] = [
+                    'field' => $fieldName,
+                    'type' => $messageType,
+                    'message' => $message
+                ];
+            }
+        }
+        return $validationMessages;
     }
 }
