@@ -151,4 +151,22 @@ class Email extends PHPMailer
     {
         $this->setSingleAddress('addReplyTo', 'clearReplyTos', $replyTo);
     }
+
+    public static function getFooterTemplate()
+    {
+            $emailAddress = DOE_ASSESSOR_CONTACT_EMAIL;
+            return <<<FOOTER
+            <p>
+                The Home Energy Score Team <br/>
+                <a href="www.homeenergyscore.gov">www.homeenergyscore.gov</a>
+            </p>
+            <p>
+                Technical Team - Home Energy Scoring Tool, Training, Test, and Quality Assurance <br/>
+                Glenn Dickey <br/>
+                Erik Lundquist <br/>
+                <a href="mailto:{$emailAddress}">{$emailAddress}</a>
+            </p>
+FOOTER
+                ;
+        }
 }
