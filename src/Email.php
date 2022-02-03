@@ -162,7 +162,7 @@ class Email extends PHPMailer
             </p>
             <p>
                 Technical Team - Home Energy Scoring Tool, Training, Test, and Quality Assurance <br/>
-                Glenn Dickey <br/>
+                Torsten Glidden <br/>
                 Erik Lundquist <br/>
                 <a href="mailto:{$emailAddress}">{$emailAddress}</a>
             </p>
