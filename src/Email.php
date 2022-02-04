@@ -154,7 +154,7 @@ class Email extends PHPMailer
 
     public static function getFooterTemplate()
     {
-            $emailAddress = DOE_ASSESSOR_CONTACT_EMAIL;
+            $emailAddress = self::DOE_ASSESSOR_CONTACT_EMAIL;
             return <<<FOOTER
             <p>
                 The Home Energy Score Team <br/>
