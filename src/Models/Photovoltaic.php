@@ -16,6 +16,11 @@ class Photovoltaic extends Model
     const ORIENTATION_SOUTHEAST = 'south_east';
     const ORIENTATION_SOUTHWEST = 'south_west';
 
+    const TILT_FLAT = 'flat';
+    const TILT_LOW_SLOPE = 'low_slope';
+    const TILT_MEDIUM_SLOPE = 'medium_slope';
+    const TILT_STEEP_SLOPE = 'steep_slope';
+
     /** @var int|null */
     protected $capacityKnown;
 
@@ -35,6 +40,12 @@ class Photovoltaic extends Model
     protected $arrayAzimuth;
 
     /**
+     * One of this class's TILT_* constants
+     * @var string|null
+     */
+    protected $arrayTilt;
+
+    /**
      * @return array
      */
     public function getValuesAsArray()
@@ -42,6 +53,7 @@ class Photovoltaic extends Model
         return [
             'solar_electric_year' => $this->getYear(),
             'solar_electric_array_azimuth' => $this->getArrayAzimuth(),
+            'solar_electric_array_tilt' => $this->getArrayTilt(),
             'solar_electric_capacity_known' => $this->isCapacityKnown(),
             'solar_electric_system_capacity' => $this->getSystemCapacity(),
             'solar_electric_num_panels' => $this->getNumPanels(),
@@ -135,6 +147,24 @@ class Photovoltaic extends Model
     public function setArrayAzimuth(?string $arrayAzimuth): Photovoltaic
     {
         $this->arrayAzimuth = $arrayAzimuth;
+        return $this;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getArrayTilt(): ?string
+    {
+        return $this->arrayTilt;
+    }
+
+    /**
+     * @param null|string $arrayTilt
+     * @return Photovoltaic
+     */
+    public function setArrayTilt(?string $arrayTilt): Photovoltaic
+    {
+        $this->arrayTilt = $arrayTilt;
         return $this;
     }
 }

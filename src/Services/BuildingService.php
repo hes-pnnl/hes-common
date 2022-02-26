@@ -235,6 +235,7 @@ class BuildingService
         $set('systems.generation.solar_electric.num_panels', $photovoltaic);
         $set('systems.generation.solar_electric.year', $photovoltaic);
         $set('systems.generation.solar_electric.array_azimuth', $photovoltaic);
+        $set('systems.generation.solar_electric.array_tilt', $photovoltaic);
 
         return $building;
     }
