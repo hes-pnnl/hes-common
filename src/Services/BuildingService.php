@@ -171,6 +171,10 @@ class BuildingService
             $set("zone.zone_roof.$responseRoofNumber.roof_absorptance", $roof, 'setAbsorptance');
             $set("zone.zone_roof.$responseRoofNumber.roof_type", $roof, 'setType');
             $set("zone.zone_roof.$responseRoofNumber.ceiling_assembly_code", $roof, 'setCeilingAssemblyCode');
+            // Knee Wall
+            // $set("zone.zone_roof.$responseRoofNumber.zone_knee_wall.knee_wall_area", $roof);
+            // $set("zone.zone_roof.$responseRoofNumber.zone_knee_wall.knee_wall_assembly_code", $roof);
+            // Skylight
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.solar_screen", $roof, 'setSolarScreen');
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.skylight_area", $roof, 'setSkylightArea');
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.skylight_method", $roof, 'setSkylightMethod');

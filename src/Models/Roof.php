@@ -60,6 +60,12 @@ class Roof extends Model
     /** @var float|null */
     protected $skylightShgc;
 
+    /** @var float|null */
+    protected $kneeWallArea;
+
+    /** @var string|null */
+    protected $kneeWallAssemblyCode;
+
     /**
      * @param int $count
      * @return array
@@ -73,6 +79,8 @@ class Roof extends Model
             'roof_color_'.$count => $this->getColor(),
             'roof_absorptance_'.$count => $this->getAbsorptance(),
             'ceiling_assembly_code_'.$count => $this->getCeilingAssemblyCode(),
+            'knee_wall_area_'.$count => $this->getKneeWallArea(),
+            'knee_wall_assembly_code_'.$count => $this->getKneeWallAssemblyCode()
         ];
         //Skylight
         if($count == 1) {
@@ -299,6 +307,42 @@ class Roof extends Model
     public function setSkylightShgc(?float $skylightShgc): Roof
     {
         $this->skylightShgc = $skylightShgc;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getKneeWallArea(): ?float
+    {
+        return $this->kneeWallArea;
+    }
+
+    /**
+     * @param float|null $assemblyCode
+     * @return Wall
+     */
+    public function setKneeWallArea(?float $kneeWallArea): Roof
+    {
+        $this->kneeWallArea = $kneeWallArea;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getKneeWallAssemblyCode(): ?string
+    {
+        return $this->kneeWallAssemblyCode;
+    }
+
+    /**
+     * @param string|null $assemblyCode
+     * @return Wall
+     */
+    public function setKneeWallAssemblyCode(?string $kneeWallAssemblyCode): Roof
+    {
+        $this->kneeWallAssemblyCode = $kneeWallAssemblyCode;
         return $this;
     }
 }

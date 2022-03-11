@@ -141,7 +141,18 @@ class HumanReadableHelper extends Helper
         "ecwf49" => "R-49",
         "ecwf60" => "R-60"
     ];
-    
+    const KNEE_WALL_ASSEMBLY = [
+        "kwwf00" => "R-0",
+        "kwwf03" => "R-3",
+        "kwwf07" => "R-7",
+        "kwwf11" => "R-11",
+        "kwwf13" => "R-13",
+        "kwwf15" => "R-15",
+        "kwwf17" => "R-17",
+        "kwwf19" => "R-19",
+        "kwwf21" => "R-21"
+    ];
+
     /* Foundation Codes */
     const FOUNDATION_TYPE = [
         ""=>"-Select-",
