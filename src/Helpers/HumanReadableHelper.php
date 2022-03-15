@@ -202,8 +202,8 @@ class HumanReadableHelper extends Helper
     const DUCT_LOCATION = [
         "cond_space"      => "Conditioned space",
         "uncond_basement" => "Unconditioned basement",
-        "vented_crawl"    => "Vented crawlspace / Unconditioned garage",
-        "unvented_crawl"  => "Unvented crawlspace",
+        "vented_crawl"    => "Vented crawlspace",
+        "unvented_crawl"  => "Unvented crawlspace / Unconditioned garage",
         "uncond_attic"    => "Unconditioned attic",
         'garage'          => 'Garage',
         'under_slab'      => 'Under slab',
