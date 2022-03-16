@@ -212,13 +212,17 @@ class BuildingService
             $set("systems.hvac.$responseHvacNumber.cooling.efficiency", $hvac, 'setCoolingEfficiency');
             $set("systems.hvac.$responseHvacNumber.cooling.year", $hvac, 'setCoolingYearInstalled');
 
+            $distribution = $hvac->getDistribution();
+            // TODO: Uncomment these when retrieve_inputs is ready
+            // $set("systems.hvac.$responseHvacNumber.hvac_distribution.leakage_method", $distribution);
+            // $set("systems.hvac.$responseHvacNumber.hvac_distribution.leakage_to_outside", $distribution, 'setLeakage');
+            // $set("systems.hvac.$responseHvacNumber.hvac_distribution.sealed", $distribution);
             foreach (range(1, 3) as $ductNumber) {
-                $duct = $hvac->getDuct($ductNumber);
+                $duct = $distribution->getDuct($ductNumber);
                 $responseDuctNumber = $ductNumber - 1; // Response uses 0-indexing
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.location", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.fraction", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.insulated", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.sealed", $duct);
+                // $set("systems.hvac.$responseHvacNumber.hvac_distribution.duct.$responseDuctNumber.location", $duct);
+                // $set("systems.hvac.$responseHvacNumber.hvac_distribution.duct.$responseDuctNumber.fraction", $duct);
+                // $set("systems.hvac.$responseHvacNumber.hvac_distribution.duct.$responseDuctNumber.insulated", $duct);
             }
         }
 
