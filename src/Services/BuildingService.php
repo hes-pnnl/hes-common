@@ -172,6 +172,7 @@ class BuildingService
             $set("zone.zone_roof.$responseRoofNumber.roof_type", $roof, 'setType');
             $set("zone.zone_roof.$responseRoofNumber.ceiling_assembly_code", $roof, 'setCeilingAssemblyCode');
             // Knee Wall
+            // TODO: Uncomment these when retrieve_inputs is ready
             // $set("zone.zone_roof.$responseRoofNumber.zone_knee_wall.knee_wall_area", $roof);
             // $set("zone.zone_roof.$responseRoofNumber.zone_knee_wall.knee_wall_assembly_code", $roof);
             // Skylight
@@ -243,7 +244,8 @@ class BuildingService
         $set('systems.generation.solar_electric.num_panels', $photovoltaic);
         $set('systems.generation.solar_electric.year', $photovoltaic);
         $set('systems.generation.solar_electric.array_azimuth', $photovoltaic);
-        $set('systems.generation.solar_electric.array_tilt', $photovoltaic);
+        // TODO: Uncomment these when retrieve_inputs is ready
+        // $set('systems.generation.solar_electric.array_tilt', $photovoltaic);
 
         return $building;
     }
