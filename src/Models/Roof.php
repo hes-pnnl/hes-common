@@ -39,6 +39,9 @@ class Roof extends Model
      */
     protected $type;
 
+    /** @var float|null */
+    protected $ceilingArea;
+
     /** @var string|null */
     protected $ceilingAssemblyCode;
     
@@ -78,6 +81,7 @@ class Roof extends Model
             'roof_assembly_code_'.$count => $this->getRoofAssemblyCode(),
             'roof_color_'.$count => $this->getColor(),
             'roof_absorptance_'.$count => $this->getAbsorptance(),
+            'ceiling_area_'.$count => $this->getCeilingArea(),
             'ceiling_assembly_code_'.$count => $this->getCeilingAssemblyCode(),
             'knee_wall_area_'.$count => $this->getKneeWallArea(),
             'knee_wall_assembly_code_'.$count => $this->getKneeWallAssemblyCode()
@@ -182,6 +186,24 @@ class Roof extends Model
     public function setType(?string $type): Roof
     {
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getCeilingArea(): ?float
+    {
+        return $this->arceilingAreaea;
+    }
+
+    /**
+     * @param float|null $ceilingArea
+     * @return Roof
+     */
+    public function setCeilingArea(?float $ceilingArea): Roof
+    {
+        $this->ceilingArea = $ceilingArea;
         return $this;
     }
 
