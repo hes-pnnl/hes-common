@@ -194,7 +194,7 @@ class Roof extends Model
      */
     public function getCeilingArea(): ?float
     {
-        return $this->arceilingAreaea;
+        return $this->ceilingArea;
     }
 
     /**
