@@ -264,8 +264,8 @@ class Building extends Model
         $return['WINDOWS'] = $windowValues;
         $return['HVAC SYSTEM 1'] = $hvacValues[1];
         $return['HVAC SYSTEM 2'] = $hvacValues[2];
-        $return['HVAC 1 DISTRIBUTION'] = $hvacValues[2];
-        $return['HVAC 2 DISTRIBUTION'] = $hvacValues[2];
+        $return['HVAC 1 DISTRIBUTION'] = $hvacDistributionValues[1];
+        $return['HVAC 2 DISTRIBUTION'] = $hvacDistributionValues[2];
         $return['HVAC 1 DUCT 1'] = $ductValues[1][1];
         $return['HVAC 1 DUCT 2'] = $ductValues[1][2];
         $return['HVAC 1 DUCT 3'] = $ductValues[1][3];
