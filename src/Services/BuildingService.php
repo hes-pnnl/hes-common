@@ -224,9 +224,9 @@ class BuildingService
             foreach (range(1, 3) as $ductNumber) {
                 $duct = $distribution->getDuct($ductNumber);
                 $responseDuctNumber = $ductNumber - 1; // Response uses 0-indexing
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.duct.$responseDuctNumber.location", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.duct.$responseDuctNumber.fraction", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.duct.$responseDuctNumber.insulated", $duct);
+                $set("systems.hvac.$responseHvacNumber.hvac_distribution.hvac_duct.$responseDuctNumber.location", $duct);
+                $set("systems.hvac.$responseHvacNumber.hvac_distribution.hvac_duct.$responseDuctNumber.fraction", $duct);
+                $set("systems.hvac.$responseHvacNumber.hvac_distribution.hvac_duct.$responseDuctNumber.insulated", $duct);
             }
         }
 
