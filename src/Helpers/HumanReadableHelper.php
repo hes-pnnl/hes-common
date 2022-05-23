@@ -216,12 +216,9 @@ class HumanReadableHelper extends Helper
         "vented_crawl"    => "Vented crawlspace",
         "unvented_crawl"  => "Unvented crawlspace / Unconditioned garage",
         "uncond_attic"    => "Unconditioned attic",
-        'garage'          => 'Garage',
         'under_slab'      => 'Under slab',
         'exterior_wall'   => 'In exterior wall',
-        'roof_deck'       => 'Roof deck',
-        'outside'         => 'Outside',
-        'unknown'         => 'Unknown/not applicable'
+        'outside'         => 'Outside'
     ];
     const HOT_WATER_TYPE = [
         "storage"           => "Storage",

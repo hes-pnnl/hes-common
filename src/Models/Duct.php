@@ -14,12 +14,9 @@ class Duct extends Model
     const LOCATION_UNVENTED_CRAWLSPACE = 'unvented_crawl';
     const LOCATION_VENTED_CRAWLSPACE = 'vented_crawl';
     const LOCATION_UNCONDITIONED_ATTIC = 'uncond_attic';
-    const LOCATION_GARAGE = 'garage';
     const LOCATION_UNDER_SLAB = 'under_slab';
     const LOCATION_EXTERIOR_WALL = 'exterior_wall';
-    const LOCATION_ROOF_DECK = 'roof_deck';
     const LOCATION_OUTSIDE = 'outside';
-    const LOCATION_UNKNOWN = 'unknown';
 
     /**
      * One of this class's LOCATION_* constants
