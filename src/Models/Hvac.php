@@ -77,7 +77,7 @@ class Hvac extends Model
     /** @var float|null */
     protected $coolingEfficiency;
 
-    /** @var HvacDistribution */
+    /** @var HvacDistribution[] */
     protected $distribution;
 
     public function __construct()

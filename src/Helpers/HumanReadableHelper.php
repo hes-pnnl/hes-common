@@ -61,18 +61,20 @@ class HumanReadableHelper extends Helper
     const INSULATION_WALL = [
         "00"=>"R-0",
         "03"=>"R-3",
+        "05"=>"R-5",
+        "06"=>"R-6",
         "07"=>"R-7",
+        "10"=>"R-10",
         "11"=>"R-11",
         "13"=>"R-13",
         "15"=>"R-15",
         "19"=>"R-19",
         "21"=>"R-21",
+        "25"=>"R-25",
         "27"=>"R-27",
         "33"=>"R-33",
+        "35"=>"R-35",
         "38"=>"R-38",
-        "05"=>"R-5",
-        "10"=>"R-10",
-        "06"=>"R-6",
     ];
     
     /* Window Codes */
@@ -113,11 +115,14 @@ class HumanReadableHelper extends Helper
     ];
     const INSULATION_ROOF = [
         "00"=>"R-0",
+        "03"=>"R-3",
+        "07"=>"R-7",
         "11"=>"R-11",
         "13"=>"R-13",
         "15"=>"R-15",
         "19"=>"R-19",
         "21"=>"R-21",
+        "25"=>"R-25",
         "27"=>"R-27",
         "30"=>"R-30",
     ];
@@ -132,13 +137,17 @@ class HumanReadableHelper extends Helper
         "ecwf06" => "R-6",
         "ecwf09" => "R-9",
         "ecwf11" => "R-11",
+        "ecwf13" => "R-13",
+        "ecwf15" => "R-15",
         "ecwf19" => "R-19",
         "ecwf21" => "R-21",
         "ecwf25" => "R-25",
         "ecwf30" => "R-30",
+        "ecwf35" => "R-35",
         "ecwf38" => "R-38",
         "ecwf44" => "R-44",
         "ecwf49" => "R-49",
+        "ecwf55" => "R-55",
         "ecwf60" => "R-60"
     ];
     const KNEE_WALL_ASSEMBLY = [
@@ -165,6 +174,8 @@ class HumanReadableHelper extends Helper
     const INSULATION_FLOOR = [
         ""=>"-Select-",
         "efwf00ca"=>"R-0",
+        "efwf03ca"=>"R-3",
+        "efwf07ca"=>"R-7",
         "efwf11ca"=>"R-11",
         "efwf13ca"=>"R-13",
         "efwf15ca"=>"R-15",
@@ -172,6 +183,7 @@ class HumanReadableHelper extends Helper
         "efwf21ca"=>"R-21",
         "efwf25ca"=>"R-25",
         "efwf30ca"=>"R-30",
+        "efwf35ca"=>"R-35",
         "efwf38ca"=>"R-38"
     ];
     const FOUNDATION_INSULATION = [

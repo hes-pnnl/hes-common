@@ -333,7 +333,7 @@ class Roof extends Model
     }
 
     /**
-     * @return float
+     * @return float|null
      */
     public function getKneeWallArea(): ?float
     {
@@ -341,8 +341,8 @@ class Roof extends Model
     }
 
     /**
-     * @param float|null $assemblyCode
-     * @return Wall
+     * @param float|null $kneeWallArea
+     * @return Roof
      */
     public function setKneeWallArea(?float $kneeWallArea): Roof
     {
@@ -351,7 +351,7 @@ class Roof extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getKneeWallAssemblyCode(): ?string
     {
@@ -359,8 +359,8 @@ class Roof extends Model
     }
 
     /**
-     * @param string|null $assemblyCode
-     * @return Wall
+     * @param string|null $kneeWallAssemblyCode
+     * @return Roof
      */
     public function setKneeWallAssemblyCode(?string $kneeWallAssemblyCode): Roof
     {
