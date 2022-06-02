@@ -13,7 +13,7 @@ class CronRuns extends Repository
      */
     const CRON_BUILDING_EXPORT    = 'building_export';
     const CRON_DEACTIVATED_EMAIL  = 'send_deactivated_email';
-
+    const CRON_LAPSED_EMAIL  = 'send_lapsed_email';
     /**
      * Gets the last run time for the specified cron
      * @param string $name The name of the cron to pull
