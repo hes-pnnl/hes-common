@@ -157,7 +157,6 @@ class HumanReadableHelper extends Helper
         "kwwf11" => "R-11",
         "kwwf13" => "R-13",
         "kwwf15" => "R-15",
-        "kwwf17" => "R-17",
         "kwwf19" => "R-19",
         "kwwf21" => "R-21"
     ];
