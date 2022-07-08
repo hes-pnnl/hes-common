@@ -77,12 +77,12 @@ class Hvac extends Model
     /** @var float|null */
     protected $coolingEfficiency;
 
-    /** @var Duct[] */
-    protected $ducts;
+    /** @var HvacDistribution[] */
+    protected $distribution;
 
     public function __construct()
     {
-        $this->ducts = [1 => new Duct(), 2 => new Duct(), 3 => new Duct()];
+        $this->distribution = new HvacDistribution();
     }
 
     /**
@@ -305,23 +305,10 @@ class Hvac extends Model
     }
 
     /**
-     * @param int $ductNumber
-     * @return Duct
+     * @return HvacDistribution
      */
-    public function getDuct(int $ductNumber) : Duct
+    public function getDistribution() : HvacDistribution
     {
-        if (!isset($this->ducts[$ductNumber])) {
-            throw new \InvalidArgumentException("$ductNumber is not a valid duct number");
-        }
-
-        return $this->ducts[$ductNumber];
-    }
-
-    /**
-     * @return Duct[] in the form [ <duct number> => Duct, ...] where duct number is 1-based
-     */
-    public function getDucts() : array
-    {
-        return $this->ducts;
+        return $this->distribution;
     }
 }
