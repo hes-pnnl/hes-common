@@ -231,6 +231,8 @@ class Building extends Model
         }
         $hvacValues[1] = [];
         $hvacValues[2] = [];
+        $hvacDistributionValues[1] = [];
+        $hvacDistributionValues[2] = [];
         $ductValues[1][1] = [];
         $ductValues[1][2] = [];
         $ductValues[1][3] = [];
@@ -240,8 +242,10 @@ class Building extends Model
         foreach([1,2] as $system){
             $hvac = $this->getHvac($system);
             $hvacValues[$system] = array_merge($hvacValues[$system], $hvac->getValuesAsArray($system));
+            $distribution = $hvac->getDistribution();
+            $hvacDistributionValues[$system] = array_merge($hvacValues[$system], $distribution->getValuesAsArray($system));
             foreach([1,2,3] as $count) {
-                $duct = $hvac->getDuct($count);
+                $duct = $distribution->getDuct($count);
                 $ductValues[$system][$count] = array_merge($ductValues[$system][$count], $duct->getValuesAsArray($system, $count));
             }
         }
@@ -260,12 +264,14 @@ class Building extends Model
         $return['WINDOWS'] = $windowValues;
         $return['HVAC SYSTEM 1'] = $hvacValues[1];
         $return['HVAC SYSTEM 2'] = $hvacValues[2];
-        $return['HVAC 1 DISTRIBUTION 1'] = $ductValues[1][1];
-        $return['HVAC 1 DISTRIBUTION 2'] = $ductValues[1][2];
-        $return['HVAC 1 DISTRIBUTION 3'] = $ductValues[1][3];
-        $return['HVAC 2 DISTRIBUTION 1'] = $ductValues[2][1];
-        $return['HVAC 2 DISTRIBUTION 2'] = $ductValues[2][2];
-        $return['HVAC 2 DISTRIBUTION 3'] = $ductValues[2][3];
+        $return['HVAC 1 DISTRIBUTION'] = $hvacDistributionValues[1];
+        $return['HVAC 2 DISTRIBUTION'] = $hvacDistributionValues[2];
+        $return['HVAC 1 DUCT 1'] = $ductValues[1][1];
+        $return['HVAC 1 DUCT 2'] = $ductValues[1][2];
+        $return['HVAC 1 DUCT 3'] = $ductValues[1][3];
+        $return['HVAC 2 DUCT 1'] = $ductValues[2][1];
+        $return['HVAC 2 DUCT 2'] = $ductValues[2][2];
+        $return['HVAC 2 DUCT 3'] = $ductValues[2][3];
         $return['HOT WATER'] = $hwValues;
         $return['PHOTOVOLTAIC'] = $pvValues;
         

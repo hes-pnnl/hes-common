@@ -166,11 +166,16 @@ class BuildingService
             $roof = $building->getRoof($roofNumber);
             $responseRoofNumber = $roofNumber - 1; // Response uses 0-indexing
             $set("zone.zone_roof.$responseRoofNumber.roof_area", $roof, 'setArea');
+            $set("zone.zone_roof.$responseRoofNumber.ceiling_area", $roof, 'setCeilingArea');
             $set("zone.zone_roof.$responseRoofNumber.roof_assembly_code", $roof, 'setRoofAssemblyCode');
             $set("zone.zone_roof.$responseRoofNumber.roof_color", $roof, 'setColor');
             $set("zone.zone_roof.$responseRoofNumber.roof_absorptance", $roof, 'setAbsorptance');
             $set("zone.zone_roof.$responseRoofNumber.roof_type", $roof, 'setType');
             $set("zone.zone_roof.$responseRoofNumber.ceiling_assembly_code", $roof, 'setCeilingAssemblyCode');
+            // Knee Wall
+            $set("zone.zone_roof.$responseRoofNumber.zone_knee_wall.knee_wall_area", $roof, 'setKneeWallArea');
+            $set("zone.zone_roof.$responseRoofNumber.zone_knee_wall.knee_wall_assembly_code", $roof, 'setKneeWallAssemblyCode');
+            // Skylight
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.solar_screen", $roof, 'setSolarScreen');
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.skylight_area", $roof, 'setSkylightArea');
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.skylight_method", $roof, 'setSkylightMethod');
@@ -212,13 +217,16 @@ class BuildingService
             $set("systems.hvac.$responseHvacNumber.cooling.efficiency", $hvac, 'setCoolingEfficiency');
             $set("systems.hvac.$responseHvacNumber.cooling.year", $hvac, 'setCoolingYearInstalled');
 
+            $distribution = $hvac->getDistribution();
+            $set("systems.hvac.$responseHvacNumber.hvac_distribution.leakage_method", $distribution);
+            $set("systems.hvac.$responseHvacNumber.hvac_distribution.leakage_to_outside", $distribution, 'setLeakage');
+            $set("systems.hvac.$responseHvacNumber.hvac_distribution.sealed", $distribution);
             foreach (range(1, 3) as $ductNumber) {
-                $duct = $hvac->getDuct($ductNumber);
+                $duct = $distribution->getDuct($ductNumber);
                 $responseDuctNumber = $ductNumber - 1; // Response uses 0-indexing
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.location", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.fraction", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.insulated", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.sealed", $duct);
+                $set("systems.hvac.$responseHvacNumber.hvac_distribution.hvac_duct.$responseDuctNumber.location", $duct);
+                $set("systems.hvac.$responseHvacNumber.hvac_distribution.hvac_duct.$responseDuctNumber.fraction", $duct);
+                $set("systems.hvac.$responseHvacNumber.hvac_distribution.hvac_duct.$responseDuctNumber.insulated", $duct);
             }
         }
 
@@ -235,6 +243,7 @@ class BuildingService
         $set('systems.generation.solar_electric.num_panels', $photovoltaic);
         $set('systems.generation.solar_electric.year', $photovoltaic);
         $set('systems.generation.solar_electric.array_azimuth', $photovoltaic);
+        $set('systems.generation.solar_electric.array_tilt', $photovoltaic);
 
         return $building;
     }
