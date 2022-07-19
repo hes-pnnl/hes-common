@@ -162,7 +162,7 @@ class Building extends Model
 
         $this->walls = [];
         $this->windows = [];
-        foreach (['front', 'back', 'left', 'right'] as $side) {
+        foreach (['front', 'back', 'right', 'left'] as $side) {
             $this->walls[$side] = new Wall();
             $this->windows[$side] = new Window();
         }
