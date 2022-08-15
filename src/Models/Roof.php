@@ -98,6 +98,22 @@ class Roof extends Model
         
         return $values;
     }
+    
+    /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return !(
+            $this->getArea() ||
+            $this->getType() ||
+            $this->getRoofAssemblyCode() ||
+            $this->getColor() ||
+            $this->getAbsorptance() ||
+            $this->getCeilingArea() ||
+            $this->getCeilingAssemblyCode()
+        );
+    }
 
     /**
      * @return float|null
