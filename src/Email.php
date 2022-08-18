@@ -47,7 +47,10 @@ class Email extends PHPMailer
      */
     private function setSingleAddress(string $addMethod, string $clearMethod, string $address) {
         $this->$clearMethod();
-        $this->$addMethod($address);
+        $addresses = explode(',', $address);
+        foreach( $addresses as $add ){
+            $this->$addMethod(trim($add));
+        }
     }
 
     /**

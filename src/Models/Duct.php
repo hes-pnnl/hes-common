@@ -14,6 +14,9 @@ class Duct extends Model
     const LOCATION_UNVENTED_CRAWLSPACE = 'unvented_crawl';
     const LOCATION_VENTED_CRAWLSPACE = 'vented_crawl';
     const LOCATION_UNCONDITIONED_ATTIC = 'uncond_attic';
+    const LOCATION_UNDER_SLAB = 'under_slab';
+    const LOCATION_EXTERIOR_WALL = 'exterior_wall';
+    const LOCATION_OUTSIDE = 'outside';
 
     /**
      * One of this class's LOCATION_* constants
@@ -21,14 +24,11 @@ class Duct extends Model
      */
     protected $location;
 
-    /** @var int|null */
+    /** @var float|null */
     protected $fraction;
 
     /** @var bool|null */
     protected $insulated;
-
-    /** @var bool|null */
-    protected $sealed;
 
     /**
      * @param int $system
@@ -41,7 +41,6 @@ class Duct extends Model
             'duct_location_'.$count.'_'.$system => $this->getLocation(),
             'duct_fraction_'.$count.'_'.$system => $this->getFraction(),
             'duct_insulated_'.$count.'_'.$system => BooleanHelper::getIntValForThreeValueBoolean($this->isInsulated()),
-            'duct_sealed_'.$count.'_'.$system => BooleanHelper::getIntValForThreeValueBoolean($this->isSealed()),
         ];
     }
 
@@ -50,7 +49,7 @@ class Duct extends Model
      */
     public function isEmpty(): bool
     {
-        return !($this->getLocation() || $this->getFraction() || $this->isInsulated() || $this->isSealed());
+        return !($this->getLocation() || $this->getFraction() || $this->isInsulated());
     }
 
     /**
@@ -72,9 +71,9 @@ class Duct extends Model
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getFraction(): ?int
+    public function getFraction(): ?float
     {
         return $this->fraction;
     }
@@ -83,7 +82,7 @@ class Duct extends Model
      * @param int|null $fraction
      * @return Duct
      */
-    public function setFraction(?int $fraction): Duct
+    public function setFraction(?float $fraction): Duct
     {
         $this->fraction = $fraction;
         return $this;
@@ -104,24 +103,6 @@ class Duct extends Model
     public function setInsulated(?bool $insulated): Duct
     {
         $this->insulated = $insulated;
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function isSealed(): ?bool
-    {
-        return $this->sealed;
-    }
-
-    /**
-     * @param bool|null $sealed
-     * @return Duct
-     */
-    public function setSealed(?bool $sealed): Duct
-    {
-        $this->sealed = $sealed;
         return $this;
     }
 }
