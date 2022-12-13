@@ -50,7 +50,6 @@ class EmailHelper extends Helper
         $email->setMessage($header."\n\n".$email->getMessage());
         $email->clearAllRecipients();
         $email->setRecipient(Email::HES_DEV_TEAM_EMAIL);
-        $email->setCC(Email::DOE_ASSESSOR_CONTACT_EMAIL);
         return $email->send();
     }
 }
