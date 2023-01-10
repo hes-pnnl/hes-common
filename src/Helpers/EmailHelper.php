@@ -32,7 +32,7 @@ class EmailHelper extends Helper
             $email->setMessage('Test Email');
         }
 
-        if(env('APP_ENV') === 'production') {
+        if(env('APP_ENV') === 'production' || env('APP_ENV') === 'sandbox') {
             return $email->send();
         } else {
             return EmailHelper::sendInTestEnvironment($email);
