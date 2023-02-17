@@ -73,6 +73,11 @@ class ApiKeys extends Repository
                 $filter = $filter . " AND `ak`.`id` = ?";
                 array_push($bindings, $filters["id"]);
             }
+
+            if (array_key_exists("api_key", $filters) && $filters["api_key"]) {
+                $filter = $filter . " AND `ak`.`api_key` = ?";
+                array_push($bindings, $filters["api_key"]);
+            }
         }
 
         $results = $this->getHesAdminDb()->select("

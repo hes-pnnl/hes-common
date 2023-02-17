@@ -32,7 +32,7 @@ class EmailHelper extends Helper
             $email->setMessage('Test Email');
         }
 
-        if(env('APP_ENV') === 'production') {
+        if(env('APP_ENV') === 'production' || env('APP_ENV') === 'sandbox') {
             return $email->send();
         } else {
             return EmailHelper::sendInTestEnvironment($email);
@@ -50,7 +50,6 @@ class EmailHelper extends Helper
         $email->setMessage($header."\n\n".$email->getMessage());
         $email->clearAllRecipients();
         $email->setRecipient(Email::HES_DEV_TEAM_EMAIL);
-        $email->setCC(Email::DOE_ASSESSOR_CONTACT_EMAIL);
         return $email->send();
     }
 }
