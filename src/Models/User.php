@@ -90,7 +90,7 @@ class User extends Model
     /**
      * @return string
      */
-    public function getPassword() : string
+    public function getPassword() : ?string
     {
         return $this->password;
     }
