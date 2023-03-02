@@ -9,6 +9,9 @@ class User extends Model
     /** @var int|null */
     protected $id;
 
+    /** @var int|null */
+    protected $assessorId;
+
     /** @var string user name */
     protected $name;
 
@@ -66,6 +69,14 @@ class User extends Model
     public function getId() : ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getAssessorId() : ?int
+    {
+        return $this->assessorId;
     }
 
     /**
@@ -204,6 +215,16 @@ class User extends Model
     public function setId(int $id) : User
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param int|null $id
+     * @return User
+     */
+    public function setAssessorId(?int $id) : User
+    {
+        $this->assessorId = $id;
         return $this;
     }
 
@@ -361,9 +382,9 @@ class User extends Model
      * @return User
      * @param bool $alwaysActive
      */
-    public function setAlwaysActive(bool $alwaysActive) : User
+    public function setAlwaysActive(?bool $alwaysActive) : User
     {
-        $this->alwaysActive = $alwaysActive;
+        $this->alwaysActive = $alwaysActive || false;
         return $this;
     }
  }

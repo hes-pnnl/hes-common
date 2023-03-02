@@ -11,17 +11,29 @@ class Assessor extends Model
     /** @var int|null */
     protected $id;
 
+    /** @var int|null */
+    protected $userId;
+
     /** @var string user name */
     protected $name;
 
     /** @var string */
     protected $fullName;
 
+    /** @var string|null hashed password */
+    protected $password;
+
     /** @var string */
     protected $email;
 
     /** @var int|null */
     protected $hesPartnerId;
+
+    /** @var int|null */
+    protected $qualityAssuranceProviderId;
+
+    /** @var bool */
+    protected $alwaysActive = false;
 
     //Getter methods
 
@@ -31,6 +43,14 @@ class Assessor extends Model
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getUserId(): ?int
+    {
+        return $this->userId;
     }
 
     /**
@@ -52,6 +72,14 @@ class Assessor extends Model
     /**
      * @return string
      */
+    public function getPassword(): ?string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
@@ -65,6 +93,22 @@ class Assessor extends Model
         return $this->hesPartnerId;
     }
 
+    /**
+     * @return int|null
+     */
+    public function getQualityAssuranceProviderId() : ?int
+    {
+        return $this->qualityAssuranceProviderId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAlwaysActive() : bool
+    {
+        return $this->alwaysActive;
+    }
+
     //Setter methods
 
     /**
@@ -74,6 +118,16 @@ class Assessor extends Model
     public function setId(int $id): Assessor
     {
         $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * @param int $userId
+     * @return Assessor
+     */
+    public function setUserId(int $userId): Assessor
+    {
+        $this->userId = $userId;
         return $this;
     }
 
@@ -98,6 +152,16 @@ class Assessor extends Model
     }
 
     /**
+     * @param string $password
+     * @return Assessor
+     */
+    public function setPassword(string $password): Assessor
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    /**
      * @param string $email
      * @return Assessor
      */
@@ -116,4 +180,25 @@ class Assessor extends Model
         $this->hesPartnerId = $hesPartnerId;
         return $this;
     }
+
+    /**
+     * @return User
+     * @param int|null $qualityAssuranceProviderId
+     */
+    public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : Assessor
+    {
+        $this->qualityAssuranceProviderId = $qualityAssuranceProviderId;
+        return $this;
+    }
+
+    /**
+     * @return User
+     * @param bool $alwaysActive
+     */
+    public function setAlwaysActive(?bool $alwaysActive) : Assessor
+    {
+        $this->alwaysActive = $alwaysActive || false;
+        return $this;
+    }
+
 }
