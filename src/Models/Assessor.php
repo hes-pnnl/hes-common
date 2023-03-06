@@ -35,6 +35,9 @@ class Assessor extends Model
     /** @var bool */
     protected $alwaysActive = false;
 
+    /** @var bool */
+    protected $isPartner = false;
+
     //Getter methods
 
     /**
@@ -107,6 +110,14 @@ class Assessor extends Model
     public function isAlwaysActive() : bool
     {
         return $this->alwaysActive;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPartner() : bool
+    {
+        return $this->isPartner;
     }
 
     //Setter methods
@@ -201,4 +212,13 @@ class Assessor extends Model
         return $this;
     }
 
+    /**
+     * @return User
+     * @param bool $isPartner
+     */
+    public function setIsPartner(?bool $isPartner) : Assessor
+    {
+        $this->isPartner = $isPartner || false;
+        return $this;
+    }
 }
