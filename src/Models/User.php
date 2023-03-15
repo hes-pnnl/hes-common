@@ -106,7 +106,7 @@ class User extends Model
     /**
      * @return string
      */
-    public function getEmail() : string
+    public function getEmail() : ?string
     {
         return $this->email;
     }
@@ -262,7 +262,7 @@ class User extends Model
      * @return User
      * @param string $email
      */
-    public function setEmail(string $email) : User
+    public function setEmail(?string $email) : User
     {
         $this->email = $email;
         return $this;
