@@ -24,7 +24,7 @@ class AccountStatuses extends Repository
     public function getNameById(int $id) : string
     {
         return $this->getHesAdminDb()->selectOneSingleField("
-            SELECT `name` FROM `account_statuses` WHERE `id` = :id
+            SELECT name FROM account_statuses WHERE id = :id
         ", [
             'id' => $id
         ]);
@@ -38,7 +38,7 @@ class AccountStatuses extends Repository
     public function getIdByName(string $name) : string
     {
         return $this->getHesAdminDb()->selectOneSingleField("
-            SELECT `id` FROM `account_statuses` WHERE `name` = :name
+            SELECT id FROM account_statuses WHERE name = :name
         ", [
             'name' => $name
         ]);
@@ -52,9 +52,9 @@ class AccountStatuses extends Repository
     public function getStatuses() : array
     {
         $results = $this->getHesAdminDb()->select("
-            SELECT `id`,
-                   `name`
-              FROM `account_statuses`
+            SELECT id,
+                   name
+              FROM account_statuses
         ");
         $tableArray = $this->objectArrayToArray($results);
         $return = [];
@@ -73,7 +73,7 @@ class AccountStatuses extends Repository
     public function statusIdExists(int $statusId) : bool
     {
         return $this->getHesAdminDb()->doesResultExist(
-            "SELECT 1 FROM `account_statuses` WHERE id = :statusId",
+            "SELECT 1 FROM account_statuses WHERE id = :statusId",
             [
                 "statusId" => $statusId
             ]
