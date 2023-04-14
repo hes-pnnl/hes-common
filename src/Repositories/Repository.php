@@ -103,6 +103,6 @@ abstract class Repository
     protected function getCurrentDatabaseTime(DatabaseConnection $database = null) : string
     {
         $database = $database ?? $this->getApiDb();
-        return $database->selectOneSingleField("SELECT NOW() as `currentTime`");
+        return $database->selectOneSingleField("SELECT NOW() as currentTime");
     }
 }

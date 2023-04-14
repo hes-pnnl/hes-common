@@ -18,9 +18,9 @@ class MaintenancePeriods extends Repository
      */
     public function startMaintenancePeriod(string $message) : void
     {
-        $this->getHesAdminDb()->insert('
-            INSERT INTO maintenance_periods SET message = :message
-        ', [
+        $this->getHesAdminDb()->insert("
+            INSERT INTO maintenance_periods (message) VALUES (':message')
+        ", [
             'message' => $message
         ]);
     }

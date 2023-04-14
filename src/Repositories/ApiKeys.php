@@ -75,7 +75,7 @@ class ApiKeys extends Repository
             }
 
             if (array_key_exists("api_key", $filters) && $filters["api_key"]) {
-                $filter = $filter . " AND ak.api_key = ?";
+                $filter = $filter . " AND ak.api_key = '?'";
                 array_push($bindings, $filters["api_key"]);
             }
         }
@@ -88,7 +88,7 @@ class ApiKeys extends Repository
                    software_providers_api_keys.application
               FROM api_keys AS ak
          LEFT JOIN software_providers_api_keys ON software_providers_api_keys.api_key_id = ak.id
-             WHERE 1
+             WHERE TRUE
         " . $filter, $bindings);
         $results = $this->objectArrayToArray($results);
         $apiKeys = [];
