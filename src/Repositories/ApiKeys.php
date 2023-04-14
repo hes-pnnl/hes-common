@@ -60,34 +60,34 @@ class ApiKeys extends Repository
         if ($filters) {
             if (array_key_exists("status", $filters) && $filters["status"]) {
 
-                $filter .= " AND `ak`.`status_id` = ?";
+                $filter .= " AND ak.status_id = ?";
                 array_push($bindings, $filters["status"]);
 
             }
             if (array_key_exists("software_provider_id", $filters) && $filters["software_provider_id"]) {
-                $filter .= " AND `software_providers_api_keys`.`software_provider_id` = ?";
+                $filter .= " AND software_providers_api_keys.software_provider_id = ?";
                 array_push($bindings, $filters["software_provider_id"]);
             }
 
             if (array_key_exists("id", $filters) && $filters["id"]) {
-                $filter = $filter . " AND `ak`.`id` = ?";
+                $filter = $filter . " AND ak.id = ?";
                 array_push($bindings, $filters["id"]);
             }
 
             if (array_key_exists("api_key", $filters) && $filters["api_key"]) {
-                $filter = $filter . " AND `ak`.`api_key` = ?";
+                $filter = $filter . " AND ak.api_key = ?";
                 array_push($bindings, $filters["api_key"]);
             }
         }
 
         $results = $this->getHesAdminDb()->select("
-            SELECT `ak`.`id`,
-                   `ak`.`api_key`,
-                   `ak`.`status_id`,
-                   `software_providers_api_keys`.`software_provider_id`,
-                   `software_providers_api_keys`.`application`
-              FROM `api_keys` AS `ak`
-         LEFT JOIN `software_providers_api_keys` ON `software_providers_api_keys`.`api_key_id` = `ak`.`id`
+            SELECT ak.id,
+                   ak.api_key,
+                   ak.status_id,
+                   software_providers_api_keys.software_provider_id,
+                   software_providers_api_keys.application
+              FROM api_keys AS ak
+         LEFT JOIN software_providers_api_keys ON software_providers_api_keys.api_key_id = ak.id
              WHERE 1
         " . $filter, $bindings);
         $results = $this->objectArrayToArray($results);
