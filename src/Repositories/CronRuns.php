@@ -24,7 +24,7 @@ class CronRuns extends Repository
         $result = $this->getApiDb()->selectOneSingleField("
             SELECT run_time
               FROM cron_runs
-             WHERE name = '?'
+             WHERE name = ?
           ORDER BY run_time DESC
              LIMIT 1
         ", [$name]);
