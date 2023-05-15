@@ -4,6 +4,7 @@ namespace HESCommon\Services;
 
 use HESCommon\Models\Building;
 use HESCommon\Models\HPwES;
+use Illuminate\Support\Facades\Log;
 
 class BuildingService
 {
@@ -107,14 +108,18 @@ class BuildingService
             $value = $response;
             foreach ($sourceParts as $sourcePart) {
                 if (!array_key_exists($sourcePart, $value)) {
-                    if($throwException){
+                    // Sometimes the XML => array parsing doesn't handle the nested elements as we expect
+                    // In the event there is one child, the result is not returned in array, so we skip
+                    if($sourcePart == 0) {
+                        $value = $value;
+                    } else if($throwException) {
                         throw new \Exception("Missing expected array key $sourcePart");
                     } else {
                         return;
                     }
+                } else {
+                    $value = $value[$sourcePart];
                 }
-
-                $value = $value[$sourcePart];
             }
 
             // If no setter is passed, then assume that, for example, the setter for assessment_type is setAssessmentType
