@@ -38,7 +38,7 @@ class AccountStatuses extends Repository
     public function getIdByName(string $name) : string
     {
         return $this->getHesAdminDb()->selectOneSingleField("
-            SELECT id FROM lu_account_statuses WHERE name = ':name'
+            SELECT id FROM lu_account_statuses WHERE name = :name
         ", [
             'name' => $name
         ]);
