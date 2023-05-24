@@ -130,9 +130,9 @@ class DatabaseConnection implements ConnectionInterface
         $this->validateTableOrField($valueField);
 
         $results = $this->select("
-            SELECT `$keyField`,
-                   `$valueField`
-              FROM `$table`
+            SELECT $keyField,
+                   $valueField
+              FROM $table
         ");
         $return = [];
         foreach ($results as $status) {
