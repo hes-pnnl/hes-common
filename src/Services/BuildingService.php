@@ -81,7 +81,7 @@ class BuildingService
      * @return Building|null
      * @throws \Exception
      */
-    public function getBuildingFromJSON(array $response, int $buildingId, bool $throwException = true) : Building
+    public function getBuildingFromJSON(array $response, int $buildingId, bool $throwException = false) : Building
     {
         $building = new Building($buildingId);
         // Do a bit of processing on the response to make it easier to work with:
@@ -110,7 +110,7 @@ class BuildingService
                 if (!array_key_exists($sourcePart, $value)) {
                     // Sometimes the XML => array parsing doesn't handle the nested elements as we expect
                     // In the event there is one child, the result is not returned in array, so we skip
-                    if($sourcePart == 0) {
+                    if($sourcePart === 0 || $sourcePart === '0') {
                         $value = $value;
                     } else if($throwException) {
                         throw new \Exception("Missing expected array key $sourcePart");
