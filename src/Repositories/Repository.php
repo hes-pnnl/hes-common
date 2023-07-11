@@ -65,7 +65,7 @@ abstract class Repository
     protected function sanitizeIdentifiers(array $identifiers) : array
     {
         return array_map(function ($identifier) {
-            return '`' . preg_replace('/[^A-Za-z0-9_]+/', '', $identifier) . '`';
+            return '\'' . preg_replace('/[^A-Za-z0-9_]+/', '', $identifier) . '\'';
         }, $identifiers);
     }
 

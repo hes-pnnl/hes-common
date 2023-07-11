@@ -128,9 +128,10 @@ class HPwES extends Model
 
         if (is_string($date) && $format !== null) {
             $date = date_create_from_format($format, $date);
-        }
-
-        if (!$date instanceof \DateTime) {
+            if(!$date){
+                return null;
+            }
+        } elseif (!$date instanceof \DateTime) {
             throw new \InvalidArgumentException("date must either be a DateTime or a string with an accompanying format.");
         }
 
