@@ -32,6 +32,17 @@ class Hvac extends Model
     const COOLING_TYPE_MINI_SPLIT = 'mini_split';
     const COOLING_TYPE_NONE = 'none';
 
+    const HEATING_EFFICIENCY_UNIT_AFUE = 'afue';
+    const HEATING_EFFICIENCY_UNIT_PERCENT = 'percent';
+    const HEATING_EFFICIENCY_UNIT_COP = 'cop';
+    const HEATING_EFFICIENCY_UNIT_HSPF = 'hspf';
+    const HEATING_EFFICIENCY_UNIT_HSPF2 = 'hspf2';
+
+    const COOLING_EFFICIENCY_UNIT_EER = 'eer';
+    const COOLING_EFFICIENCY_UNIT_CEER = 'ceer';
+    const COOLING_EFFICIENCY_UNIT_SEER = 'seer';
+    const COOLING_EFFICIENCY_UNIT_SEER2 = 'seer2';
+
     const EFFICIENCY_METHOD_USER = 'user';
     const EFFICIENCY_METHOD_SHIPMENT_WEIGHTED = 'shipment_weighted';
 
@@ -62,6 +73,13 @@ class Hvac extends Model
     /** @var |null */
     protected $heatingEfficiency;
 
+    /** 
+     * One of this class's HEATING_EFFICIENCY_UNIT_* constants
+     * 
+     * @var string|null 
+     */
+    protected $heatingEfficiencyUnit;
+
     /**
      * One of this class's COOLING_TYPE_* constants
      * @var string|null
@@ -74,10 +92,17 @@ class Hvac extends Model
     /** @var int|null */
     protected $coolingYearInstalled;
 
+    /** 
+     * One of this class's COOLING_EFFICIENCY_UNIT_* constants
+     * 
+     * @var string|null 
+     */
+    protected $coolingEfficiencyUnit;
+
     /** @var float|null */
     protected $coolingEfficiency;
 
-    /** @var HvacDistribution[] */
+    /** @var HvacDistribution */
     protected $distribution;
 
     public function __construct()
@@ -97,10 +122,12 @@ class Hvac extends Model
             'heating_type_'.$system => $this->getHeatingType(),
             'heating_efficiency_method_'.$system => $this->getHeatingEfficiencyMethod(),
             'heating_efficiency_'.$system => $this->getHeatingEfficiency(),
+            'heating_efficiency_unit_'.$system => $this->getHeatingEfficiencyUnit(),
             'heating_year_'.$system => $this->getHeatingYearInstalled(),
             'cooling_type_'.$system => $this->getCoolingType(),
             'cooling_efficiency_method_'.$system => $this->getCoolingEfficiencyMethod(),
             'cooling_efficiency_'.$system => $this->getCoolingEfficiency(),
+            'cooling_efficiency_unit_'.$system => $this->getCoolingEfficiencyUnit(),
             'cooling_year_'.$system => $this->getCoolingYearInstalled(),
         ];
     }
@@ -233,6 +260,24 @@ class Hvac extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getHeatingEfficiencyUnit()
+    {
+        return $this->heatingEfficiencyUnit;
+    }
+
+    /**
+     * @param mixed $heatingEfficiencyUnit
+     * @return Hvac
+     */
+    public function setHeatingEfficiencyUnit($heatingEfficiencyUnit): Hvac
+    {
+        $this->heatingEfficiencyUnit = $heatingEfficiencyUnit;
+        return $this;
+    }
+
+    /**
      * @return null|string
      */
     public function getCoolingType(): ?string
@@ -301,6 +346,24 @@ class Hvac extends Model
     public function setCoolingEfficiency(?float $coolingEfficiency): Hvac
     {
         $this->coolingEfficiency = $coolingEfficiency;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCoolingEfficiencyUnit()
+    {
+        return $this->coolingEfficiencyUnit;
+    }
+
+    /**
+     * @param mixed $coolingEfficiencyUnit
+     * @return Hvac
+     */
+    public function setCoolingEfficiencyUnit($coolingEfficiencyUnit): Hvac
+    {
+        $this->coolingEfficiencyUnit = $coolingEfficiencyUnit;
         return $this;
     }
 

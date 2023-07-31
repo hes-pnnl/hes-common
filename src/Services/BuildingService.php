@@ -143,8 +143,6 @@ class BuildingService
             return date_create_from_format('Y-m-d', $assessmentDate);
         });
         $set('about.comments');
-        $set('about.shape');
-        $set('about.shape');
 
         $address = $building->getAddress();
         $set('about.address',$address, 'setStreet');
@@ -152,7 +150,9 @@ class BuildingService
         $set('about.state', $address);
         $set('about.zip_code', $address, 'setZip');
 
-        $set('about.town_house_walls', null,'setTownhousePosition');
+        $set('about.dwelling_unit_type', null);
+        $set('about.manufactured_home_sections', null);
+        $set('about.number_units', null);
         $set('about.year_built');
         $set('about.number_bedrooms');
         $set('about.num_floor_above_grade', null, 'setFloorsAboveGrade');
@@ -163,9 +163,6 @@ class BuildingService
         $set('about.air_sealing_present', null, 'setIsAirSealingPresent');
         $set('about.envelope_leakage');
         $set('about.external_building_id');
-
-        $set('zone.wall_construction_same', null, 'setIsWallConstructionSameOnAllSides');
-        $set('zone.window_construction_same', null, 'setIsWindowConstructionSameOnAllSides');
 
         foreach([1,2] as $roofNumber) {
             $roof = $building->getRoof($roofNumber);
@@ -199,6 +196,7 @@ class BuildingService
 
         foreach ($building->getWalls() as $side => $wall) {
             $set("zone.zone_wall.$side.wall_assembly_code", $wall, 'setAssemblyCode');
+            $set("zone.zone_wall.$side.adjacent_to", $wall, 'setAdjacentTo');
         }
         foreach ($building->getWindows() as $side => $window) {
             $set("zone.zone_wall.$side.zone_window.solar_screen", $window, 'setSolarScreen');
@@ -216,10 +214,12 @@ class BuildingService
             $set("systems.hvac.$responseHvacNumber.heating.fuel_primary", $hvac, 'setHeatingFuel');
             $set("systems.hvac.$responseHvacNumber.heating.efficiency_method", $hvac, 'setHeatingEfficiencyMethod');
             $set("systems.hvac.$responseHvacNumber.heating.efficiency", $hvac, 'setHeatingEfficiency');
+            $set("systems.hvac.$responseHvacNumber.heating.efficiency_unit", $hvac, 'setHeatingEfficiencyUnit');
             $set("systems.hvac.$responseHvacNumber.heating.year", $hvac, 'setHeatingYearInstalled');
             $set("systems.hvac.$responseHvacNumber.cooling.type", $hvac, 'setCoolingType');
             $set("systems.hvac.$responseHvacNumber.cooling.efficiency_method", $hvac, 'setCoolingEfficiencyMethod');
             $set("systems.hvac.$responseHvacNumber.cooling.efficiency", $hvac, 'setCoolingEfficiency');
+            $set("systems.hvac.$responseHvacNumber.cooling.efficiency_unit", $hvac, 'setCoolingEfficiencyUnit');
             $set("systems.hvac.$responseHvacNumber.cooling.year", $hvac, 'setCoolingYearInstalled');
 
             $distribution = $hvac->getDistribution();
@@ -240,7 +240,8 @@ class BuildingService
         $set('systems.domestic_hot_water.fuel_primary', $hotWater, 'setFuel');
         $set('systems.domestic_hot_water.efficiency_method', $hotWater);
         $set('systems.domestic_hot_water.year', $hotWater, 'setYearInstalled');
-        $set('systems.domestic_hot_water.energy_factor', $hotWater);
+        $set('systems.domestic_hot_water.efficiency', $hotWater);
+        $set('systems.domestic_hot_water.efficiency_unit', $hotWater);
 
         $photovoltaic = $building->getPhotovoltaic();
         $set('systems.generation.solar_electric.capacity_known', $photovoltaic);

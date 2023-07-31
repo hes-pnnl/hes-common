@@ -10,6 +10,9 @@ class Roof extends Model
     const TYPE_VENTED_ATTIC = 'vented_attic';
     const TYPE_CONDITIONED_ATTIC = 'cond_attic';
     const TYPE_CATHEDRAL_CEILING = 'cath_ceiling';
+    const TYPE_CATHEDRAL_BELOW_UNIT = 'below_other_unit';
+    const TYPE_CATHEDRAL_FLAT = 'flat_roof';
+    const TYPE_CATHEDRAL_BOWSTRING = 'bowstring_roof';
 
     const COLOR_WHITE = 'white';
     const COLOR_LIGHT = 'light';
