@@ -357,9 +357,6 @@ class HumanReadableHelper extends Helper
             
             if ($name === 'num_floor_above_grade') {
                 $newName = 'Stories Above Ground Level';
-            } else if ($name === 'town_house_walls') {
-                $newName = 'Townhouse Position';
-                $newValue = self::TOWNHOUSE_POSITIONS[$value];
             } else if ($name === 'floor_to_ceiling_height') {
                 $newValue = $value + ' feet';
             } else if (in_array($name, self::AREA_FIELDS)) {
