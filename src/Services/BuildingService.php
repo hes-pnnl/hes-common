@@ -55,7 +55,7 @@ class BuildingService
             }
         }
 
-        $building = $this->getBuildingFromJSON($response, $buildingId);
+        $building = $this->getBuildingFromJSON($response, $buildingId, false);
         $HPwESResponse = $this->soapApiService->generateSoapCall(
             'retrieve_hpwes',
             [
