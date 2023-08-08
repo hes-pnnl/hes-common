@@ -108,8 +108,7 @@ class BuildingService
                 $response['systems']['hvac'] = array($response['systems']['hvac']);
             }
             foreach($response['systems']['hvac'] as $i => $hvac) {
-                if(
-                array_key_exists('hvac_distribution', $response['systems']['hvac'][$i])) {
+                if(array_key_exists('hvac_distribution', $response['systems']['hvac'][$i])) {
                     if (array_key_exists('hvac_duct', $response['systems']['hvac'][$i]['hvac_distribution'])) {
                         $response['systems']['hvac'][$i]['hvac_distribution']['duct'] = $hvac['hvac_distribution']['hvac_duct'];
                     }
