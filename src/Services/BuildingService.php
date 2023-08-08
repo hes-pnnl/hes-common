@@ -55,7 +55,7 @@ class BuildingService
             }
         }
 
-        $building = $this->getBuildingFromJSON($response, $buildingId);
+        $building = $this->getBuildingFromJSON($response, $buildingId, false);
         $HPwESResponse = $this->soapApiService->generateSoapCall(
             'retrieve_hpwes',
             [
@@ -90,6 +90,33 @@ class BuildingService
             $side = $wall['side'];
             $response['zone']['zone_wall'][$side] = $wall;
             unset($response['zone']['zone_wall'][$key]);
+        }
+        if(array_key_exists('roof_name', $response['zone']['zone_roof'])){
+            $response['zone']['zone_roof'] = array($response['zone']['zone_roof']);
+        }
+
+        if(array_key_exists('floor_name', $response['zone']['zone_floor'])){
+            $response['zone']['zone_floor'] = array($response['zone']['zone_floor']);
+        }
+
+        if(
+            array_key_exists('systems', $response) &&
+            array_key_exists('hvac', $response['systems'])
+        ) {
+
+            if(array_key_exists('hvac_distribution', $response['systems']['hvac'])){
+                $response['systems']['hvac'] = array($response['systems']['hvac']);
+            }
+            foreach($response['systems']['hvac'] as $i => $hvac) {
+                if(array_key_exists('hvac_distribution', $response['systems']['hvac'][$i])) {
+                    if (array_key_exists('hvac_duct', $response['systems']['hvac'][$i]['hvac_distribution'])) {
+                        $response['systems']['hvac'][$i]['hvac_distribution']['duct'] = $hvac['hvac_distribution']['hvac_duct'];
+                    }
+                    if (array_key_exists('location', $response['systems']['hvac'][$i]['hvac_distribution']['duct'])) {
+                        $response['systems']['hvac'][$i]['hvac_distribution']['duct'] = array($response['systems']['hvac'][$i]['hvac_distribution']['duct']);
+                    }
+                }
+            }
         }
 
         /**
