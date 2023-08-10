@@ -31,7 +31,7 @@ class HumanReadableHelper extends Helper
     const DWELLING_UNIT = [
         Building::DWELLING_UNIT_SINGLE_ATTACHED => "Single-Family Attached",
         Building::DWELLING_UNIT_SINGLE_DETACHED => "Single-Family Detached",
-        Building::DWELLING_UNIT_APARTMENT       => "Apartment Unit",
+        Building::DWELLING_UNIT_APARTMENT       => "Apartment/Condo",
         Building::DWELLING_UNIT_MANUFACTURED    => "Manufactured Home"
     ];
     
@@ -206,7 +206,7 @@ class HumanReadableHelper extends Helper
         "11"=>"R-11",
         "19"=>"R-19",
     ];
-    const ADJACTENT_WALL = [
+    const ADJACENT_WALL = [
         Wall::ADJACENT_TO_OUTSIDE => "Outside",
         Wall::ADJACENT_TO_UNIT => "Other Unit",
         Wall::ADJACENT_TO_HEATED_SPACE => "Other Heated Space",

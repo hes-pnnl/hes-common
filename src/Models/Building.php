@@ -700,6 +700,17 @@ class Building extends Model
     }
 
     /**
+     * @return bool
+     */
+    public function isWallConstructionSameOnAllSides() : bool
+    {
+        $walls = array_map(function($wall) {
+            return array_values($wall->getValuesAsArray("")); // Position does not matter for this comp
+        }, $this->getWalls());
+        return count(array_unique($walls, SORT_REGULAR)) === 1;
+    }
+
+    /**
      * @throws \InvalidArgumentException
      * @param string $side
      * @return Window
@@ -719,6 +730,17 @@ class Building extends Model
     public function getWindows() : array
     {
         return $this->windows;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWindowConstructionSameOnAllSides() : bool
+    {
+        $windows = array_map(function($window) {
+            return array_values($window->getValuesAsArray("")); // Position does not matter for this comp
+        }, $this->getWindows());
+        return count(array_unique($windows, SORT_REGULAR)) === 1;
     }
 
     /**
