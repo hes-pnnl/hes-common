@@ -85,17 +85,28 @@ class BuildingService
     {
         $building = new Building($buildingId);
         // Do a bit of processing on the response to make it easier to work with:
-        //   - Change the zone_wall collection to be indexed by side instead of by number
-        foreach ($response['zone']['zone_wall'] as $key => $wall) {
-            $side = $wall['side'];
-            $response['zone']['zone_wall'][$side] = $wall;
-            unset($response['zone']['zone_wall'][$key]);
+        if(array_key_exists('zone_wall', $response['zone'])) {
+            // Change the zone_wall collection to be indexed by side instead of by number
+            if(array_key_exists('side', $response['zone']['zone_wall'])){
+                $response['zone']['zone_wall'] = array($response['zone']['zone_wall']);
+            }
+            foreach ($response['zone']['zone_wall'] as $key => $wall) {
+                $side = $wall['side'];
+                $response['zone']['zone_wall'][$side] = $wall;
+                unset($response['zone']['zone_wall'][$key]);
+            }
         }
-        if(array_key_exists('roof_name', $response['zone']['zone_roof'])){
+        if(
+            array_key_exists('zone_roof', $response['zone']) && 
+            array_key_exists('roof_name', $response['zone']['zone_roof'])
+        ) {
             $response['zone']['zone_roof'] = array($response['zone']['zone_roof']);
         }
 
-        if(array_key_exists('floor_name', $response['zone']['zone_floor'])){
+        if(
+            array_key_exists('zone_floor', $response['zone']) && 
+            array_key_exists('floor_name', $response['zone']['zone_floor'])
+        ){
             $response['zone']['zone_floor'] = array($response['zone']['zone_floor']);
         }
 
@@ -104,7 +115,7 @@ class BuildingService
             array_key_exists('hvac', $response['systems'])
         ) {
 
-            if(array_key_exists('hvac_distribution', $response['systems']['hvac'])){
+            if(array_key_exists('hvac_name', $response['systems']['hvac'])){
                 $response['systems']['hvac'] = array($response['systems']['hvac']);
             }
             foreach($response['systems']['hvac'] as $i => $hvac) {
