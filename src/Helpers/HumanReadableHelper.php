@@ -144,6 +144,9 @@ class HumanReadableHelper extends Helper
     const ATTIC_TYPE = [
         Roof::TYPE_VENTED_ATTIC => "Unconditioned Attic",
         Roof::TYPE_CONDITIONED_ATTIC => "Conditioned Attic",
+        Roof::TYPE_BELOW_UNIT => "Below other Unit",
+        Roof::TYPE_CATHEDRAL_BOWSTRING => "Bowstring Roof",
+        Roof::TYPE_CATHEDRAL_FLAT => "Flat Roof",
         Roof::TYPE_CATHEDRAL_CEILING => "Cathedral Ceiling"
     ];
     const ATTIC_INSULATION = [
