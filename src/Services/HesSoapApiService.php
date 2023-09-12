@@ -64,6 +64,8 @@ abstract class HesSoapApiService
         'building_ca_id'                  => 'building_info',
 
         'validate_hpxml'                  => 'file',
+        'pass_trainee'                    => 'trainee_info',
+        'fail_trainee'                    => 'trainee_info',
     ];
 
     /**
