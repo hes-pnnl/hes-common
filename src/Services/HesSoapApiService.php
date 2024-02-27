@@ -59,7 +59,7 @@ abstract class HesSoapApiService
      *
      * @var bool
      */
-    protected $isAsyncronousMode = false;
+    protected $isAsynchronousMode = false;
 
     /**
      * @param string $soapApiWsdlUri
@@ -76,7 +76,7 @@ abstract class HesSoapApiService
      */
     public function setAsynchronousMode(bool $isAsynchronousMode)
     {
-        $this->isAsyncronousMode = $isAsynchronousMode;
+        $this->isAsynchronousMode = $isAsynchronousMode;
     }
 
     /**
@@ -115,13 +115,13 @@ abstract class HesSoapApiService
         try {
             // Timeout after 10 minutes, unless we are in asynchronous mode, in which case we timeout immediately
             ini_set('MAX_EXECUTION_TIME', 700); // Ensure the PHP script won't timeout before the socket does
-            ini_set('default_socket_timeout', $this->isAsyncronousMode ? 1 : 600);
+            ini_set('default_socket_timeout', $this->isAsynchronousMode ? 1 : 600);
             $response = $soapClient->__soapCall($operationName, $parameters);
         } catch (\SoapFault $e) {
             // If we are in async mode, we will instantly fail with a SoapFault reading "Error Fetching http headers"
             // due to hitting the timeout - this is expected and can be ignored, but we won't have a response to
             // return, so we just return null.
-            if ($this->isAsyncronousMode && $e->getMessage() === "Error Fetching http headers") {
+            if ($this->isAsynchronousMode && $e->getMessage() === "Error Fetching http headers") {
                 return null;
             }
 
