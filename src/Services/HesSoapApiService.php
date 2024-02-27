@@ -140,7 +140,7 @@ abstract class HesSoapApiService
             // If we are in async mode, we will instantly fail with a SoapFault reading "Error Fetching http headers"
             // due to hitting the timeout - this is expected and can be ignored, but we won't have a response to
             // return, so we just return null.
-            if ($this->isAsyncronousMode && $e->getMessage() == "Error Fetching http headers") {
+            if ($this->isAsyncronousMode && $e->getMessage() === "Error Fetching http headers") {
                 return null;
             }
 
@@ -154,7 +154,7 @@ abstract class HesSoapApiService
 
         $response = json_decode(json_encode($response), true); // Deep cast object to array
 
-        if (count($response) == 1) {
+        if (count($response) === 1) {
             return reset($response);
         }
 
