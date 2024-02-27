@@ -10,25 +10,6 @@ namespace HESCommon\Services;
 abstract class HesSoapApiService
 {
     /**
-     * Defines methods that are handled by the LBNL API rather than by our own
-     * code. Calls to these methods will be transparently passed to the copy of
-     * the LBNL API that we are running and the response will be passed back to
-     * the caller.
-     *
-     * @var array
-     */
-    const LBNL_METHODS = [
-        'submit_inputs',
-        'calculate_base_building',
-        'calculate_package_building',
-        'commit_results',
-        'retrieve_extended_results',
-        'retrieve_inputs',
-        'retrieve_recommendations',
-        'retrieve_results'
-    ];
-
-    /**
      * The URI of the SOAP API's WSDL
      *
      * @var string
