@@ -122,7 +122,7 @@ abstract class HesSoapApiService
         }
         $parameters['user_key'] = $this->userKey;
 
-        $mainElementName = isset($this->mainElementNames[$operationName]) ? $this->mainElementNames[$operationName] : $operationName;
+        $mainElementName = $this->mainElementNames[$operationName] ?? $operationName;
         $parameters = [
             $operationName . "Request" => [
                 $mainElementName => $parameters
