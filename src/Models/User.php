@@ -36,15 +36,6 @@ class User extends Model
     /** @var bool */
     protected $isBlocked;
 
-    /** @var bool */
-    protected $disableHescoreGUIAccess = false;
-
-    /** @var bool */
-    protected $hasProductionAccess = true;
-
-    /** @var bool */
-    protected $hasSandboxAccess = false;
-
     /** @var \DateTime */
     protected $created;
 
@@ -141,30 +132,6 @@ class User extends Model
     public function getIsBlocked() : bool
     {
         return $this->isBlocked;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getDisableHescoreGUIAccess() : bool
-    {
-        return $this->disableHescoreGUIAccess;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getHasProductionAccess() : bool
-    {
-        return $this->hasProductionAccess;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getHasSandboxAccess() : bool
-    {
-        return $this->hasSandboxAccess;
     }
 
     /**
@@ -305,36 +272,6 @@ class User extends Model
     public function setIsBlocked(bool $isBlocked) : User
     {
         $this->isBlocked = $isBlocked;
-        return $this;
-    }
-
-    /**
-     * @return User
-     * @param bool $disableHescoreGUIAccess
-     */
-    public function setDisableHescoreGUIAccess(bool $disableHescoreGUIAccess) : User
-    {
-        $this->disableHescoreGUIAccess = $disableHescoreGUIAccess;
-        return $this;
-    }
-
-    /**
-     * @return User
-     * @param bool $hasProductionAccess
-     */
-    public function setHasProductionAccess(bool $hasProductionAccess) : User
-    {
-        $this->hasProductionAccess = $hasProductionAccess;
-        return $this;
-    }
-
-    /**
-     * @return User
-     * @param bool $hasSandboxAccess
-     */
-    public function setHasSandboxAccess(bool $hasSandboxAccess) : User
-    {
-        $this->hasSandboxAccess = $hasSandboxAccess;
         return $this;
     }
 
