@@ -57,16 +57,13 @@ class ValidationService
     {
         ExecHelper::assertNodeIsInstalled();
 
-        exec("node $this->nodeModulesPath/hes-validation-engine/home_audit.cli.js $homeJson 2>&1", $output);
-        /*
-         * home_audit.cli will always return only one value.
-         * If error is detected, home_audit.node will log a console error, which will be the first entries in our array
-         * ie, $homeValues = '\'{"banana" : "apple"}\''
-         */
-        if(count($output) > 1){
-            throw new UserSafeException("Validation failed: " . $output[0]);
+        exec("node $this->nodeModulesPath/hes-validation-engine/dist/home_audit.cli.js $homeJson 2>&1", $output);
+        $result = implode("", $output);
+        $validationMessages = json_decode($result, true);
+        if($validationMessages === null){
+            throw new UserSafeException("Validation failed: " . implode('\n', $output));
         }
-        $this->validations = json_decode($output[0], true);
+        $this->validations = $validationMessages;
         return $this->validations;
     }
 
