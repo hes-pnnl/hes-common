@@ -38,7 +38,14 @@ class Assessor extends Model
     /** @var bool */
     protected $isPartner = false;
 
-    //Getter methods
+    /** @var bool */
+    protected $disableHescoreGUIAccess = false;
+
+    /** @var bool */
+    protected $hasProductionAccess = true;
+
+    /** @var bool */
+    protected $hasSandboxAccess = false;
 
     /**
      * @return int|null
@@ -107,6 +114,30 @@ class Assessor extends Model
     /**
      * @return bool
      */
+    public function getDisableHescoreGUIAccess() : bool
+    {
+        return $this->disableHescoreGUIAccess;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasProductionAccess() : bool
+    {
+        return $this->hasProductionAccess;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasSandboxAccess() : bool
+    {
+        return $this->hasSandboxAccess;
+    }
+
+    /**
+     * @return bool
+     */
     public function isAlwaysActive() : bool
     {
         return $this->alwaysActive;
@@ -119,8 +150,6 @@ class Assessor extends Model
     {
         return $this->isPartner;
     }
-
-    //Setter methods
 
     /**
      * @param int $id
@@ -193,8 +222,8 @@ class Assessor extends Model
     }
 
     /**
-     * @return User
      * @param int|null $qualityAssuranceProviderId
+     * @return Assessor
      */
     public function setQualityAssuranceProviderId(?int $qualityAssuranceProviderId) : Assessor
     {
@@ -203,8 +232,8 @@ class Assessor extends Model
     }
 
     /**
-     * @return User
      * @param bool $alwaysActive
+     * @return Assessor
      */
     public function setAlwaysActive(?bool $alwaysActive) : Assessor
     {
@@ -213,8 +242,38 @@ class Assessor extends Model
     }
 
     /**
-     * @return User
+     * @param bool $disableHescoreGUIAccess
+     * @return Assessor
+     */
+    public function setDisableHescoreGUIAccess(bool $disableHescoreGUIAccess) : Assessor
+    {
+        $this->disableHescoreGUIAccess = $disableHescoreGUIAccess;
+        return $this;
+    }
+
+    /**
+     * @param bool $hasProductionAccess
+     *@return Assessor
+     */
+    public function setHasProductionAccess(bool $hasProductionAccess) : Assessor
+    {
+        $this->hasProductionAccess = $hasProductionAccess;
+        return $this;
+    }
+
+    /**
+     * @param bool $hasSandboxAccess
+     * @return Assessor
+     */
+    public function setHasSandboxAccess(bool $hasSandboxAccess) : Assessor
+    {
+        $this->hasSandboxAccess = $hasSandboxAccess;
+        return $this;
+    }
+
+    /**
      * @param bool $isPartner
+     * @return Assessor
      */
     public function setIsPartner(?bool $isPartner) : Assessor
     {

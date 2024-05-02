@@ -10,25 +10,6 @@ namespace HESCommon\Services;
 abstract class HesSoapApiService
 {
     /**
-     * Defines methods that are handled by the LBNL API rather than by our own
-     * code. Calls to these methods will be transparently passed to the copy of
-     * the LBNL API that we are running and the response will be passed back to
-     * the caller.
-     *
-     * @var array
-     */
-    const LBNL_METHODS = [
-        'submit_inputs',
-        'calculate_base_building',
-        'calculate_package_building',
-        'commit_results',
-        'retrieve_extended_results',
-        'retrieve_inputs',
-        'retrieve_recommendations',
-        'retrieve_results'
-    ];
-
-    /**
      * The URI of the SOAP API's WSDL
      *
      * @var string
@@ -64,6 +45,8 @@ abstract class HesSoapApiService
         'building_ca_id'                  => 'building_info',
 
         'validate_hpxml'                  => 'file',
+        'pass_trainee'                    => 'trainee_info',
+        'fail_trainee'                    => 'trainee_info',
     ];
 
     /**
@@ -76,7 +59,7 @@ abstract class HesSoapApiService
      *
      * @var bool
      */
-    protected $isAsyncronousMode = false;
+    protected $isAsynchronousMode = false;
 
     /**
      * @param string $soapApiWsdlUri
@@ -93,7 +76,7 @@ abstract class HesSoapApiService
      */
     public function setAsynchronousMode(bool $isAsynchronousMode)
     {
-        $this->isAsyncronousMode = $isAsynchronousMode;
+        $this->isAsynchronousMode = $isAsynchronousMode;
     }
 
     /**
@@ -120,7 +103,7 @@ abstract class HesSoapApiService
         }
         $parameters['user_key'] = $this->userKey;
 
-        $mainElementName = isset($this->mainElementNames[$operationName]) ? $this->mainElementNames[$operationName] : $operationName;
+        $mainElementName = $this->mainElementNames[$operationName] ?? $operationName;
         $parameters = [
             $operationName . "Request" => [
                 $mainElementName => $parameters
@@ -132,13 +115,13 @@ abstract class HesSoapApiService
         try {
             // Timeout after 10 minutes, unless we are in asynchronous mode, in which case we timeout immediately
             ini_set('MAX_EXECUTION_TIME', 700); // Ensure the PHP script won't timeout before the socket does
-            ini_set('default_socket_timeout', $this->isAsyncronousMode ? 1 : 600);
+            ini_set('default_socket_timeout', $this->isAsynchronousMode ? 1 : 600);
             $response = $soapClient->__soapCall($operationName, $parameters);
         } catch (\SoapFault $e) {
             // If we are in async mode, we will instantly fail with a SoapFault reading "Error Fetching http headers"
             // due to hitting the timeout - this is expected and can be ignored, but we won't have a response to
             // return, so we just return null.
-            if ($this->isAsyncronousMode && $e->getMessage() == "Error Fetching http headers") {
+            if ($this->isAsynchronousMode && $e->getMessage() === "Error Fetching http headers") {
                 return null;
             }
 
@@ -152,7 +135,7 @@ abstract class HesSoapApiService
 
         $response = json_decode(json_encode($response), true); // Deep cast object to array
 
-        if (count($response) == 1) {
+        if (count($response) === 1) {
             return reset($response);
         }
 
