@@ -198,7 +198,7 @@ class HotWater extends Model
      * @param string|null $efficiency
      * @return HotWater
      */
-    public function setEfficiencyUnit(?float $efficiencyUnit): HotWater
+    public function setEfficiencyUnit(?string $efficiencyUnit): HotWater
     {
         $this->efficiencyUnit = $efficiencyUnit;
         return $this;
