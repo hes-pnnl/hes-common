@@ -738,7 +738,9 @@ class Building extends Model
     public function isWindowConstructionSameOnAllSides() : bool
     {
         $windows = array_map(function($window) {
-            return array_values($window->getValuesAsArray("")); // Position does not matter for this comp
+            $windowArray = $window->getValuesAsArray("");
+            $windowArray['window_area_'] = 0;
+            return array_values($windowArray); // Position & area does not matter for this comp
         }, $this->getWindows());
         return count(array_unique($windows, SORT_REGULAR)) === 1;
     }
