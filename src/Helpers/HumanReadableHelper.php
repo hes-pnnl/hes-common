@@ -63,7 +63,8 @@ class HumanReadableHelper extends Helper
         "ewbr"=>"Structural Brick",
         "ewcb"=>"Concrete Block or Stone",
         "ewsb"=>"Straw Bale",
-        "ewsf"=>"Steel Frame"
+        "ewsf"=>"Steel Frame",
+        "iwwf"=>"Inner Wall",
     ];
     const FINISH = [
         "wo"=>"Wood Siding, Fiber Cement, Composite Shingle, or Masonite Siding",
@@ -297,7 +298,9 @@ class HumanReadableHelper extends Helper
     {
         if($assemblyCode !== null) {
             $assembly = self::CONSTRUCTION_WALL[substr($assemblyCode, 0, 4)];
-            $assembly .= "/".self::FINISH[substr($assemblyCode, 6, 2)];
+            if(strlen($assemblyCode) > 6) {
+                $assembly .= "/" . self::FINISH[substr($assemblyCode, 6, 2)];
+            }
             $assembly .= "/".self::INSULATION_WALL[substr($assemblyCode, 4, 2)];
             return $assembly;
         }
