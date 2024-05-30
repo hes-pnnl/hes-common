@@ -181,6 +181,7 @@ class Building extends Model
     public function getHomeDetailsArray(): array
     {
         return [
+            'assessment_type' => $this->getAssessmentType(),
             'assessment_date' => $this->getAssessmentDate() !== null ? $this->getAssessmentDate()->format('Y-m-d') : null,
             'comments' => $this->getComments(),
             'year_built' => $this->getYearBuilt(),
@@ -197,7 +198,20 @@ class Building extends Model
             'number_units' => $this->getNumberUnits(),
         ];
     }
-    
+
+    /**
+     * @return array
+     */
+    public function getAddressArray(): array
+    {
+        return [
+            'address' => $this->getAddress()->getStreet(),
+            'city' => $this->getAddress()->getCity(),
+            'state' => $this->getAddress()->getState(),
+            'zip_code' => $this->getAddress()->getZip(),
+        ];
+    }
+
     /**
      * @return array
      */
@@ -251,9 +265,10 @@ class Building extends Model
         $hwValues = $hw->getValuesAsArray();
         $pv = $this->getPhotovoltaic();
         $pvValues = $pv->getValuesAsArray();
-        
+
         $return = [];
         $return['HOME DETAILS'] = $homeDetails;
+        $return['ADDRESS'] = $this->getAddressArray();
         $return['ROOF 1'] = $roofValues[1];
         $return['ROOF 2'] = $roofValues[2];
         $return['FOUNDATION 1'] = $floorValues[1];
