@@ -53,6 +53,12 @@ class User extends Model
     /** @var bool */
     protected $alwaysActive = false;
 
+    /** @var bool */
+    protected $hasProductionAccess = true;
+
+    /** @var bool */
+    protected $hasSandboxAccess = true;
+
     //Getter methods
     /**
      * @return int|null
@@ -172,6 +178,22 @@ class User extends Model
     public function isAlwaysActive() : bool
     {
         return $this->alwaysActive;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasProductionAccess() : bool
+    {
+        return $this->hasProductionAccess;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHasSandboxAccess() : bool
+    {
+        return $this->hasSandboxAccess;
     }
 
     //Setter methods
@@ -312,6 +334,27 @@ class User extends Model
     public function setCertifications(array $certifications) : User
     {
         $this->certifications = $certifications;
+        return $this;
+    }
+
+
+    /**
+     * @param bool $hasProductionAccess
+     *@return User
+     */
+    public function setHasProductionAccess(bool $hasProductionAccess) : User
+    {
+        $this->hasProductionAccess = $hasProductionAccess;
+        return $this;
+    }
+
+    /**
+     * @param bool $hasSandboxAccess
+     * @return User
+     */
+    public function setHasSandboxAccess(bool $hasSandboxAccess) : User
+    {
+        $this->hasSandboxAccess = $hasSandboxAccess;
         return $this;
     }
 
