@@ -189,6 +189,7 @@ abstract class HesSoapApiService
         return [
             'get_session_token',
             'validate_hpxml',
+            'find_an_assessor',
 
             // These methods require no session token because they are internal-only methods - they're not publicly accessible
             // at all and are only called via internal call to the LBNL API
