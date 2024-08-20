@@ -29,9 +29,9 @@ class HumanReadableHelper extends Helper
     ];
 
     const DWELLING_UNIT = [
-        Building::DWELLING_UNIT_SINGLE_ATTACHED => "Single-Family Attached",
         Building::DWELLING_UNIT_SINGLE_DETACHED => "Single-Family Detached",
-        Building::DWELLING_UNIT_APARTMENT       => "Apartment/Condo",
+        Building::DWELLING_UNIT_SINGLE_ATTACHED => "Townhouse/Rowhouse/Duplex",
+        Building::DWELLING_UNIT_APARTMENT       => "Multifamily Building Unit",
         Building::DWELLING_UNIT_MANUFACTURED    => "Manufactured Home"
     ];
     
