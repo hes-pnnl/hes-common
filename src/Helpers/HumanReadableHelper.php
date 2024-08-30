@@ -240,7 +240,6 @@ class HumanReadableHelper extends Helper
     ];
     const HEATING_EFFICIENCY_UNIT = [
         Hvac::HEATING_EFFICIENCY_UNIT_AFUE    => "Annual Fuel Utilization Efficiency (AFUE)",
-        Hvac::HEATING_EFFICIENCY_UNIT_PERCENT => "Percent (%)",
         Hvac::HEATING_EFFICIENCY_UNIT_COP     => "Coefficient of Performance (COP)",
         Hvac::HEATING_EFFICIENCY_UNIT_HSPF    => "Heating Seasonal Performance Factor - Pre 2023 (HSPF)",
         Hvac::HEATING_EFFICIENCY_UNIT_HSPF2   => "Heating Seasonal Performance Factor (HSPF2)"
