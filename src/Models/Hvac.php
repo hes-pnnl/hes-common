@@ -33,7 +33,6 @@ class Hvac extends Model
     const COOLING_TYPE_NONE = 'none';
 
     const HEATING_EFFICIENCY_UNIT_AFUE = 'afue';
-    const HEATING_EFFICIENCY_UNIT_PERCENT = 'percent';
     const HEATING_EFFICIENCY_UNIT_COP = 'cop';
     const HEATING_EFFICIENCY_UNIT_HSPF = 'hspf';
     const HEATING_EFFICIENCY_UNIT_HSPF2 = 'hspf2';
