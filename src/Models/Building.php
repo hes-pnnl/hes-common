@@ -11,7 +11,7 @@ class Building extends Model
     const DWELLING_UNIT_APARTMENT       = 'apartment_unit';
     const DWELLING_UNIT_MANUFACTURED    = 'manufactured_home';
 
-    const MANUFACTURED_HOME_SECTION_SINGLE = 'single-wide';
+    const MANUFACTURED_HOME_SECTION_SINGLE = 'single-wide'; 
     const MANUFACTURED_HOME_SECTION_DOUBLE = 'double-wide';
     const MANUFACTURED_HOME_SECTION_TRIPLE = 'triple-wide';
 
@@ -206,6 +206,7 @@ class Building extends Model
     {
         return [
             'address' => $this->getAddress()->getStreet(),
+            'address2' => $this->getAddress()->getStreet2(),
             'city' => $this->getAddress()->getCity(),
             'state' => $this->getAddress()->getState(),
             'zip_code' => $this->getAddress()->getZip(),
