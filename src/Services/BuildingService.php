@@ -184,6 +184,7 @@ class BuildingService
 
         $address = $building->getAddress();
         $set('about.address',$address, 'setStreet');
+        $set('about.address2', $address);
         $set('about.city', $address);
         $set('about.state', $address);
         $set('about.zip_code', $address, 'setZip');
