@@ -56,7 +56,7 @@ class HumanReadableHelper extends Helper
     ];
     
     /* Wall Codes */
-    const CONSTRUCTION_WALL = [
+    const EXTERIOR_CONSTRUCTION_WALL = [
         "ewwf"=>"Wood Frame",
         "ewps"=>"Wood Frame with rigid foam sheathing",
         "ewov"=>"Wood Frame with Optimum Value Engineering (OVE)",
@@ -64,7 +64,17 @@ class HumanReadableHelper extends Helper
         "ewcb"=>"Concrete Block or Stone",
         "ewsb"=>"Straw Bale",
         "ewsf"=>"Steel Frame",
-        "iwwf"=>"Inner Wall",
+    ];
+
+    const CONSTRUCTION_WALL =[
+        "ewwf"=>"Wood Frame",
+        "ewps"=>"Wood Frame with rigid foam sheathing",
+        "ewov"=>"Wood Frame with Optimum Value Engineering (OVE)",
+        "ewbr"=>"Structural Brick",
+        "ewcb"=>"Concrete Block or Stone",
+        "ewsb"=>"Straw Bale",
+        "ewsf"=>"Steel Frame",
+        "iwwf"=>"Inner Wall"
     ];
     const FINISH = [
         "wo"=>"Wood Siding, Fiber Cement, Composite Shingle, or Masonite Siding",
