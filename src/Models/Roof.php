@@ -87,17 +87,14 @@ class Roof extends Model
             'ceiling_area_'.$count => $this->getCeilingArea(),
             'ceiling_assembly_code_'.$count => $this->getCeilingAssemblyCode(),
             'knee_wall_area_'.$count => $this->getKneeWallArea(),
-            'knee_wall_assembly_code_'.$count => $this->getKneeWallAssemblyCode()
+            'knee_wall_assembly_code_'.$count => $this->getKneeWallAssemblyCode(),
+            'solar_screen_'.$count = $this->hasSolarScreen(),
+            'skylight_area_'.$count = $this->getSkylightArea(),
+            'skylight_method_'.$count = $this->getSkylightMethod(),
+            'skylight_code_'.$count = $this->getSkylightAssemblyCode(),
+            'skylight_u_value_'.$count = $this->getSkylightUValue(),
+            'skylight_shgc_'.$count = $this->getSkylightShgc()
         ];
-        //Skylight
-        if($count == 1) {
-            $values['solar_screen'] = $this->hasSolarScreen();
-            $values['skylight_area'] = $this->getSkylightArea();
-            $values['skylight_method'] = $this->getSkylightMethod();
-            $values['skylight_code'] = $this->getSkylightAssemblyCode();
-            $values['skylight_u_value'] = $this->getSkylightUValue();
-            $values['skylight_shgc'] = $this->getSkylightShgc();
-        }
         
         return $values;
     }
