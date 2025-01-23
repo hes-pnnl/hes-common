@@ -17,6 +17,7 @@ class Duct extends Model
     const LOCATION_UNDER_SLAB = 'under_slab';
     const LOCATION_EXTERIOR_WALL = 'exterior_wall';
     const LOCATION_OUTSIDE = 'outside';
+    const LOCATION_BELLY = 'manufactured_home_belly';
 
     /**
      * One of this class's LOCATION_* constants

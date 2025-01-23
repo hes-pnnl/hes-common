@@ -32,6 +32,12 @@ class Partner extends Model
     /** @var int|null */
     private $statusId;
 
+    /** @var bool */
+    private $apartmentUnitEnabled;
+
+    /** @var bool */
+    private $manufacturedHomeEnabled;
+
     /**
      * @return Partner
      * @param int $id
@@ -113,6 +119,26 @@ class Partner extends Model
     }
 
     /**
+     * @return Partner
+     * @param int|null $statusId
+     */
+    public function setApartmentUnitEnabled(bool $status) : Partner
+    {
+        $this->apartmentUnitEnabled = $status;
+        return $this;
+    }
+
+    /**
+     * @return Partner
+     * @param int|null $statusId
+     */
+    public function setManufacturedHomeEnabled(bool $status) : Partner
+    {
+        $this->manufacturedHomeEnabled = $status;
+        return $this;
+    }
+
+    /**
      * @return int|null
      */
     public function getId() : ?int
@@ -174,5 +200,21 @@ class Partner extends Model
     public function getStatusId(): ?int
     {
         return $this->statusId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getApartmentUnitEnabled(): bool
+    {
+        return $this->apartmentUnitEnabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getManufacturedHomeEnabled(): bool
+    {
+        return $this->manufacturedHomeEnabled;
     }
 }

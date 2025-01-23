@@ -23,6 +23,9 @@ class HotWater extends Model
     const EFFICIENCY_METHOD_USER = 'user';
     const EFFICIENCY_METHOD_SHIPMENT_WEIGHTED = 'shipment_weighted';
 
+    const EFFICIENCY_UNIT_EF = 'ef';
+    const EFFICIENCY_UNIT_UEF = 'uef';
+
     /**
      * One of this class's CATEGORY_* constants
      * @var string|null
@@ -51,7 +54,13 @@ class HotWater extends Model
     protected $yearInstalled;
 
     /** @var float|null */
-    protected $energyFactor;
+    protected $efficiency;
+
+    /** 
+     * One of this class's EFFICIENCY_UNIT_* constants
+     * @var string|null 
+     */
+    protected $efficiencyUnit;
 
     /**
      * @return array
@@ -64,7 +73,8 @@ class HotWater extends Model
             'hot_water_fuel' => $this->getFuel(),
             'hot_water_efficiency_method' => $this->getEfficiencyMethod(),
             'hot_water_year' => $this->getYearInstalled(),
-            'hot_water_energy_factor' => $this->getEnergyFactor(),
+            'hot_water_efficiency' => $this->getEfficiency(),
+            'hot_water_efficiency_unit' => $this->getEfficiencyUnit(),
         ];
     }
 
@@ -161,18 +171,36 @@ class HotWater extends Model
     /**
      * @return float|null
      */
-    public function getEnergyFactor(): ?float
+    public function getEfficiency(): ?float
     {
-        return $this->energyFactor;
+        return $this->efficiency;
     }
 
     /**
-     * @param float|null $energyFactor
+     * @param float|null $efficiency
      * @return HotWater
      */
-    public function setEnergyFactor(?float $energyFactor): HotWater
+    public function setEfficiency(?float $efficiency): HotWater
     {
-        $this->energyFactor = $energyFactor;
+        $this->efficiency = $efficiency;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getEfficiencyUnit(): ?string
+    {
+        return $this->efficiencyUnit;
+    }
+
+    /**
+     * @param string|null $efficiency
+     * @return HotWater
+     */
+    public function setEfficiencyUnit(?string $efficiencyUnit): HotWater
+    {
+        $this->efficiencyUnit = $efficiencyUnit;
         return $this;
     }
 }
