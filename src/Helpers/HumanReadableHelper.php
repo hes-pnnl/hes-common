@@ -197,7 +197,8 @@ class HumanReadableHelper extends Helper
         "uncond_basement"=>"Unconditioned Basement",
         "cond_basement"=>"Conditioned Basement",
         "unvented_crawl"=>"Unvented Crawlspace",
-        "vented_crawl"=>"Vented Crawlspace"
+        "vented_crawl"=>"Vented Crawlspace",
+        "belly_and_wing"=>"Belly and Wing"
     ];
     const INSULATION_FLOOR = [
         ""=>"-Select-",
@@ -294,7 +295,7 @@ class HumanReadableHelper extends Helper
     const HOT_WATER_FUEL = [
         "electric"      => "Electric",
         "natural_gas"   => "Natural Gas",
-        "lpg"           => "LPG",
+        "lpg"           => "Propane (LPG)",
         "fuel_oil"      => "Oil",
         "electric"      => "Electric"
     ];
