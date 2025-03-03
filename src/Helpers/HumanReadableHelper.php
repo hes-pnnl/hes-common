@@ -213,7 +213,13 @@ class HumanReadableHelper extends Helper
         "efwf25ca"=>"R-25",
         "efwf30ca"=>"R-30",
         "efwf35ca"=>"R-35",
-        "efwf38ca"=>"R-38"
+        "efwf38ca"=>"R-38",
+        "efbw00"=>"R-0",
+        "efbw11"=>"R-11",
+        "efbw13"=>"R-13",
+        "efbw19"=>"R-19",
+        "efbw22"=>"R-22",
+        "efbw30"=>"R-30"
     ];
     const FOUNDATION_INSULATION = [
         "0"=>"R-0",
