@@ -34,6 +34,11 @@ class Photovoltaic extends Model
     protected $year;
 
     /**
+     * @var int|null
+     * */
+    protected $numberUnitsSharingSystem;
+
+    /**
      * One of this class's ORIENTATION_* constants
      * @var string|null
      */
@@ -51,6 +56,7 @@ class Photovoltaic extends Model
     public function getValuesAsArray()
     {
         return [
+            'solar_electric_number_units_sharing_system' => $this->getNumberUnitsSharingSystem(),
             'solar_electric_year' => $this->getYear(),
             'solar_electric_array_azimuth' => $this->getArrayAzimuth(),
             'solar_electric_array_tilt' => $this->getArrayTilt(),
@@ -58,6 +64,24 @@ class Photovoltaic extends Model
             'solar_electric_system_capacity' => $this->getSystemCapacity(),
             'solar_electric_num_panels' => $this->getNumPanels(),
         ];
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getNumberUnitsSharingSystem(): ?int
+    {
+        return $this->numberUnitsSharingSystem;
+    }
+
+    /**
+     * @param int|null $numberUnitsSharingSystem
+     * @return Building
+     */
+    public function setNumberUnitsSharingSystem(?int $numberUnitsSharingSystem): Building
+    {
+        $this->numberUnitsSharingSystem = $numberUnitsSharingSystem;
+        return $this;
     }
 
     /**

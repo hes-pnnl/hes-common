@@ -90,11 +90,6 @@ class Building extends Model
      * */
     protected $manufacturedHomeSections;
 
-    /**
-     * @var int|null 
-     * */
-    protected $numberUnits;
-
     /** @var int */
     protected $numberBedrooms;
 
@@ -195,7 +190,6 @@ class Building extends Model
             'envelope_leakage' => $this->getEnvelopeLeakage(),
             'dwelling_unit_type' => $this->getDwellingUnitType(),
             'manufactured_home_sections' => $this->getManufacturedHomeSections(),
-            'number_units' => $this->getNumberUnits(),
         ];
     }
 
@@ -484,24 +478,6 @@ class Building extends Model
     public function setNumberBedrooms(?int $numberBedrooms): Building
     {
         $this->numberBedrooms = $numberBedrooms;
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getNumberUnits(): ?int
-    {
-        return $this->numberUnits;
-    }
-
-    /**
-     * @param int|null $numberUnits
-     * @return Building
-     */
-    public function setNumberUnits(?int $numberUnits): Building
-    {
-        $this->numberUnits = $numberUnits;
         return $this;
     }
 
