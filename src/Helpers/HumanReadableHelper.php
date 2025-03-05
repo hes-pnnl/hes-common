@@ -198,7 +198,8 @@ class HumanReadableHelper extends Helper
         "cond_basement"=>"Conditioned Basement",
         "unvented_crawl"=>"Unvented Crawlspace",
         "vented_crawl"=>"Vented Crawlspace",
-        "belly_and_wing"=>"Belly and Wing"
+        "belly_and_wing"=>"Belly and Wing",
+        "above_other_unit"=>"Above Other Unit"
     ];
     const INSULATION_FLOOR = [
         ""=>"-Select-",
