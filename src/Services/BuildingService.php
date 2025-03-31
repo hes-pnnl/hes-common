@@ -191,7 +191,6 @@ class BuildingService
 
         $set('about.dwelling_unit_type', null);
         $set('about.manufactured_home_sections', null);
-        $set('about.number_units', null);
         $set('about.year_built');
         $set('about.number_bedrooms');
         $set('about.num_floor_above_grade', null, 'setFloorsAboveGrade');
@@ -283,6 +282,7 @@ class BuildingService
         $set('systems.domestic_hot_water.efficiency_unit', $hotWater);
 
         $photovoltaic = $building->getPhotovoltaic();
+        $set('systems.generation.solar_electric.number_units_sharing_system', $photovoltaic);
         $set('systems.generation.solar_electric.capacity_known', $photovoltaic);
         $set('systems.generation.solar_electric.system_capacity', $photovoltaic);
         $set('systems.generation.solar_electric.num_panels', $photovoltaic);

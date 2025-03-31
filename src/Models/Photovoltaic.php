@@ -76,9 +76,9 @@ class Photovoltaic extends Model
 
     /**
      * @param int|null $numberUnitsSharingSystem
-     * @return Building
+     * @return Photovoltaic
      */
-    public function setNumberUnitsSharingSystem(?int $numberUnitsSharingSystem): Building
+    public function setNumberUnitsSharingSystem(?int $numberUnitsSharingSystem): Photovoltaic
     {
         $this->numberUnitsSharingSystem = $numberUnitsSharingSystem;
         return $this;
