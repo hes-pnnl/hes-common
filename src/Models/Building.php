@@ -98,7 +98,7 @@ class Building extends Model
 
     /**
      * Floor-to-ceiling height of the home in feet
-     * @var int
+     * @var float
      */
     protected $floorToCeilingHeight;
 
@@ -500,18 +500,18 @@ class Building extends Model
     }
 
     /**
-     * @return int|null
+     * @return float|null
      */
-    public function getFloorToCeilingHeight(): ?int
+    public function getFloorToCeilingHeight(): ?float
     {
         return $this->floorToCeilingHeight;
     }
 
     /**
-     * @param int|null $floorToCeilingHeight
+     * @param float|null $floorToCeilingHeight
      * @return Building
      */
-    public function setFloorToCeilingHeight(?int $floorToCeilingHeight): Building
+    public function setFloorToCeilingHeight(?float $floorToCeilingHeight): Building
     {
         $this->floorToCeilingHeight = $floorToCeilingHeight;
         return $this;
