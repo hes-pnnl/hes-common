@@ -56,7 +56,6 @@ class ValidationService
     public function getValidationsFromHescoreJSON(string $homeJson) : array
     {
         ExecHelper::assertNodeIsInstalled();
-
         exec("node $this->nodeModulesPath/hes-validation-engine/dist/home_audit.cli.js $homeJson 2>&1", $output);
         $result = implode("", $output);
         $validationMessages = json_decode($result, true);
@@ -113,6 +112,26 @@ class ValidationService
             if(array_key_exists($name, $type)) {
                 return $type[$name];
             }
+        }
+        return null;
+    }
+
+    /**
+     * Gets error validation message for a specific element.
+     * 
+     * @param string $name Key name for the desired error messages
+     * @param array $validationMessages Optional. Pass validation messages if you do not want to
+     *      use results returned by getValidation().
+     * @return string|null
+     */
+    public function getValidationConditionalValidationMessage(string $name, $validationMessages=null) : ?string
+    {
+        if (null === $validationMessages && null === $this->validations) {
+            throw new \Exception('This message cannot be called without a $validationMessages argument unless getValidations() has been called to populate the validations');
+        }
+        $validationMessages = $validationMessages ?? $this->validations;
+        if (array_key_exists($name, $validationMessages["error"])) {
+            return $validationMessages["error"][$name];
         }
         return null;
     }
