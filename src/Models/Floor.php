@@ -16,6 +16,8 @@ class Floor extends Model
     const TYPE_VENTED_CRAWL           = 'vented_crawl';
     const TYPE_UNVENTED_CRAWL         = 'unvented_crawl';
     const TYPE_SLAB_ON_GRADE          = 'slab_on_grade';
+    const TYPE_ABOVE_UNIT             = 'above_other_unit';
+    const TYPE_BELLY_AND_WING         = 'belly_and_wing';
 
     /** @var float|null */
     protected $area;

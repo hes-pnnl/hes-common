@@ -2,7 +2,12 @@
 
 namespace HESCommon\Helpers;
 
-use \HESCommon\Services\BooleanService;
+use HESCommon\Models\Building;
+use HESCommon\Models\Duct;
+use HESCommon\Models\HotWater;
+use HESCommon\Models\Hvac;
+use HESCommon\Models\Roof;
+use HESCommon\Models\Wall;
 
 /**
  * HumanReadableHelper is used to convert the machine/api recognizable fields and values in our
@@ -22,6 +27,19 @@ class HumanReadableHelper extends Helper
         'preconstruction' => 'Preconstruction',
         'void'            => 'Void'
     ];
+
+    const DWELLING_UNIT = [
+        Building::DWELLING_UNIT_SINGLE_DETACHED => "Single-Family Detached",
+        Building::DWELLING_UNIT_SINGLE_ATTACHED => "Townhouse/Rowhouse/Duplex",
+        Building::DWELLING_UNIT_APARTMENT       => "Multifamily Building Unit",
+        Building::DWELLING_UNIT_MANUFACTURED    => "Manufactured Home"
+    ];
+    
+    const MANUFACTURED_HOME_SECTION = [
+        Building::MANUFACTURED_HOME_SECTION_SINGLE => "Single-Wide",
+        Building::MANUFACTURED_HOME_SECTION_DOUBLE => "Double-Wide",
+        Building::MANUFACTURED_HOME_SECTION_TRIPLE => "Triple-Wide"
+    ];
     
     // Fields that designate areas - we will append 'sq ft' to the end of their values
     const AREA_FIELDS = [
@@ -36,21 +54,27 @@ class HumanReadableHelper extends Helper
         'window_area_left',
         'window_area_right'
     ];
-
-    const TOWNHOUSE_POSITIONS = [
-        "back_front"=>"Middle",
-        "back_front_left"=>"Left",
-        "back_right_front"=>"Right"
-    ];
     
     /* Wall Codes */
-    const CONSTRUCTION_WALL = [
+    const EXTERIOR_CONSTRUCTION_WALL = [
         "ewwf"=>"Wood Frame",
         "ewps"=>"Wood Frame with rigid foam sheathing",
         "ewov"=>"Wood Frame with Optimum Value Engineering (OVE)",
         "ewbr"=>"Structural Brick",
         "ewcb"=>"Concrete Block or Stone",
-        "ewsb"=>"Straw Bale"
+        "ewsb"=>"Straw Bale",
+        "ewsf"=>"Steel Frame",
+    ];
+
+    const CONSTRUCTION_WALL =[
+        "ewwf"=>"Wood Frame",
+        "ewps"=>"Wood Frame with rigid foam sheathing",
+        "ewov"=>"Wood Frame with Optimum Value Engineering (OVE)",
+        "ewbr"=>"Structural Brick",
+        "ewcb"=>"Concrete Block or Stone",
+        "ewsb"=>"Straw Bale",
+        "ewsf"=>"Steel Frame",
+        "iwwf"=>"Inner Wall"
     ];
     const FINISH = [
         "wo"=>"Wood Siding, Fiber Cement, Composite Shingle, or Masonite Siding",
@@ -63,18 +87,20 @@ class HumanReadableHelper extends Helper
     const INSULATION_WALL = [
         "00"=>"R-0",
         "03"=>"R-3",
+        "05"=>"R-5",
+        "06"=>"R-6",
         "07"=>"R-7",
+        "10"=>"R-10",
         "11"=>"R-11",
         "13"=>"R-13",
         "15"=>"R-15",
         "19"=>"R-19",
         "21"=>"R-21",
+        "25"=>"R-25",
         "27"=>"R-27",
         "33"=>"R-33",
+        "35"=>"R-35",
         "38"=>"R-38",
-        "05"=>"R-5",
-        "10"=>"R-10",
-        "06"=>"R-6",
     ];
     
     /* Window Codes */
@@ -115,18 +141,24 @@ class HumanReadableHelper extends Helper
     ];
     const INSULATION_ROOF = [
         "00"=>"R-0",
+        "03"=>"R-3",
+        "07"=>"R-7",
         "11"=>"R-11",
         "13"=>"R-13",
         "15"=>"R-15",
         "19"=>"R-19",
         "21"=>"R-21",
+        "25"=>"R-25",
         "27"=>"R-27",
         "30"=>"R-30",
     ];
     const ATTIC_TYPE = [
-        "vented_attic" => "Unconditioned Attic",
-        "cond_attic" => "Conditioned Attic",
-        "cath_ceiling" => "Cathedral Ceiling"
+        Roof::TYPE_VENTED_ATTIC => "Unconditioned Attic",
+        Roof::TYPE_CONDITIONED_ATTIC => "Conditioned Attic",
+        Roof::TYPE_BELOW_UNIT => "Below other Unit",
+        Roof::TYPE_CATHEDRAL_BOWSTRING => "Bowstring Roof",
+        Roof::TYPE_CATHEDRAL_FLAT => "Flat Roof",
+        Roof::TYPE_CATHEDRAL_CEILING => "Cathedral Ceiling"
     ];
     const ATTIC_INSULATION = [
         "ecwf00" => "R-0",
@@ -134,16 +166,30 @@ class HumanReadableHelper extends Helper
         "ecwf06" => "R-6",
         "ecwf09" => "R-9",
         "ecwf11" => "R-11",
+        "ecwf13" => "R-13",
+        "ecwf15" => "R-15",
         "ecwf19" => "R-19",
         "ecwf21" => "R-21",
         "ecwf25" => "R-25",
         "ecwf30" => "R-30",
+        "ecwf35" => "R-35",
         "ecwf38" => "R-38",
         "ecwf44" => "R-44",
         "ecwf49" => "R-49",
+        "ecwf55" => "R-55",
         "ecwf60" => "R-60"
     ];
-    
+    const KNEE_WALL_ASSEMBLY = [
+        "kwwf00" => "R-0",
+        "kwwf03" => "R-3",
+        "kwwf07" => "R-7",
+        "kwwf11" => "R-11",
+        "kwwf13" => "R-13",
+        "kwwf15" => "R-15",
+        "kwwf19" => "R-19",
+        "kwwf21" => "R-21"
+    ];
+
     /* Foundation Codes */
     const FOUNDATION_TYPE = [
         ""=>"-Select-",
@@ -151,11 +197,15 @@ class HumanReadableHelper extends Helper
         "uncond_basement"=>"Unconditioned Basement",
         "cond_basement"=>"Conditioned Basement",
         "unvented_crawl"=>"Unvented Crawlspace",
-        "vented_crawl"=>"Vented Crawlspace"
+        "vented_crawl"=>"Vented Crawlspace",
+        "belly_and_wing"=>"Belly and Wing",
+        "above_other_unit"=>"Above Other Unit"
     ];
     const INSULATION_FLOOR = [
         ""=>"-Select-",
         "efwf00ca"=>"R-0",
+        "efwf03ca"=>"R-3",
+        "efwf07ca"=>"R-7",
         "efwf11ca"=>"R-11",
         "efwf13ca"=>"R-13",
         "efwf15ca"=>"R-15",
@@ -163,13 +213,27 @@ class HumanReadableHelper extends Helper
         "efwf21ca"=>"R-21",
         "efwf25ca"=>"R-25",
         "efwf30ca"=>"R-30",
-        "efwf38ca"=>"R-38"
+        "efwf35ca"=>"R-35",
+        "efwf38ca"=>"R-38",
+        "efbw00"=>"R-0",
+        "efbw11"=>"R-11",
+        "efbw13"=>"R-13",
+        "efbw19"=>"R-19",
+        "efbw22"=>"R-22",
+        "efbw30"=>"R-30"
     ];
     const FOUNDATION_INSULATION = [
         "0"=>"R-0",
         "5"=>"R-5",
         "11"=>"R-11",
         "19"=>"R-19",
+    ];
+    const ADJACENT_WALL = [
+        Wall::ADJACENT_TO_OUTSIDE => "Outside",
+        Wall::ADJACENT_TO_UNIT => "Other Unit",
+        Wall::ADJACENT_TO_HEATED_SPACE => "Other Heated Space",
+        Wall::ADJACENT_TO_NON_FREEZING_SPACE => "Other Non-Freezing Space",
+        Wall::ADJACENT_TO_BUFFER_SPACE => "Other Multi-Family Buffer Space"
     ];
     
     /* HVAC System Codes */
@@ -192,6 +256,22 @@ class HumanReadableHelper extends Helper
         'cord_wood' => 'Wood',
         'pellet_wood' => 'Pellets',
     ];
+    const HEATING_EFFICIENCY_UNIT = [
+        Hvac::HEATING_EFFICIENCY_UNIT_AFUE    => "Annual Fuel Utilization Efficiency (AFUE)",
+        Hvac::HEATING_EFFICIENCY_UNIT_COP     => "Coefficient of Performance (COP)",
+        Hvac::HEATING_EFFICIENCY_UNIT_HSPF    => "Heating Seasonal Performance Factor - Pre 2023 (HSPF)",
+        Hvac::HEATING_EFFICIENCY_UNIT_HSPF2   => "Heating Seasonal Performance Factor (HSPF2)"
+    ];
+    const COOLING_EFFICIENCY_UNIT = [
+        Hvac::COOLING_EFFICIENCY_UNIT_EER     => "Energy Efficiency Ratio (EER)",
+        Hvac::COOLING_EFFICIENCY_UNIT_CEER    => "Combined Energy Efficiency Ratio (CEER)",
+        Hvac::COOLING_EFFICIENCY_UNIT_SEER    => "Seasonal Energy Efficiency Ratio - Pre 2023 (SEER)",
+        Hvac::COOLING_EFFICIENCY_UNIT_SEER2   => "Seasonal Energy Efficiency Ratio (SEER2)"
+    ];
+    const HOT_WATER_EFFICIENCY_UNIT = [
+        HotWater::EFFICIENCY_UNIT_EF    => "Energy Factor (EF)",
+        HotWater::EFFICIENCY_UNIT_UEF   => "Uniform Energy Factor (UEF)"
+    ];
     const COOLING_TYPE = [
         "none"        => "None",
         "split_dx"    => "Central air conditioner",
@@ -202,11 +282,15 @@ class HumanReadableHelper extends Helper
         "dec"         => "Direct evaporative cooling"
     ];
     const DUCT_LOCATION = [
-        "cond_space"      => "Conditioned space",
-        "uncond_basement" => "Unconditioned basement",
-        "vented_crawl"    => "Vented crawlspace",
-        "unvented_crawl"  => "Unvented crawlspace",
-        "uncond_attic"    => "Unconditioned attic"
+        Duct::LOCATION_CONDITIONED_SPACE      => "Conditioned space",
+        Duct::LOCATION_UNCONDITIONED_BASEMENT => "Unconditioned basement",
+        Duct::LOCATION_VENTED_CRAWLSPACE      => "Vented crawlspace",
+        Duct::LOCATION_UNVENTED_CRAWLSPACE    => "Unvented crawlspace / Unconditioned garage",
+        Duct::LOCATION_UNCONDITIONED_ATTIC    => "Unconditioned attic",
+        Duct::LOCATION_UNDER_SLAB             => 'Under slab',
+        Duct::LOCATION_EXTERIOR_WALL          => 'In exterior wall',
+        Duct::LOCATION_OUTSIDE                => 'Outside',
+        Duct::LOCATION_BELLY                  => 'Manufactured Home Belly'
     ];
     const HOT_WATER_TYPE = [
         "storage"           => "Storage",
@@ -218,7 +302,7 @@ class HumanReadableHelper extends Helper
     const HOT_WATER_FUEL = [
         "electric"      => "Electric",
         "natural_gas"   => "Natural Gas",
-        "lpg"           => "LPG",
+        "lpg"           => "Propane (LPG)",
         "fuel_oil"      => "Oil",
         "electric"      => "Electric"
     ];
@@ -231,7 +315,9 @@ class HumanReadableHelper extends Helper
     {
         if($assemblyCode !== null) {
             $assembly = self::CONSTRUCTION_WALL[substr($assemblyCode, 0, 4)];
-            $assembly .= "/".self::FINISH[substr($assemblyCode, 6, 2)];
+            if(strlen($assemblyCode) > 6) {
+                $assembly .= "/" . self::FINISH[substr($assemblyCode, 6, 2)];
+            }
             $assembly .= "/".self::INSULATION_WALL[substr($assemblyCode, 4, 2)];
             return $assembly;
         }
@@ -294,9 +380,6 @@ class HumanReadableHelper extends Helper
             
             if ($name === 'num_floor_above_grade') {
                 $newName = 'Stories Above Ground Level';
-            } else if ($name === 'town_house_walls') {
-                $newName = 'Townhouse Position';
-                $newValue = self::TOWNHOUSE_POSITIONS[$value];
             } else if ($name === 'floor_to_ceiling_height') {
                 $newValue = $value + ' feet';
             } else if (in_array($name, self::AREA_FIELDS)) {
@@ -314,7 +397,7 @@ class HumanReadableHelper extends Helper
             } else if (in_array($name, ['window_code_front', 'window_code_back', 'window_code_right', 'window_code_left', 'skylight_code'])) {
                 $newValue = self::getWindowAssembly($value);
             } else if (in_array($name, $intToBoolFields)) {
-                $value = BooleanService::getInstance()->getBoolValForThreeValueInt($value);
+                $value = BooleanHelper::getBoolValForThreeValueInt($value);
             }
             $newName = $newName ?? self::snakeToCapitalizedWords($name);
             

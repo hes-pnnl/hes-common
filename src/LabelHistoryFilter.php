@@ -30,6 +30,9 @@ class LabelHistoryFilter
     /** @var string */
     private $address;
 
+    /** @var string */
+    private $softwareProviderName;
+
     /** @var string[] */
     private $userIds;
 
@@ -139,6 +142,22 @@ class LabelHistoryFilter
     public function setAddress(?string $address)
     {
         $this->address = $address;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSoftwareProviderName() : ?string
+    {
+        return $this->softwareProviderName;
+    }
+
+    /**
+     * @param string|null $softwareProviderName
+     */
+    public function setSoftwareProviderName(?string $softwareProviderName)
+    {
+        $this->softwareProviderName = $softwareProviderName;
     }
 
     /**

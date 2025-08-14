@@ -2,16 +2,18 @@
 
 namespace HESCommon\Models;
 
-use HESCommon\Services\BooleanService;
+use HESCommon\Helpers\BooleanHelper;
 
 class Building extends Model
 {
-    const SHAPE_RECTANGLE = 'rectangle';
-    const SHAPE_TOWNHOUSE = 'town_house';
+    const DWELLING_UNIT_SINGLE_DETACHED = 'single_family_detached';
+    const DWELLING_UNIT_SINGLE_ATTACHED = 'single_family_attached';
+    const DWELLING_UNIT_APARTMENT       = 'apartment_unit';
+    const DWELLING_UNIT_MANUFACTURED    = 'manufactured_home';
 
-    const TOWNHOUSE_POSITION_RIGHT   = 'back_right_front';
-    const TOWNHOUSE_POSITION_MIDDLE = 'back_front';
-    const TOWNHOUSE_POSITION_LEFT  = 'back_front_left';
+    const MANUFACTURED_HOME_SECTION_SINGLE = 'single-wide';
+    const MANUFACTURED_HOME_SECTION_DOUBLE = 'double-wide';
+    const MANUFACTURED_HOME_SECTION_TRIPLE = 'triple-wide';
 
     const ORIENTATION_NORTH     = 'north';
     const ORIENTATION_SOUTH     = 'south';
@@ -72,20 +74,26 @@ class Building extends Model
     protected $comments;
 
     /**
-     * One of this class's SHAPE_* constants
+     * One of this class's DWELLING_UNIT_* constants
      *
      * @var string
      */
-    protected $shape;
-
-    /**
-     * One of this class's TOWNHOUSE_POSITION_* constants
-     * @var string
-     */
-    protected $townhousePosition;
+    protected $dwellingUnitType;
 
     /** @var int */
     protected $yearBuilt;
+
+    /** 
+     * One of this class's MANUFACTURED_HOME_SECTION_* constants
+     * 
+     * @var string|null 
+     * */
+    protected $manufacturedHomeSections;
+
+    /**
+     * @var int|null 
+     * */
+    protected $numberUnits;
 
     /** @var int */
     protected $numberBedrooms;
@@ -119,12 +127,6 @@ class Building extends Model
 
     /** @var int */
     protected $envelopeLeakage;
-
-    /** @var bool */
-    protected $isWallConstructionSameOnAllSides;
-
-    /** @var bool */
-    protected $isWindowConstructionSameOnAllSides;
 
     /** @var Roof[] */
     protected $roofs = [];
@@ -162,7 +164,7 @@ class Building extends Model
 
         $this->walls = [];
         $this->windows = [];
-        foreach (['front', 'back', 'left', 'right'] as $side) {
+        foreach (['front', 'back', 'right', 'left'] as $side) {
             $this->walls[$side] = new Wall();
             $this->windows[$side] = new Window();
         }
@@ -176,11 +178,10 @@ class Building extends Model
     /**
      * @return array
      */
-    public function getHomeDetailsArray()
+    public function getHomeDetailsArray(): array
     {
-        $boolService = BooleanService::getInstance();
-        
         return [
+            'assessment_type' => $this->getAssessmentType(),
             'assessment_date' => $this->getAssessmentDate() !== null ? $this->getAssessmentDate()->format('Y-m-d') : null,
             'comments' => $this->getComments(),
             'year_built' => $this->getYearBuilt(),
@@ -189,18 +190,29 @@ class Building extends Model
             'floor_to_ceiling_height' => $this->getFloorToCeilingHeight(),
             'conditioned_floor_area' => $this->getConditionedFloorArea(),
             'orientation' => $this->getOrientation(),
-            'blower_door_test' => $boolService->getIntValForThreeValueBoolean($this->wasBlowerTestPerformed()),
-            'air_sealing_present' => $boolService->getIntValForThreeValueBoolean($this->isAirSealingPresent()),
+            'blower_door_test' => BooleanHelper::getIntValForThreeValueBoolean($this->wasBlowerTestPerformed()),
+            'air_sealing_present' => BooleanHelper::getIntValForThreeValueBoolean($this->isAirSealingPresent()),
             'envelope_leakage' => $this->getEnvelopeLeakage(),
-            //Walls
-            'shape' => $this->getShape(),
-            'town_house_walls' => $this->getTownhousePosition(),
-            'wall_construction_same' => $boolService->getIntValForThreeValueBoolean($this->isWallConstructionSameOnAllSides()),
-            //Windows
-            'window_construction_same' => $boolService->getIntValForThreeValueBoolean($this->isWindowConstructionSameOnAllSides()),
+            'dwelling_unit_type' => $this->getDwellingUnitType(),
+            'manufactured_home_sections' => $this->getManufacturedHomeSections(),
+            'number_units' => $this->getNumberUnits(),
         ];
     }
-    
+
+    /**
+     * @return array
+     */
+    public function getAddressArray(): array
+    {
+        return [
+            'address' => $this->getAddress()->getStreet(),
+            'address2' => $this->getAddress()->getAddress2(),
+            'city' => $this->getAddress()->getCity(),
+            'state' => $this->getAddress()->getState(),
+            'zip_code' => $this->getAddress()->getZip(),
+        ];
+    }
+
     /**
      * @return array
      */
@@ -232,6 +244,8 @@ class Building extends Model
         }
         $hvacValues[1] = [];
         $hvacValues[2] = [];
+        $hvacDistributionValues[1] = [];
+        $hvacDistributionValues[2] = [];
         $ductValues[1][1] = [];
         $ductValues[1][2] = [];
         $ductValues[1][3] = [];
@@ -241,8 +255,10 @@ class Building extends Model
         foreach([1,2] as $system){
             $hvac = $this->getHvac($system);
             $hvacValues[$system] = array_merge($hvacValues[$system], $hvac->getValuesAsArray($system));
+            $distribution = $hvac->getDistribution();
+            $hvacDistributionValues[$system] = array_merge($hvacValues[$system], $distribution->getValuesAsArray($system));
             foreach([1,2,3] as $count) {
-                $duct = $hvac->getDuct($count);
+                $duct = $distribution->getDuct($count);
                 $ductValues[$system][$count] = array_merge($ductValues[$system][$count], $duct->getValuesAsArray($system, $count));
             }
         }
@@ -250,9 +266,10 @@ class Building extends Model
         $hwValues = $hw->getValuesAsArray();
         $pv = $this->getPhotovoltaic();
         $pvValues = $pv->getValuesAsArray();
-        
+
         $return = [];
         $return['HOME DETAILS'] = $homeDetails;
+        $return['ADDRESS'] = $this->getAddressArray();
         $return['ROOF 1'] = $roofValues[1];
         $return['ROOF 2'] = $roofValues[2];
         $return['FOUNDATION 1'] = $floorValues[1];
@@ -261,12 +278,14 @@ class Building extends Model
         $return['WINDOWS'] = $windowValues;
         $return['HVAC SYSTEM 1'] = $hvacValues[1];
         $return['HVAC SYSTEM 2'] = $hvacValues[2];
-        $return['HVAC 1 DISTRIBUTION 1'] = $ductValues[1][1];
-        $return['HVAC 1 DISTRIBUTION 2'] = $ductValues[1][2];
-        $return['HVAC 1 DISTRIBUTION 3'] = $ductValues[1][3];
-        $return['HVAC 2 DISTRIBUTION 1'] = $ductValues[2][1];
-        $return['HVAC 2 DISTRIBUTION 2'] = $ductValues[2][2];
-        $return['HVAC 2 DISTRIBUTION 3'] = $ductValues[2][3];
+        $return['HVAC 1 DISTRIBUTION'] = $hvacDistributionValues[1];
+        $return['HVAC 2 DISTRIBUTION'] = $hvacDistributionValues[2];
+        $return['HVAC 1 DUCT 1'] = $ductValues[1][1];
+        $return['HVAC 1 DUCT 2'] = $ductValues[1][2];
+        $return['HVAC 1 DUCT 3'] = $ductValues[1][3];
+        $return['HVAC 2 DUCT 1'] = $ductValues[2][1];
+        $return['HVAC 2 DUCT 2'] = $ductValues[2][2];
+        $return['HVAC 2 DUCT 3'] = $ductValues[2][3];
         $return['HOT WATER'] = $hwValues;
         $return['PHOTOVOLTAIC'] = $pvValues;
         
@@ -301,6 +320,16 @@ class Building extends Model
     public function getParentId() : ?int
     {
         return $this->parentId;
+    }
+
+    /**
+     * @param null|int $parentId
+     * @return Building
+     */
+    public function setParentId(?int $parentId) : Building
+    {
+        $this->parentId = $parentId;
+        return $this;
     }
 
     /**
@@ -389,45 +418,36 @@ class Building extends Model
     /**
      * @return string|null
      */
-    public function getShape(): ?string
+    public function getDwellingUnitType(): ?string
     {
-        return $this->shape;
+        return $this->dwellingUnitType;
     }
 
     /**
-     * @param string|null $shape
+     * @param string|null $dwellingUnitType
      * @return Building
      */
-    public function setShape(?string $shape): Building
+    public function setDwellingUnitType(?string $dwellingUnitType): Building
     {
-        $this->shape = $shape;
+        $this->dwellingUnitType = $dwellingUnitType;
         return $this;
-    }
-
-    /**
-     * Convenience function to check whether the building's shape is SHAPE_TOWNHOUSE
-     * @return bool
-     */
-    public function isTownhouse() : bool
-    {
-        return $this->getShape() === self::SHAPE_TOWNHOUSE;
     }
 
     /**
      * @return string|null
      */
-    public function getTownhousePosition(): ?string
+    public function getManufacturedHomeSections(): ?string
     {
-        return $this->townhousePosition;
+        return $this->manufacturedHomeSections;
     }
 
     /**
-     * @param string|null $townhousePosition
+     * @param string|null $manufacturedHomeSections
      * @return Building
      */
-    public function setTownhousePosition(?string $townhousePosition): Building
+    public function setManufacturedHomeSections(?string $manufacturedHomeSections): Building
     {
-        $this->townhousePosition = $townhousePosition;
+        $this->manufacturedHomeSections = $manufacturedHomeSections;
         return $this;
     }
 
@@ -464,6 +484,24 @@ class Building extends Model
     public function setNumberBedrooms(?int $numberBedrooms): Building
     {
         $this->numberBedrooms = $numberBedrooms;
+        return $this;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getNumberUnits(): ?int
+    {
+        return $this->numberUnits;
+    }
+
+    /**
+     * @param int|null $numberUnits
+     * @return Building
+     */
+    public function setNumberUnits(?int $numberUnits): Building
+    {
+        $this->numberUnits = $numberUnits;
         return $this;
     }
 
@@ -612,42 +650,6 @@ class Building extends Model
     }
 
     /**
-     * @return bool|null
-     */
-    public function isWallConstructionSameOnAllSides(): ?bool
-    {
-        return $this->isWallConstructionSameOnAllSides;
-    }
-
-    /**
-     * @param bool|null $isWallConstructionSameOnAllSides
-     * @return Building
-     */
-    public function setIsWallConstructionSameOnAllSides(?bool $isWallConstructionSameOnAllSides): Building
-    {
-        $this->isWallConstructionSameOnAllSides = $isWallConstructionSameOnAllSides;
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function isWindowConstructionSameOnAllSides(): ?bool
-    {
-        return $this->isWindowConstructionSameOnAllSides;
-    }
-
-    /**
-     * @param bool|null $isWindowConstructionSameOnAllSides
-     * @return Building
-     */
-    public function setIsWindowConstructionSameOnAllSides(?bool $isWindowConstructionSameOnAllSides): Building
-    {
-        $this->isWindowConstructionSameOnAllSides = $isWindowConstructionSameOnAllSides;
-        return $this;
-    }
-
-    /**
      * @throws \InvalidArgumentException
      * @param int $roofNumber
      * @return Roof
@@ -706,25 +708,22 @@ class Building extends Model
     }
 
     /**
-     * @param bool $omitSharedTownhouseWalls Pass TRUE to have a townhouse's common walls omitted from the result
      * @return Wall[] in the form ['front' => Wall, 'back' => Wall, 'left' => Wall, 'right' => Wall]
      */
-    public function getWalls(bool $omitSharedTownhouseWalls = false) : array
+    public function getWalls() : array
     {
-        // Unless this is a townhouse and we've been asked to omit shared walls for a townhouse, just return the building's walls
-        if (!$omitSharedTownhouseWalls || !$this->isTownhouse()) {
-            return $this->walls;
-        }
+        return $this->walls;
+    }
 
-        $position = $this->getTownhousePosition();
-        $walls = ['front' => $this->walls['front'], 'back' => $this->walls['back']];
-        if ($position === self::TOWNHOUSE_POSITION_LEFT) {
-            $walls['left'] = $this->walls['left'];
-        } elseif ($position === self::TOWNHOUSE_POSITION_RIGHT) {
-            $walls['right'] = $this->walls['right'];
-        }
-
-        return $walls;
+    /**
+     * @return bool
+     */
+    public function isWallConstructionSameOnAllSides() : bool
+    {
+        $walls = array_map(function($wall) {
+            return array_values($wall->getValuesAsArray("")); // Position does not matter for this comp
+        }, $this->getWalls());
+        return count(array_unique($walls, SORT_REGULAR)) === 1;
     }
 
     /**
@@ -742,25 +741,24 @@ class Building extends Model
     }
 
     /**
-     * @param bool $omitSharedTownhouseWalls Pass TRUE to have windows from sides shared in a townhouse omitted from the result
      * @return Window[] in the form ['front' => Window, 'back' => Window, 'left' => Window, 'right' => Window]
      */
-    public function getWindows(bool $omitSharedTownhouseWalls = false) : array
+    public function getWindows() : array
     {
-        // Unless this is a townhouse and we've been asked to omit shared walls for a townhouse, just return the building's windows
-        if (!$omitSharedTownhouseWalls || !$this->isTownhouse()) {
-            return $this->windows;
-        }
+        return $this->windows;
+    }
 
-        $position = $this->getTownhousePosition();
-        $windows = ['front' => $this->windows['front'], 'back' => $this->windows['back']];
-        if ($position === self::TOWNHOUSE_POSITION_LEFT) {
-            $windows['left'] = $this->windows['left'];
-        } elseif ($position === self::TOWNHOUSE_POSITION_RIGHT) {
-            $windows['right'] = $this->windows['right'];
-        }
-
-        return $windows;
+    /**
+     * @return bool
+     */
+    public function isWindowConstructionSameOnAllSides() : bool
+    {
+        $windows = array_map(function($window) {
+            $windowArray = $window->getValuesAsArray("");
+            $windowArray['window_area_'] = 0;
+            return array_values($windowArray); // Position & area does not matter for this comp
+        }, $this->getWindows());
+        return count(array_unique($windows, SORT_REGULAR)) === 1;
     }
 
     /**

@@ -10,6 +10,12 @@ class Address extends Model
     /** @var string */
     private $street;
 
+    /**
+     * Address2
+     * @var string|null
+     */
+    private $address2;
+
     /** @var string */
     private $city;
 
@@ -34,6 +40,24 @@ class Address extends Model
     public function setStreet($street)
     {
         $this->street = $street;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAddress2(): ?string
+    {
+        return $this->address2;
+    }
+
+    /**
+     * @param string|null $address2
+     * @return Address
+     */
+    public function setAddress2(?string $address2): Address
+    {
+        $this->address2 = $address2;
         return $this;
     }
 

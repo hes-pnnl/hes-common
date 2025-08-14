@@ -32,6 +32,16 @@ class Hvac extends Model
     const COOLING_TYPE_MINI_SPLIT = 'mini_split';
     const COOLING_TYPE_NONE = 'none';
 
+    const HEATING_EFFICIENCY_UNIT_AFUE = 'afue';
+    const HEATING_EFFICIENCY_UNIT_COP = 'cop';
+    const HEATING_EFFICIENCY_UNIT_HSPF = 'hspf';
+    const HEATING_EFFICIENCY_UNIT_HSPF2 = 'hspf2';
+
+    const COOLING_EFFICIENCY_UNIT_EER = 'eer';
+    const COOLING_EFFICIENCY_UNIT_CEER = 'ceer';
+    const COOLING_EFFICIENCY_UNIT_SEER = 'seer';
+    const COOLING_EFFICIENCY_UNIT_SEER2 = 'seer2';
+
     const EFFICIENCY_METHOD_USER = 'user';
     const EFFICIENCY_METHOD_SHIPMENT_WEIGHTED = 'shipment_weighted';
 
@@ -62,6 +72,13 @@ class Hvac extends Model
     /** @var |null */
     protected $heatingEfficiency;
 
+    /** 
+     * One of this class's HEATING_EFFICIENCY_UNIT_* constants
+     * 
+     * @var string|null 
+     */
+    protected $heatingEfficiencyUnit;
+
     /**
      * One of this class's COOLING_TYPE_* constants
      * @var string|null
@@ -74,15 +91,22 @@ class Hvac extends Model
     /** @var int|null */
     protected $coolingYearInstalled;
 
+    /** 
+     * One of this class's COOLING_EFFICIENCY_UNIT_* constants
+     * 
+     * @var string|null 
+     */
+    protected $coolingEfficiencyUnit;
+
     /** @var float|null */
     protected $coolingEfficiency;
 
-    /** @var Duct[] */
-    protected $ducts;
+    /** @var HvacDistribution */
+    protected $distribution;
 
     public function __construct()
     {
-        $this->ducts = [1 => new Duct(), 2 => new Duct(), 3 => new Duct()];
+        $this->distribution = new HvacDistribution();
     }
 
     /**
@@ -97,10 +121,12 @@ class Hvac extends Model
             'heating_type_'.$system => $this->getHeatingType(),
             'heating_efficiency_method_'.$system => $this->getHeatingEfficiencyMethod(),
             'heating_efficiency_'.$system => $this->getHeatingEfficiency(),
+            'heating_efficiency_unit_'.$system => $this->getHeatingEfficiencyUnit(),
             'heating_year_'.$system => $this->getHeatingYearInstalled(),
             'cooling_type_'.$system => $this->getCoolingType(),
             'cooling_efficiency_method_'.$system => $this->getCoolingEfficiencyMethod(),
             'cooling_efficiency_'.$system => $this->getCoolingEfficiency(),
+            'cooling_efficiency_unit_'.$system => $this->getCoolingEfficiencyUnit(),
             'cooling_year_'.$system => $this->getCoolingYearInstalled(),
         ];
     }
@@ -233,6 +259,24 @@ class Hvac extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getHeatingEfficiencyUnit()
+    {
+        return $this->heatingEfficiencyUnit;
+    }
+
+    /**
+     * @param mixed $heatingEfficiencyUnit
+     * @return Hvac
+     */
+    public function setHeatingEfficiencyUnit($heatingEfficiencyUnit): Hvac
+    {
+        $this->heatingEfficiencyUnit = $heatingEfficiencyUnit;
+        return $this;
+    }
+
+    /**
      * @return null|string
      */
     public function getCoolingType(): ?string
@@ -305,23 +349,28 @@ class Hvac extends Model
     }
 
     /**
-     * @param int $ductNumber
-     * @return Duct
+     * @return mixed
      */
-    public function getDuct(int $ductNumber) : Duct
+    public function getCoolingEfficiencyUnit()
     {
-        if (!isset($this->ducts[$ductNumber])) {
-            throw new \InvalidArgumentException("$ductNumber is not a valid duct number");
-        }
-
-        return $this->ducts[$ductNumber];
+        return $this->coolingEfficiencyUnit;
     }
 
     /**
-     * @return Duct[] in the form [ <duct number> => Duct, ...] where duct number is 1-based
+     * @param mixed $coolingEfficiencyUnit
+     * @return Hvac
      */
-    public function getDucts() : array
+    public function setCoolingEfficiencyUnit($coolingEfficiencyUnit): Hvac
     {
-        return $this->ducts;
+        $this->coolingEfficiencyUnit = $coolingEfficiencyUnit;
+        return $this;
+    }
+
+    /**
+     * @return HvacDistribution
+     */
+    public function getDistribution() : HvacDistribution
+    {
+        return $this->distribution;
     }
 }

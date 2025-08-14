@@ -10,6 +10,9 @@ class Roof extends Model
     const TYPE_VENTED_ATTIC = 'vented_attic';
     const TYPE_CONDITIONED_ATTIC = 'cond_attic';
     const TYPE_CATHEDRAL_CEILING = 'cath_ceiling';
+    const TYPE_BELOW_UNIT = 'below_other_unit';
+    const TYPE_CATHEDRAL_FLAT = 'flat_roof';
+    const TYPE_CATHEDRAL_BOWSTRING = 'bowstring_roof';
 
     const COLOR_WHITE = 'white';
     const COLOR_LIGHT = 'light';
@@ -39,6 +42,9 @@ class Roof extends Model
      */
     protected $type;
 
+    /** @var float|null */
+    protected $ceilingArea;
+
     /** @var string|null */
     protected $ceilingAssemblyCode;
     
@@ -60,6 +66,12 @@ class Roof extends Model
     /** @var float|null */
     protected $skylightShgc;
 
+    /** @var float|null */
+    protected $kneeWallArea;
+
+    /** @var string|null */
+    protected $kneeWallAssemblyCode;
+
     /**
      * @param int $count
      * @return array
@@ -72,19 +84,35 @@ class Roof extends Model
             'roof_assembly_code_'.$count => $this->getRoofAssemblyCode(),
             'roof_color_'.$count => $this->getColor(),
             'roof_absorptance_'.$count => $this->getAbsorptance(),
+            'ceiling_area_'.$count => $this->getCeilingArea(),
             'ceiling_assembly_code_'.$count => $this->getCeilingAssemblyCode(),
+            'knee_wall_area_'.$count => $this->getKneeWallArea(),
+            'knee_wall_assembly_code_'.$count => $this->getKneeWallAssemblyCode(),
+            'solar_screen_'.$count = $this->hasSolarScreen(),
+            'skylight_area_'.$count = $this->getSkylightArea(),
+            'skylight_method_'.$count = $this->getSkylightMethod(),
+            'skylight_code_'.$count = $this->getSkylightAssemblyCode(),
+            'skylight_u_value_'.$count = $this->getSkylightUValue(),
+            'skylight_shgc_'.$count = $this->getSkylightShgc()
         ];
-        //Skylight
-        if($count == 1) {
-            $values['solar_screen'] = $this->hasSolarScreen();
-            $values['skylight_area'] = $this->getSkylightArea();
-            $values['skylight_method'] = $this->getSkylightMethod();
-            $values['skylight_code'] = $this->getSkylightAssemblyCode();
-            $values['skylight_u_value'] = $this->getSkylightUValue();
-            $values['skylight_shgc'] = $this->getSkylightShgc();
-        }
         
         return $values;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isEmpty()
+    {
+        return !(
+            $this->getArea() ||
+            $this->getType() ||
+            $this->getRoofAssemblyCode() ||
+            $this->getColor() ||
+            $this->getAbsorptance() ||
+            $this->getCeilingArea() ||
+            $this->getCeilingAssemblyCode()
+        );
     }
 
     /**
@@ -174,6 +202,24 @@ class Roof extends Model
     public function setType(?string $type): Roof
     {
         $this->type = $type;
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getCeilingArea(): ?float
+    {
+        return $this->ceilingArea;
+    }
+
+    /**
+     * @param float|null $ceilingArea
+     * @return Roof
+     */
+    public function setCeilingArea(?float $ceilingArea): Roof
+    {
+        $this->ceilingArea = $ceilingArea;
         return $this;
     }
 
@@ -299,6 +345,42 @@ class Roof extends Model
     public function setSkylightShgc(?float $skylightShgc): Roof
     {
         $this->skylightShgc = $skylightShgc;
+        return $this;
+    }
+
+    /**
+     * @return float|null
+     */
+    public function getKneeWallArea(): ?float
+    {
+        return $this->kneeWallArea;
+    }
+
+    /**
+     * @param float|null $kneeWallArea
+     * @return Roof
+     */
+    public function setKneeWallArea(?float $kneeWallArea): Roof
+    {
+        $this->kneeWallArea = $kneeWallArea;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getKneeWallAssemblyCode(): ?string
+    {
+        return $this->kneeWallAssemblyCode;
+    }
+
+    /**
+     * @param string|null $kneeWallAssemblyCode
+     * @return Roof
+     */
+    public function setKneeWallAssemblyCode(?string $kneeWallAssemblyCode): Roof
+    {
+        $this->kneeWallAssemblyCode = $kneeWallAssemblyCode;
         return $this;
     }
 }

@@ -3,14 +3,13 @@
 namespace HESCommon\Services;
 
 use HESCommon\Models\Building;
+use HESCommon\Models\HPwES;
+use Illuminate\Support\Facades\Log;
 
 class BuildingService
 {
     /** @var HesSoapApiService */
     protected $soapApiService;
-
-    /** @var Building[] Cache of retrieved buildings. to prevent redundant SOAP calls */
-    protected $buildings = [];
 
     public function __construct(HesSoapApiService $soapApiService) {
         $this->soapApiService = $soapApiService;
@@ -26,11 +25,13 @@ class BuildingService
      */
     public function getBuilding(int $buildingId) : ?Building
     {
-        if (!array_key_exists($buildingId, $this->buildings)) {
-            $this->buildings[$buildingId] = $this->getBuildingFromSoapApi($buildingId);
+        static $buildings = [];
+
+        if (!array_key_exists($buildingId, $buildings)) {
+            $buildings[$buildingId] = $this->getBuildingFromSoapApi($buildingId);
         }
 
-        return $this->buildings[$buildingId];
+        return $buildings[$buildingId];
     }
 
     /**
@@ -54,15 +55,80 @@ class BuildingService
             }
         }
 
+        $building = $this->getBuildingFromJSON($response, $buildingId, false);
+        $HPwESResponse = $this->soapApiService->generateSoapCall(
+            'retrieve_hpwes',
+            [
+                'building_id' => $buildingId
+            ]
+        );
+        $HPwES = HPwES::fromRetrieveHPwESSoapResponse($HPwESResponse);
+        $building->setHPwES($HPwES);
+
+        // Get extra context info for building
+        $buildingInfoResponse = $this->soapApiService->generateSoapCall(
+            'get_building_info',
+            ['building_ids' => $buildingId]
+        );
+        $building->setParentId($buildingInfoResponse['parent_id']);
+        return $building;
+    }
+
+    /**
+     * @param array $response
+     * @param int $buildingId
+     * @param bool $throwException set false if conversion is "try your best" mode
+     * @return Building|null
+     * @throws \Exception
+     */
+    public function getBuildingFromJSON(array $response, int $buildingId, bool $throwException = false) : Building
+    {
+        $building = new Building($buildingId);
         // Do a bit of processing on the response to make it easier to work with:
-        //   - Change the zone_wall collection to be indexed by side instead of by number
-        foreach ($response['zone']['zone_wall'] as $key => $wall) {
-            $side = $wall['side'];
-            $response['zone']['zone_wall'][$side] = $wall;
-            unset($response['zone']['zone_wall'][$key]);
+        if(array_key_exists('zone_wall', $response['zone'])) {
+            // Change the zone_wall collection to be indexed by side instead of by number
+            if(array_key_exists('side', $response['zone']['zone_wall'])){
+                $response['zone']['zone_wall'] = array($response['zone']['zone_wall']);
+            }
+            foreach ($response['zone']['zone_wall'] as $key => $wall) {
+                $side = $wall['side'];
+                $response['zone']['zone_wall'][$side] = $wall;
+                unset($response['zone']['zone_wall'][$key]);
+            }
+        }
+        if(
+            array_key_exists('zone_roof', $response['zone']) && 
+            array_key_exists('roof_name', $response['zone']['zone_roof'])
+        ) {
+            $response['zone']['zone_roof'] = array($response['zone']['zone_roof']);
         }
 
-        $building = new Building($buildingId);
+        if(
+            array_key_exists('zone_floor', $response['zone']) && 
+            array_key_exists('floor_name', $response['zone']['zone_floor'])
+        ){
+            $response['zone']['zone_floor'] = array($response['zone']['zone_floor']);
+        }
+
+        if(
+            array_key_exists('systems', $response) &&
+            array_key_exists('hvac', $response['systems'])
+        ) {
+
+            if(array_key_exists('hvac_name', $response['systems']['hvac'])){
+                $response['systems']['hvac'] = array($response['systems']['hvac']);
+            }
+            foreach($response['systems']['hvac'] as $i => $hvac) {
+                if(array_key_exists('hvac_distribution', $response['systems']['hvac'][$i])) {
+                    if (array_key_exists('hvac_duct', $response['systems']['hvac'][$i]['hvac_distribution'])) {
+                        $response['systems']['hvac'][$i]['hvac_distribution']['duct'] = $hvac['hvac_distribution']['hvac_duct'];
+                    }
+                    if (array_key_exists('location', $response['systems']['hvac'][$i]['hvac_distribution']['duct'])) {
+                        $response['systems']['hvac'][$i]['hvac_distribution']['duct'] = array($response['systems']['hvac'][$i]['hvac_distribution']['duct']);
+                    }
+                }
+            }
+        }
 
         /**
          * Sets a property in $building from a value in $response
@@ -74,16 +140,24 @@ class BuildingService
          * @param callable $processor If passed, and the value is not NULL, then $processor will be passed the value and
          *                            the the value returned by $processor will be returned from $set
          */
-        $set = function (string $sourceLocation, $obj = null, string $setter = null, callable $processor = null) use ($building, $response) {
+        $set = function (string $sourceLocation, $obj = null, string $setter = null, callable $processor = null) use ($building, $response, $throwException) {
             $sourceParts = explode('.', $sourceLocation);
 
             $value = $response;
             foreach ($sourceParts as $sourcePart) {
                 if (!array_key_exists($sourcePart, $value)) {
-                    throw new \Exception("Missing expected array key $sourcePart");
+                    // Sometimes the XML => array parsing doesn't handle the nested elements as we expect
+                    // In the event there is one child, the result is not returned in array, so we skip
+                    if($sourcePart === 0 || $sourcePart === '0') {
+                        $value = $value;
+                    } else if($throwException) {
+                        throw new \Exception("Missing expected array key $sourcePart");
+                    } else {
+                        return;
+                    }
+                } else {
+                    $value = $value[$sourcePart];
                 }
-
-                $value = $value[$sourcePart];
             }
 
             // If no setter is passed, then assume that, for example, the setter for assessment_type is setAssessmentType
@@ -107,16 +181,17 @@ class BuildingService
             return date_create_from_format('Y-m-d', $assessmentDate);
         });
         $set('about.comments');
-        $set('about.shape');
-        $set('about.shape');
 
         $address = $building->getAddress();
         $set('about.address',$address, 'setStreet');
+        $set('about.address2', $address);
         $set('about.city', $address);
         $set('about.state', $address);
         $set('about.zip_code', $address, 'setZip');
 
-        $set('about.town_house_walls', null,'setTownhousePosition');
+        $set('about.dwelling_unit_type', null);
+        $set('about.manufactured_home_sections', null);
+        $set('about.number_units', null);
         $set('about.year_built');
         $set('about.number_bedrooms');
         $set('about.num_floor_above_grade', null, 'setFloorsAboveGrade');
@@ -128,18 +203,20 @@ class BuildingService
         $set('about.envelope_leakage');
         $set('about.external_building_id');
 
-        $set('zone.wall_construction_same', null, 'setIsWallConstructionSameOnAllSides');
-        $set('zone.window_construction_same', null, 'setIsWindowConstructionSameOnAllSides');
-
         foreach([1,2] as $roofNumber) {
             $roof = $building->getRoof($roofNumber);
             $responseRoofNumber = $roofNumber - 1; // Response uses 0-indexing
             $set("zone.zone_roof.$responseRoofNumber.roof_area", $roof, 'setArea');
+            $set("zone.zone_roof.$responseRoofNumber.ceiling_area", $roof, 'setCeilingArea');
             $set("zone.zone_roof.$responseRoofNumber.roof_assembly_code", $roof, 'setRoofAssemblyCode');
             $set("zone.zone_roof.$responseRoofNumber.roof_color", $roof, 'setColor');
             $set("zone.zone_roof.$responseRoofNumber.roof_absorptance", $roof, 'setAbsorptance');
             $set("zone.zone_roof.$responseRoofNumber.roof_type", $roof, 'setType');
             $set("zone.zone_roof.$responseRoofNumber.ceiling_assembly_code", $roof, 'setCeilingAssemblyCode');
+            // Knee Wall
+            $set("zone.zone_roof.$responseRoofNumber.zone_knee_wall.knee_wall_area", $roof, 'setKneeWallArea');
+            $set("zone.zone_roof.$responseRoofNumber.zone_knee_wall.knee_wall_assembly_code", $roof, 'setKneeWallAssemblyCode');
+            // Skylight
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.solar_screen", $roof, 'setSolarScreen');
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.skylight_area", $roof, 'setSkylightArea');
             $set("zone.zone_roof.$responseRoofNumber.zone_skylight.skylight_method", $roof, 'setSkylightMethod');
@@ -158,6 +235,7 @@ class BuildingService
 
         foreach ($building->getWalls() as $side => $wall) {
             $set("zone.zone_wall.$side.wall_assembly_code", $wall, 'setAssemblyCode');
+            $set("zone.zone_wall.$side.adjacent_to", $wall, 'setAdjacentTo');
         }
         foreach ($building->getWindows() as $side => $window) {
             $set("zone.zone_wall.$side.zone_window.solar_screen", $window, 'setSolarScreen');
@@ -175,19 +253,24 @@ class BuildingService
             $set("systems.hvac.$responseHvacNumber.heating.fuel_primary", $hvac, 'setHeatingFuel');
             $set("systems.hvac.$responseHvacNumber.heating.efficiency_method", $hvac, 'setHeatingEfficiencyMethod');
             $set("systems.hvac.$responseHvacNumber.heating.efficiency", $hvac, 'setHeatingEfficiency');
+            $set("systems.hvac.$responseHvacNumber.heating.efficiency_unit", $hvac, 'setHeatingEfficiencyUnit');
             $set("systems.hvac.$responseHvacNumber.heating.year", $hvac, 'setHeatingYearInstalled');
             $set("systems.hvac.$responseHvacNumber.cooling.type", $hvac, 'setCoolingType');
             $set("systems.hvac.$responseHvacNumber.cooling.efficiency_method", $hvac, 'setCoolingEfficiencyMethod');
             $set("systems.hvac.$responseHvacNumber.cooling.efficiency", $hvac, 'setCoolingEfficiency');
+            $set("systems.hvac.$responseHvacNumber.cooling.efficiency_unit", $hvac, 'setCoolingEfficiencyUnit');
             $set("systems.hvac.$responseHvacNumber.cooling.year", $hvac, 'setCoolingYearInstalled');
 
+            $distribution = $hvac->getDistribution();
+            $set("systems.hvac.$responseHvacNumber.hvac_distribution.leakage_method", $distribution);
+            $set("systems.hvac.$responseHvacNumber.hvac_distribution.leakage_to_outside", $distribution, 'setLeakage');
+            $set("systems.hvac.$responseHvacNumber.hvac_distribution.sealed", $distribution);
             foreach (range(1, 3) as $ductNumber) {
-                $duct = $hvac->getDuct($ductNumber);
+                $duct = $distribution->getDuct($ductNumber);
                 $responseDuctNumber = $ductNumber - 1; // Response uses 0-indexing
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.location", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.fraction", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.insulated", $duct);
-                $set("systems.hvac.$responseHvacNumber.hvac_distribution.$responseDuctNumber.sealed", $duct);
+                $set("systems.hvac.$responseHvacNumber.hvac_distribution.hvac_duct.$responseDuctNumber.location", $duct);
+                $set("systems.hvac.$responseHvacNumber.hvac_distribution.hvac_duct.$responseDuctNumber.fraction", $duct);
+                $set("systems.hvac.$responseHvacNumber.hvac_distribution.hvac_duct.$responseDuctNumber.insulated", $duct);
             }
         }
 
@@ -196,7 +279,8 @@ class BuildingService
         $set('systems.domestic_hot_water.fuel_primary', $hotWater, 'setFuel');
         $set('systems.domestic_hot_water.efficiency_method', $hotWater);
         $set('systems.domestic_hot_water.year', $hotWater, 'setYearInstalled');
-        $set('systems.domestic_hot_water.energy_factor', $hotWater);
+        $set('systems.domestic_hot_water.efficiency', $hotWater);
+        $set('systems.domestic_hot_water.efficiency_unit', $hotWater);
 
         $photovoltaic = $building->getPhotovoltaic();
         $set('systems.generation.solar_electric.capacity_known', $photovoltaic);
@@ -204,28 +288,17 @@ class BuildingService
         $set('systems.generation.solar_electric.num_panels', $photovoltaic);
         $set('systems.generation.solar_electric.year', $photovoltaic);
         $set('systems.generation.solar_electric.array_azimuth', $photovoltaic);
+        $set('systems.generation.solar_electric.array_tilt', $photovoltaic);
 
-        $HPwESResponse = $this->soapApiService->generateSoapCall(
-            'retrieve_hpwes',
-            [
-                'building_id' => $buildingId
-            ]
-        );
-        $HPwES = $building->getHPwES();
-        $HPwES->setInstallationStartDate(date_create_from_format('Y-m-d', $HPwESResponse['improvement_installation_start_date']) ?: null);
-        $HPwES->setInstallationCompletionDate(date_create_from_format('Y-m-d', $HPwESResponse['improvement_installation_completion_date']) ?: null);
-        $HPwES->setContractorBusinessName($HPwESResponse['contractor_business_name']);
-        $HPwES->setContractorZipCode($HPwESResponse['contractor_zip_code']);
-        $HPwES->setIsIncomeEligible($HPwESResponse['is_income_eligible_program']);
         return $building;
     }
     
     /**
-     * @throws \Exception
      * @param int $buildingId
-     * @return string
+     * @return string|null
+     *@throws \Exception
      */
-    public function getBuildingOwner($buildingId) : string
+    public function getBuildingOwner($buildingId) : ?string
     {
         try {
             $response = $this->soapApiService->generateSoapCall(

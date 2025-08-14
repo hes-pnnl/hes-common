@@ -25,27 +25,31 @@ class EmailHelper extends Helper
         }
         $subject = $email->getSubject();
         if($subject === null) {
-            $subject = 'Test Email';
+            $email->setSubject('Test Email');
         }
         $message = $email->getMessage();
         if($message === null) {
-            $message = 'Test Email';
+            $email->setMessage('Test Email');
         }
 
-        $from = $email->getFrom();
-        if ($from === null) {
-            $from = 'hes.api.support@pnnl.gov';
+        if(env('APP_ENV') === 'production' || env('APP_ENV') === 'sandbox') {
+            return $email->send();
+        } else {
+            return EmailHelper::sendInTestEnvironment($email);
         }
-        $headers['From'] = $from;
-        $cc = $email->getCC();
-        if ($cc !== null) {
-            $headers['Cc'] = $cc;
-        }
-        $replyTo = $email->getReplyTo();
-        if ($replyTo !== null) {
-            $headers['Reply-To'] = $replyTo;
-        }
-        
-        return mail($recipient, $subject, $message, $headers, "-f $from");
+    }
+
+    /**
+     * Sends the email with header to the dev team 
+     * @param Email $email The email to send
+     * @return bool
+     */
+    private static function sendInTestEnvironment(Email $email)
+    {
+        $header = $email->createHeader();
+        $email->setMessage($header."\n\n".$email->getMessage());
+        $email->clearAllRecipients();
+        $email->setRecipient(Email::HES_DEV_TEAM_EMAIL);
+        return $email->send();
     }
 }
