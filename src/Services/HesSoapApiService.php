@@ -155,7 +155,8 @@ abstract class HesSoapApiService
         if (!$soapClient) {
             $soapClient = new \SoapClient($this->soapApiWsdlUri, [
                 'trace' => true, // Enables __getLastResponse(), which we use because it allows us to more easily pass a response back out from the LBNL API
-                'exceptions' => true
+                'exceptions' => true,
+                'keep_alive' => false
             ]);
         }
 
