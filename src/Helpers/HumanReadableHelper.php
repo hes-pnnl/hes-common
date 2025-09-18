@@ -151,6 +151,10 @@ class HumanReadableHelper extends Helper
         "25"=>"R-25",
         "27"=>"R-27",
         "30"=>"R-30",
+        "35"=>"R-35",
+        "38"=>"R-38",
+        "44"=>"R-44",
+        "49"=>"R-49",
     ];
     const ATTIC_TYPE = [
         Roof::TYPE_VENTED_ATTIC => "Unconditioned Attic",
