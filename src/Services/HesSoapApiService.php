@@ -150,10 +150,23 @@ abstract class HesSoapApiService
      */
     public function getSoapClient()
     {
-        return new \SoapClient($this->soapApiWsdlUri, [
-            'trace' => true, // Enables __getLastResponse(), which we use because it allows us to more easily pass a response back out from the LBNL API
-            'exceptions' => true
-        ]);
+        if(env('APP_ENV') === 'sandbox'  || env('APP_ENV') === 'production') {
+            static $soapClient;
+
+            if (!$soapClient) {
+                $soapClient = new \SoapClient($this->soapApiWsdlUri, [
+                    'trace' => true, // Enables __getLastResponse(), which we use because it allows us to more easily pass a response back out from the LBNL API
+                    'exceptions' => true
+                ]);
+            }
+
+            return $soapClient;
+        } else {
+            return new \SoapClient($this->soapApiWsdlUri, [
+                'trace' => true, // Enables __getLastResponse(), which we use because it allows us to more easily pass a response back out from the LBNL API
+                'exceptions' => true
+            ]);
+        }
     }
 
     /**
