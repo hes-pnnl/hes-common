@@ -38,6 +38,12 @@ class Partner extends Model
     /** @var bool */
     private $manufacturedHomeEnabled;
 
+    /** @var string[]|null Zip codes the partner is restricted to for MultiFamily Building Units. NULL means not restricted */
+    private $apartmentUnitZipCodes;
+
+    /** @var string[]|null Zip codes the partner is restricted to for Manufactured Homes. NULL means not restricted */
+    private $manufacturedHomeZipCodes;
+
     /**
      * @return Partner
      * @param int $id
@@ -139,6 +145,26 @@ class Partner extends Model
     }
 
     /**
+     * @param string[]|null $zipCodes NULL means not restricted by zip code
+     * @return Partner
+     */
+    public function setApartmentUnitZipCodes(?array $zipCodes) : Partner
+    {
+        $this->apartmentUnitZipCodes = $zipCodes;
+        return $this;
+    }
+
+    /**
+     * @param string[]|null $zipCodes NULL means not restricted by zip code
+     * @return Partner
+     */
+    public function setManufacturedHomeZipCodes(?array $zipCodes) : Partner
+    {
+        $this->manufacturedHomeZipCodes = $zipCodes;
+        return $this;
+    }
+
+    /**
      * @return int|null
      */
     public function getId() : ?int
@@ -216,5 +242,21 @@ class Partner extends Model
     public function getManufacturedHomeEnabled(): bool
     {
         return $this->manufacturedHomeEnabled;
+    }
+
+    /**
+     * @return string[]|null NULL means not restricted by zip code
+     */
+    public function getApartmentUnitZipCodes(): ?array
+    {
+        return $this->apartmentUnitZipCodes;
+    }
+
+    /**
+     * @return string[]|null NULL means not restricted by zip code
+     */
+    public function getManufacturedHomeZipCodes(): ?array
+    {
+        return $this->manufacturedHomeZipCodes;
     }
 }
