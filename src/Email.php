@@ -11,8 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 class Email extends PHPMailer
 {
     // Email addresses common in our system
-    const HES_MAIN_EMAIL = 'homeenergyscore@ee.doe.gov';
-    const DOE_ASSESSOR_CONTACT_EMAIL = 'assessor@ee.doe.gov';
+    const DOE_ASSESSOR_CONTACT_EMAIL = 'assessor@doe.gov';
     const HES_DEV_TEAM_EMAIL = 'hes.dev.team@pnnl.gov';
     const HES_HELP_DESK_EMAIL = 'hes.helpdesk@pnnl.gov';
     const HES_ERRORS_EMAIL = 'hes.errors@pnnl.gov';
